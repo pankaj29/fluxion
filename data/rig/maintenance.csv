@@ -1,0 +1,398 @@
+node,kind,ref,title,due,status
+HS.crown,last,PM-9925,Planned maintenance - impeller inspection,2026-07-15,done
+HS.crown,next,PM-7094,Planned maintenance - lube,2026-11-01,scheduled
+HS.crown.sheaves,last,PM-2890,Planned maintenance - seal inspection,2026-07-08,done
+HS.crown.sheaves,next,PM-8413,Planned maintenance - calibration,2026-11-27,scheduled
+HS.crown.frame,last,PM-5537,Planned maintenance - filter element inspection,2026-08-26,done
+HS.crown.frame,next,PM-9558,Planned maintenance - inspection,2026-10-11,scheduled
+HS.crown.fastline,last,PM-7044,Planned maintenance - catalyst inspection,2026-05-26,done
+HS.crown.fastline,next,PM-2075,Planned maintenance - clean,2026-11-08,scheduled
+HS.crown.bumper,last,PM-8193,Planned maintenance - coupling inspection,2026-08-12,done
+HS.crown.bumper,next,PM-5293,Planned maintenance - clean,2026-11-28,scheduled
+HS.crown.bumper,wo,WO-1958,Change lube oil,2026-09-29,due
+HS.crown.platform,last,PM-3203,Planned maintenance - filter element inspection,2026-06-29,done
+HS.crown.platform,next,PM-8783,Planned maintenance - inspection,2026-10-17,scheduled
+HS.anchor,last,PM-8749,Planned maintenance - refractory inspection,2026-07-09,done
+HS.anchor,next,PM-3262,Planned maintenance - clean,2026-09-21,due
+HS.anchor,wo,WO-9524,Inspect DE bearing,2026-09-24,due
+HS.anchor.drum,last,PM-1004,Planned maintenance - seal inspection,2026-06-27,done
+HS.anchor.drum,next,PM-3447,Planned maintenance - lube,2026-11-12,scheduled
+HS.anchor.sensor,last,PM-2192,Planned maintenance - brake pads inspection,2026-06-18,done
+HS.anchor.sensor,next,PM-5985,Planned maintenance - clean,2026-09-20,due
+HS.anchor.sensor,wo,WO-6962,Replace drum encoder,2026-09-25,open
+HS.anchor.reel,last,PM-7283,Planned maintenance - refractory inspection,2026-08-02,done
+HS.anchor.reel,next,PM-7539,Planned maintenance - clean,2026-09-22,scheduled
+HS.dw,last,PM-6204,Planned maintenance - brake pads inspection,2026-08-06,done
+HS.dw,next,PM-5300,Planned maintenance - clean,2026-10-12,scheduled
+HS.dw.drum,last,PM-6361,Planned maintenance - brake pads inspection,2026-06-11,done
+HS.dw.drum,next,PM-7375,Planned maintenance - lube,2026-10-03,scheduled
+HS.dw.drum,wo,WO-1545,Thermographic survey,2026-10-02,done
+HS.dw.motors,last,PM-8991,Planned maintenance - gasket inspection,2026-08-08,done
+HS.dw.motors,next,PM-7285,Planned maintenance - lube,2026-09-24,due
+HS.dw.motors,wo,WO-5886,Thermographic survey,2026-09-24,done
+HS.dw.gearbox,last,PM-2496,Planned maintenance - impeller inspection,2026-08-30,done
+HS.dw.gearbox,next,PM-4217,Planned maintenance - calibration,2026-09-26,scheduled
+HS.dw.brake,last,PM-6105,Planned maintenance - refractory inspection,2026-08-08,done
+HS.dw.brake,next,PM-4247,Planned maintenance - calibration,2026-10-27,scheduled
+HS.dw.skid,last,PM-9885,Planned maintenance - packing inspection,2026-08-11,done
+HS.dw.skid,next,PM-7271,Planned maintenance - clean,2026-09-23,due
+HS.dw.skid,wo,WO-7472,Thermographic survey,2026-09-28,done
+HS.dw.encoder,last,PM-5906,Planned maintenance - gasket inspection,2026-05-23,done
+HS.dw.encoder,next,PM-4168,Planned maintenance - inspection,2026-11-19,scheduled
+HS.line,last,PM-6105,Planned maintenance - brake pads inspection,2026-08-30,done
+HS.line,next,PM-2828,Planned maintenance - inspection,2026-11-10,scheduled
+HS.line.fast,last,PM-1241,Planned maintenance - coupling inspection,2026-08-25,done
+HS.line.fast,next,PM-2300,Planned maintenance - calibration,2026-12-03,scheduled
+HS.line.reeved,last,PM-2371,Planned maintenance - bearing inspection,2026-07-06,done
+HS.line.reeved,next,PM-5562,Planned maintenance - calibration,2026-10-26,scheduled
+HS.line.dead,last,PM-1922,Planned maintenance - packing inspection,2026-06-29,done
+HS.line.dead,next,PM-8448,Planned maintenance - clean,2026-09-21,scheduled
+HS.line.dead,wo,WO-2534,Replace drum encoder,2026-09-17,open
+HS.elev,last,PM-8798,Planned maintenance - impeller inspection,2026-09-04,done
+HS.elev,next,PM-4091,Planned maintenance - calibration,2026-09-29,scheduled
+HS.elev.links,last,PM-8486,Planned maintenance - refractory inspection,2026-08-31,done
+HS.elev.links,next,PM-3291,Planned maintenance - calibration,2026-10-09,scheduled
+HS.elev.elevator,last,PM-1434,Planned maintenance - seal inspection,2026-07-01,done
+HS.elev.elevator,next,PM-3227,Planned maintenance - clean,2026-11-20,scheduled
+HS.hook,last,PM-4482,Planned maintenance - bearing inspection,2026-07-30,done
+HS.hook,next,PM-8490,Planned maintenance - calibration,2026-09-20,scheduled
+HS.hook.body,last,PM-6544,Planned maintenance - brake pads inspection,2026-07-16,done
+HS.hook.body,next,PM-5378,Planned maintenance - lube,2026-10-21,scheduled
+HS.hook.body,wo,WO-3480,Replace drum encoder,2026-09-23,open
+HS.hook.latch,last,PM-3995,Planned maintenance - gasket inspection,2026-09-06,done
+HS.hook.latch,next,PM-6654,Planned maintenance - clean,2026-10-11,scheduled
+HS.mast,last,PM-6103,Planned maintenance - filter element inspection,2026-07-05,done
+HS.mast,next,PM-9496,Planned maintenance - lube,2026-10-24,scheduled
+HS.mast,wo,WO-1919,Calibrate level transmitter,2026-09-20,open
+HS.mast.legs,last,PM-4184,Planned maintenance - filter element inspection,2026-07-11,done
+HS.mast.legs,next,PM-5628,Planned maintenance - lube,2026-11-24,scheduled
+HS.mast.girts,last,PM-8769,Planned maintenance - seal inspection,2026-06-08,done
+HS.mast.girts,next,PM-9452,Planned maintenance - lube,2026-10-04,scheduled
+HS.mast.braces,last,PM-6905,Planned maintenance - catalyst inspection,2026-08-08,done
+HS.mast.braces,next,PM-8953,Planned maintenance - calibration,2026-11-17,scheduled
+HS.mast.racking,last,PM-4459,Planned maintenance - seal inspection,2026-08-08,done
+HS.mast.racking,next,PM-7028,Planned maintenance - lube,2026-09-27,scheduled
+HS.mast.ladder,last,PM-7537,Planned maintenance - refractory inspection,2026-08-30,done
+HS.mast.ladder,next,PM-3783,Planned maintenance - inspection,2026-12-08,scheduled
+HS.mast.raising,last,PM-1194,Planned maintenance - gasket inspection,2026-07-19,done
+HS.mast.raising,next,PM-4541,Planned maintenance - inspection,2026-10-01,scheduled
+HS.tb,last,PM-5808,Planned maintenance - bearing inspection,2026-08-14,done
+HS.tb,next,PM-1665,Planned maintenance - clean,2026-12-01,scheduled
+HS.tb.sheaves,last,PM-5027,Planned maintenance - brake pads inspection,2026-07-26,done
+HS.tb.sheaves,next,PM-4476,Planned maintenance - lube,2026-11-18,scheduled
+HS.tb.shell,last,PM-7435,Planned maintenance - impeller inspection,2026-06-27,done
+HS.tb.shell,next,PM-8527,Planned maintenance - clean,2026-10-17,scheduled
+HS.tb.shell,wo,WO-9737,Calibrate level transmitter,2026-09-27,open
+HS.tb.becket,last,PM-3199,Planned maintenance - gasket inspection,2026-05-28,done
+HS.tb.becket,next,PM-2872,Planned maintenance - inspection,2026-10-10,scheduled
+RS.rt,last,PM-1982,Planned maintenance - seal inspection,2026-05-20,done
+RS.rt,next,PM-2642,Planned maintenance - calibration,2026-10-22,scheduled
+RS.rt.table,last,PM-9229,Planned maintenance - coupling inspection,2026-06-21,done
+RS.rt.table,next,PM-5121,Planned maintenance - clean,2026-10-11,scheduled
+RS.rt.slips,last,PM-9527,Planned maintenance - seal inspection,2026-08-08,done
+RS.rt.slips,next,PM-9873,Planned maintenance - clean,2026-11-03,scheduled
+RS.rt.drive,last,PM-6305,Planned maintenance - catalyst inspection,2026-07-13,done
+RS.rt.drive,next,PM-1954,Planned maintenance - lube,2026-09-20,due
+RS.rt.drive,wo,WO-4006,Inspect DE bearing,2026-09-21,due
+RS.rt.lock,last,PM-4300,Planned maintenance - coupling inspection,2026-06-13,done
+RS.rt.lock,next,PM-6492,Planned maintenance - clean,2026-12-11,scheduled
+RS.rt.lock,wo,WO-1365,PSV bench test,2026-09-21,done
+RS.td,last,PM-4743,Planned maintenance - seal inspection,2026-06-25,done
+RS.td,next,PM-3619,Planned maintenance - calibration,2026-10-30,scheduled
+RS.td.motor,last,PM-2108,Planned maintenance - filter element inspection,2026-07-01,done
+RS.td.motor,next,PM-4222,Planned maintenance - inspection,2026-10-13,scheduled
+RS.td.gearbox,last,PM-9725,Planned maintenance - bearing inspection,2026-08-18,done
+RS.td.gearbox,next,PM-9112,Planned maintenance - inspection,2026-11-03,scheduled
+RS.td.quill,last,PM-9231,Planned maintenance - coupling inspection,2026-06-12,done
+RS.td.quill,next,PM-4132,Planned maintenance - clean,2026-12-12,scheduled
+RS.td.quill,wo,WO-3468,Replace drum encoder,2026-09-21,open
+RS.td.swivel,last,PM-1716,Planned maintenance - seal inspection,2026-06-20,done
+RS.td.swivel,next,PM-1391,Planned maintenance - calibration,2026-10-02,scheduled
+RS.td.handler,last,PM-2023,Planned maintenance - seal inspection,2026-08-03,done
+RS.td.handler,next,PM-9049,Planned maintenance - clean,2026-12-02,scheduled
+RS.td.dolly,last,PM-1693,Planned maintenance - brake pads inspection,2026-09-03,done
+RS.td.dolly,next,PM-9747,Planned maintenance - clean,2026-09-24,scheduled
+RS.td.dolly,wo,WO-1795,Inspect DE bearing,2026-10-05,due
+RS.td.ibop,last,PM-3901,Planned maintenance - catalyst inspection,2026-07-16,done
+RS.td.ibop,next,PM-6062,Planned maintenance - inspection,2026-10-16,scheduled
+CS.pumps,last,PM-5879,Planned maintenance - packing inspection,2026-09-04,done
+CS.pumps,next,PM-8076,Planned maintenance - clean,2026-11-28,scheduled
+CS.pumps,wo,WO-2814,Change lube oil,2026-10-02,due
+CS.pumps.p1,last,PM-2460,Planned maintenance - bearing inspection,2026-07-19,done
+CS.pumps.p1,next,PM-6154,Planned maintenance - lube,2026-11-18,scheduled
+CS.pumps.p1,wo,WO-9857,Change lube oil,2026-09-30,due
+CS.pumps.p2,last,PM-3163,Planned maintenance - bearing inspection,2026-08-25,done
+CS.pumps.p2,next,PM-4958,Planned maintenance - calibration,2026-10-10,scheduled
+CS.pumps.charge,last,PM-6568,Planned maintenance - bearing inspection,2026-08-09,done
+CS.pumps.charge,next,PM-4668,Planned maintenance - inspection,2026-11-12,scheduled
+CS.pumps.dampener,last,PM-8053,Planned maintenance - packing inspection,2026-08-08,done
+CS.pumps.dampener,next,PM-1228,Planned maintenance - calibration,2026-10-05,scheduled
+CS.pumps.relief,last,PM-5765,Planned maintenance - catalyst inspection,2026-07-14,done
+CS.pumps.relief,next,PM-1407,Planned maintenance - lube,2026-10-01,scheduled
+CS.tanks,last,PM-4082,Planned maintenance - gasket inspection,2026-06-21,done
+CS.tanks,next,PM-6503,Planned maintenance - lube,2026-09-21,due
+CS.tanks,wo,WO-7998,PSV bench test,2026-09-30,done
+CS.tanks.t1,last,PM-5989,Planned maintenance - catalyst inspection,2026-07-09,done
+CS.tanks.t1,next,PM-4463,Planned maintenance - inspection,2026-11-18,scheduled
+CS.tanks.t1,wo,WO-6085,Change lube oil,2026-10-02,due
+CS.tanks.t2,last,PM-2120,Planned maintenance - coupling inspection,2026-08-31,done
+CS.tanks.t2,next,PM-8177,Planned maintenance - inspection,2026-12-02,scheduled
+CS.tanks.t3,last,PM-6587,Planned maintenance - packing inspection,2026-08-26,done
+CS.tanks.t3,next,PM-2663,Planned maintenance - clean,2026-11-23,scheduled
+CS.tanks.trip,last,PM-5216,Planned maintenance - refractory inspection,2026-07-17,done
+CS.tanks.trip,next,PM-5987,Planned maintenance - calibration,2026-11-29,scheduled
+CS.tanks.agit,last,PM-7017,Planned maintenance - impeller inspection,2026-06-25,done
+CS.tanks.agit,next,PM-9982,Planned maintenance - calibration,2026-09-25,scheduled
+CS.solids,last,PM-4518,Planned maintenance - brake pads inspection,2026-06-05,done
+CS.solids,next,PM-5861,Planned maintenance - lube,2026-10-24,scheduled
+CS.solids.shakers,last,PM-7658,Planned maintenance - catalyst inspection,2026-07-09,done
+CS.solids.shakers,next,PM-4595,Planned maintenance - inspection,2026-10-13,scheduled
+CS.solids.degasser,last,PM-4414,Planned maintenance - gasket inspection,2026-08-18,done
+CS.solids.degasser,next,PM-4461,Planned maintenance - calibration,2026-09-18,due
+CS.solids.degasser,wo,WO-2333,Inspect DE bearing,2026-09-23,due
+CS.solids.desander,last,PM-2791,Planned maintenance - packing inspection,2026-09-05,done
+CS.solids.desander,next,PM-7137,Planned maintenance - calibration,2026-09-30,scheduled
+CS.solids.desilter,last,PM-6755,Planned maintenance - coupling inspection,2026-08-26,done
+CS.solids.desilter,next,PM-6828,Planned maintenance - clean,2026-10-21,scheduled
+CS.solids.centrifuge,last,PM-6714,Planned maintenance - impeller inspection,2026-08-21,done
+CS.solids.centrifuge,next,PM-9411,Planned maintenance - calibration,2026-11-01,scheduled
+CS.standpipe,last,PM-9773,Planned maintenance - gasket inspection,2026-06-20,done
+CS.standpipe,next,PM-5008,Planned maintenance - lube,2026-11-24,scheduled
+CS.standpipe.pipe,last,PM-2245,Planned maintenance - bearing inspection,2026-06-22,done
+CS.standpipe.pipe,next,PM-7289,Planned maintenance - lube,2026-11-29,scheduled
+CS.standpipe.manifold,last,PM-5888,Planned maintenance - filter element inspection,2026-07-25,done
+CS.standpipe.manifold,next,PM-1034,Planned maintenance - inspection,2026-10-25,scheduled
+CS.standpipe.hose,last,PM-6998,Planned maintenance - refractory inspection,2026-05-23,done
+CS.standpipe.hose,next,PM-1471,Planned maintenance - calibration,2026-10-22,scheduled
+CS.standpipe.hose,wo,WO-1744,Inspect DE bearing,2026-09-18,due
+CS.standpipe.gooseneck,last,PM-6400,Planned maintenance - seal inspection,2026-09-01,done
+CS.standpipe.gooseneck,next,PM-8232,Planned maintenance - inspection,2026-10-20,scheduled
+CS.return,last,PM-6656,Planned maintenance - coupling inspection,2026-06-16,done
+CS.return,next,PM-6758,Planned maintenance - clean,2026-12-03,scheduled
+CS.return.bell,last,PM-6897,Planned maintenance - impeller inspection,2026-08-26,done
+CS.return.bell,next,PM-1938,Planned maintenance - clean,2026-09-24,due
+CS.return.bell,wo,WO-8866,Inspect DE bearing,2026-09-19,due
+CS.return.flowline,last,PM-3926,Planned maintenance - bearing inspection,2026-07-23,done
+CS.return.flowline,next,PM-1663,Planned maintenance - calibration,2026-12-01,scheduled
+CS.return.possum,last,PM-4601,Planned maintenance - bearing inspection,2026-05-23,done
+CS.return.possum,next,PM-6754,Planned maintenance - clean,2026-12-13,scheduled
+CS.return.possum,wo,WO-2486,PSV bench test,2026-10-01,done
+CS.mgs,last,PM-4864,Planned maintenance - brake pads inspection,2026-09-03,done
+CS.mgs,next,PM-4039,Planned maintenance - inspection,2026-09-21,due
+CS.mgs,wo,WO-6612,Thermographic survey,2026-09-28,done
+CS.mgs.vessel,last,PM-7223,Planned maintenance - refractory inspection,2026-08-09,done
+CS.mgs.vessel,next,PM-2980,Planned maintenance - calibration,2026-10-31,scheduled
+CS.mgs.vent,last,PM-8412,Planned maintenance - packing inspection,2026-06-20,done
+CS.mgs.vent,next,PM-2343,Planned maintenance - inspection,2026-10-30,scheduled
+CS.mgs.seal,last,PM-2164,Planned maintenance - packing inspection,2026-07-07,done
+CS.mgs.seal,next,PM-4032,Planned maintenance - clean,2026-09-27,scheduled
+WC.bop,last,PM-6577,Planned maintenance - packing inspection,2026-06-06,done
+WC.bop,next,PM-5504,Planned maintenance - lube,2026-10-30,scheduled
+WC.bop,wo,WO-3477,Change lube oil,2026-09-23,due
+WC.bop.annular,last,PM-2689,Planned maintenance - bearing inspection,2026-06-17,done
+WC.bop.annular,next,PM-2404,Planned maintenance - calibration,2026-12-10,scheduled
+WC.bop.pipe1,last,PM-5217,Planned maintenance - catalyst inspection,2026-07-16,done
+WC.bop.pipe1,next,PM-9285,Planned maintenance - inspection,2026-09-18,due
+WC.bop.pipe1,wo,WO-5006,Replace drum encoder,2026-10-04,open
+WC.bop.shear,last,PM-8012,Planned maintenance - brake pads inspection,2026-09-06,done
+WC.bop.shear,next,PM-5849,Planned maintenance - calibration,2026-10-31,scheduled
+WC.bop.pipe2,last,PM-4294,Planned maintenance - packing inspection,2026-07-15,done
+WC.bop.pipe2,next,PM-6977,Planned maintenance - calibration,2026-10-02,scheduled
+WC.bop.spool,last,PM-3863,Planned maintenance - bearing inspection,2026-08-26,done
+WC.bop.spool,next,PM-5821,Planned maintenance - lube,2026-09-19,due
+WC.bop.spool,wo,WO-8255,PSV bench test,2026-09-23,done
+WC.bop.hcr,last,PM-5609,Planned maintenance - catalyst inspection,2026-06-02,done
+WC.bop.hcr,next,PM-7672,Planned maintenance - clean,2026-12-12,scheduled
+WC.acc,last,PM-7762,Planned maintenance - seal inspection,2026-06-29,done
+WC.acc,next,PM-7301,Planned maintenance - calibration,2026-09-22,due
+WC.acc,wo,WO-2225,Replace drum encoder,2026-09-17,open
+WC.acc.bottles,last,PM-1357,Planned maintenance - bearing inspection,2026-07-09,done
+WC.acc.bottles,next,PM-7946,Planned maintenance - clean,2026-10-12,scheduled
+WC.acc.pumps,last,PM-4809,Planned maintenance - seal inspection,2026-07-01,done
+WC.acc.pumps,next,PM-1919,Planned maintenance - inspection,2026-11-05,scheduled
+WC.acc.manifold,last,PM-5425,Planned maintenance - gasket inspection,2026-06-15,done
+WC.acc.manifold,next,PM-8354,Planned maintenance - lube,2026-10-12,scheduled
+WC.acc.manifold,wo,WO-1608,PSV bench test,2026-10-02,done
+WC.acc.remote,last,PM-9784,Planned maintenance - packing inspection,2026-07-12,done
+WC.acc.remote,next,PM-2550,Planned maintenance - lube,2026-10-15,scheduled
+WC.choke,last,PM-7458,Planned maintenance - brake pads inspection,2026-06-21,done
+WC.choke,next,PM-5111,Planned maintenance - lube,2026-11-30,scheduled
+WC.choke.hydraulic,last,PM-3828,Planned maintenance - filter element inspection,2026-06-27,done
+WC.choke.hydraulic,next,PM-7803,Planned maintenance - clean,2026-09-22,scheduled
+WC.choke.manual,last,PM-3139,Planned maintenance - filter element inspection,2026-06-17,done
+WC.choke.manual,next,PM-1368,Planned maintenance - calibration,2026-09-20,scheduled
+WC.choke.valves,last,PM-8959,Planned maintenance - brake pads inspection,2026-06-22,done
+WC.choke.valves,next,PM-2228,Planned maintenance - clean,2026-09-18,due
+WC.choke.valves,wo,WO-9985,PSV bench test,2026-09-23,done
+WC.choke.panel,last,PM-6599,Planned maintenance - bearing inspection,2026-08-25,done
+WC.choke.panel,next,PM-6636,Planned maintenance - clean,2026-11-27,scheduled
+WC.lines,last,PM-1144,Planned maintenance - impeller inspection,2026-07-09,done
+WC.lines,next,PM-4094,Planned maintenance - calibration,2026-12-02,scheduled
+WC.lines.choke,last,PM-9389,Planned maintenance - bearing inspection,2026-08-11,done
+WC.lines.choke,next,PM-7020,Planned maintenance - lube,2026-11-05,scheduled
+WC.lines.kill,last,PM-4548,Planned maintenance - bearing inspection,2026-07-24,done
+WC.lines.kill,next,PM-1536,Planned maintenance - calibration,2026-11-28,scheduled
+WC.wellhead,last,PM-4007,Planned maintenance - gasket inspection,2026-07-10,done
+WC.wellhead,next,PM-6241,Planned maintenance - calibration,2026-10-25,scheduled
+WC.wellhead.head,last,PM-3913,Planned maintenance - bearing inspection,2026-06-21,done
+WC.wellhead.head,next,PM-7471,Planned maintenance - calibration,2026-09-30,scheduled
+WC.wellhead.head,wo,WO-2891,Inspect DE bearing,2026-10-02,due
+WC.wellhead.conductor,last,PM-8774,Planned maintenance - brake pads inspection,2026-06-11,done
+WC.wellhead.conductor,next,PM-1541,Planned maintenance - lube,2026-12-05,scheduled
+WC.wellhead.surface,last,PM-5689,Planned maintenance - bearing inspection,2026-08-21,done
+WC.wellhead.surface,next,PM-3789,Planned maintenance - lube,2026-12-11,scheduled
+WC.wellhead.intermediate,last,PM-8855,Planned maintenance - seal inspection,2026-08-07,done
+WC.wellhead.intermediate,next,PM-1343,Planned maintenance - lube,2026-12-02,scheduled
+WC.wellhead.cement,last,PM-9558,Planned maintenance - catalyst inspection,2026-08-23,done
+WC.wellhead.cement,next,PM-8544,Planned maintenance - lube,2026-11-15,scheduled
+WC.wellhead.openhole,last,PM-4199,Planned maintenance - seal inspection,2026-09-03,done
+WC.wellhead.openhole,next,PM-8904,Planned maintenance - inspection,2026-11-28,scheduled
+PS.gen,last,PM-5480,Planned maintenance - gasket inspection,2026-06-10,done
+PS.gen,next,PM-5983,Planned maintenance - clean,2026-12-11,scheduled
+PS.gen,wo,WO-6914,Inspect DE bearing,2026-10-01,due
+PS.gen.g1,last,PM-3627,Planned maintenance - bearing inspection,2026-06-01,done
+PS.gen.g1,next,PM-3335,Planned maintenance - lube,2026-09-26,scheduled
+PS.gen.g2,last,PM-7825,Planned maintenance - bearing inspection,2026-08-05,done
+PS.gen.g2,next,PM-1096,Planned maintenance - inspection,2026-10-28,scheduled
+PS.gen.g2,wo,WO-5599,Inspect DE bearing,2026-09-27,due
+PS.gen.g3,last,PM-5277,Planned maintenance - refractory inspection,2026-08-17,done
+PS.gen.g3,next,PM-6318,Planned maintenance - clean,2026-09-28,scheduled
+PS.gen.exhaust,last,PM-9342,Planned maintenance - impeller inspection,2026-06-09,done
+PS.gen.exhaust,next,PM-5511,Planned maintenance - clean,2026-09-22,scheduled
+PS.gen.radiators,last,PM-8646,Planned maintenance - coupling inspection,2026-07-15,done
+PS.gen.radiators,next,PM-7865,Planned maintenance - inspection,2026-10-04,scheduled
+PS.vfd,last,PM-9951,Planned maintenance - gasket inspection,2026-06-16,done
+PS.vfd,next,PM-2358,Planned maintenance - lube,2026-11-24,scheduled
+PS.vfd.drives,last,PM-3098,Planned maintenance - brake pads inspection,2026-07-20,done
+PS.vfd.drives,next,PM-2524,Planned maintenance - clean,2026-11-03,scheduled
+PS.vfd.drives,wo,WO-2177,Inspect DE bearing,2026-09-17,due
+PS.vfd.switchgear,last,PM-3298,Planned maintenance - packing inspection,2026-06-13,done
+PS.vfd.switchgear,next,PM-6327,Planned maintenance - calibration,2026-12-01,scheduled
+PS.vfd.resistors,last,PM-7119,Planned maintenance - impeller inspection,2026-07-22,done
+PS.vfd.resistors,next,PM-8026,Planned maintenance - calibration,2026-09-20,due
+PS.vfd.resistors,wo,WO-9168,Change lube oil,2026-10-02,due
+PS.vfd.plc,last,PM-7072,Planned maintenance - seal inspection,2026-07-07,done
+PS.vfd.plc,next,PM-1676,Planned maintenance - inspection,2026-11-18,scheduled
+PS.fuel,last,PM-3170,Planned maintenance - coupling inspection,2026-05-31,done
+PS.fuel,next,PM-8399,Planned maintenance - lube,2026-10-19,scheduled
+PS.fuel.bulk,last,PM-2343,Planned maintenance - brake pads inspection,2026-07-05,done
+PS.fuel.bulk,next,PM-4658,Planned maintenance - calibration,2026-09-29,scheduled
+PS.fuel.day,last,PM-1743,Planned maintenance - impeller inspection,2026-08-15,done
+PS.fuel.day,next,PM-5946,Planned maintenance - lube,2026-12-13,scheduled
+PS.fuel.transfer,last,PM-6291,Planned maintenance - catalyst inspection,2026-08-17,done
+PS.fuel.transfer,next,PM-4448,Planned maintenance - calibration,2026-11-18,scheduled
+PS.cables,last,PM-5036,Planned maintenance - impeller inspection,2026-06-17,done
+PS.cables,next,PM-6966,Planned maintenance - lube,2026-09-21,scheduled
+PS.cables.tray,last,PM-8749,Planned maintenance - filter element inspection,2026-07-16,done
+PS.cables.tray,next,PM-7185,Planned maintenance - clean,2026-09-18,due
+PS.cables.tray,wo,WO-6782,Thermographic survey,2026-09-23,done
+PS.cables.mcc,last,PM-6611,Planned maintenance - catalyst inspection,2026-07-19,done
+PS.cables.mcc,next,PM-7350,Planned maintenance - calibration,2026-09-23,due
+PS.cables.mcc,wo,WO-3104,Inspect DE bearing,2026-10-03,due
+PS.cables.lighting,last,PM-1945,Planned maintenance - filter element inspection,2026-09-02,done
+PS.cables.lighting,next,PM-8251,Planned maintenance - lube,2026-11-22,scheduled
+PS.cables.lighting,wo,WO-1781,PSV bench test,2026-09-27,done
+PS.air,last,PM-7975,Planned maintenance - packing inspection,2026-07-29,done
+PS.air,next,PM-3061,Planned maintenance - inspection,2026-09-20,scheduled
+PS.air,wo,WO-1403,Calibrate level transmitter,2026-10-01,open
+PS.air.compressor,last,PM-5928,Planned maintenance - catalyst inspection,2026-07-08,done
+PS.air.compressor,next,PM-7994,Planned maintenance - calibration,2026-09-22,scheduled
+PS.air.receiver,last,PM-4715,Planned maintenance - catalyst inspection,2026-06-21,done
+PS.air.receiver,next,PM-7137,Planned maintenance - calibration,2026-10-21,scheduled
+PS.air.dryer,last,PM-6607,Planned maintenance - refractory inspection,2026-08-26,done
+PS.air.dryer,next,PM-3952,Planned maintenance - clean,2026-09-21,due
+PS.air.dryer,wo,WO-5014,Change lube oil,2026-09-20,due
+DS.pipe,last,PM-6793,Planned maintenance - filter element inspection,2026-08-27,done
+DS.pipe,next,PM-7544,Planned maintenance - calibration,2026-10-11,scheduled
+DS.pipe.string,last,PM-7649,Planned maintenance - catalyst inspection,2026-07-22,done
+DS.pipe.string,next,PM-8243,Planned maintenance - inspection,2026-10-28,scheduled
+DS.pipe.setback,last,PM-5078,Planned maintenance - filter element inspection,2026-08-17,done
+DS.pipe.setback,next,PM-4277,Planned maintenance - clean,2026-09-18,due
+DS.pipe.setback,wo,WO-1612,PSV bench test,2026-09-23,done
+DS.pipe.saver,last,PM-6322,Planned maintenance - gasket inspection,2026-07-27,done
+DS.pipe.saver,next,PM-2405,Planned maintenance - clean,2026-11-19,scheduled
+DS.hwdp,last,PM-4846,Planned maintenance - refractory inspection,2026-07-29,done
+DS.hwdp,next,PM-5434,Planned maintenance - clean,2026-09-30,scheduled
+DS.hwdp.joints,last,PM-8938,Planned maintenance - gasket inspection,2026-07-26,done
+DS.hwdp.joints,next,PM-5082,Planned maintenance - clean,2026-10-16,scheduled
+DS.hwdp.joints,wo,WO-1374,Calibrate level transmitter,2026-09-26,open
+DS.bha,last,PM-6022,Planned maintenance - impeller inspection,2026-07-25,done
+DS.bha,next,PM-4192,Planned maintenance - inspection,2026-11-13,scheduled
+DS.bha.collars,last,PM-3316,Planned maintenance - bearing inspection,2026-08-21,done
+DS.bha.collars,next,PM-6910,Planned maintenance - lube,2026-12-11,scheduled
+DS.bha.stab,last,PM-4172,Planned maintenance - impeller inspection,2026-07-03,done
+DS.bha.stab,next,PM-6763,Planned maintenance - clean,2026-12-04,scheduled
+DS.bha.motor,last,PM-4541,Planned maintenance - packing inspection,2026-05-25,done
+DS.bha.motor,next,PM-5465,Planned maintenance - inspection,2026-11-07,scheduled
+DS.bha.mwd,last,PM-9920,Planned maintenance - bearing inspection,2026-07-10,done
+DS.bha.mwd,next,PM-5616,Planned maintenance - calibration,2026-10-11,scheduled
+DS.bha.jar,last,PM-2911,Planned maintenance - packing inspection,2026-06-13,done
+DS.bha.jar,next,PM-3290,Planned maintenance - calibration,2026-09-21,due
+DS.bha.jar,wo,WO-6874,Change lube oil,2026-10-05,due
+DS.bit,last,PM-7252,Planned maintenance - filter element inspection,2026-07-08,done
+DS.bit,next,PM-1017,Planned maintenance - clean,2026-10-20,scheduled
+DS.bit.body,last,PM-5315,Planned maintenance - packing inspection,2026-06-12,done
+DS.bit.body,next,PM-4661,Planned maintenance - calibration,2026-11-13,scheduled
+DS.bit.cutters,last,PM-3546,Planned maintenance - filter element inspection,2026-06-03,done
+DS.bit.cutters,next,PM-9587,Planned maintenance - lube,2026-11-25,scheduled
+DS.bit.nozzles,last,PM-7100,Planned maintenance - coupling inspection,2026-08-12,done
+DS.bit.nozzles,next,PM-8233,Planned maintenance - lube,2026-12-10,scheduled
+SS.sub,last,PM-4824,Planned maintenance - coupling inspection,2026-06-06,done
+SS.sub,next,PM-7119,Planned maintenance - lube,2026-09-28,scheduled
+SS.sub.columns,last,PM-5301,Planned maintenance - filter element inspection,2026-07-09,done
+SS.sub.columns,next,PM-2109,Planned maintenance - lube,2026-11-10,scheduled
+SS.sub.beams,last,PM-2864,Planned maintenance - impeller inspection,2026-07-22,done
+SS.sub.beams,next,PM-5827,Planned maintenance - calibration,2026-10-06,scheduled
+SS.sub.cellar,last,PM-8451,Planned maintenance - coupling inspection,2026-05-31,done
+SS.sub.cellar,next,PM-5334,Planned maintenance - calibration,2026-11-27,scheduled
+SS.sub.stairs,last,PM-3610,Planned maintenance - filter element inspection,2026-06-27,done
+SS.sub.stairs,next,PM-3690,Planned maintenance - inspection,2026-12-13,scheduled
+SS.floor,last,PM-7379,Planned maintenance - catalyst inspection,2026-08-24,done
+SS.floor,next,PM-7514,Planned maintenance - calibration,2026-09-20,due
+SS.floor,wo,WO-5323,Thermographic survey,2026-09-24,done
+SS.floor.deck,last,PM-7335,Planned maintenance - gasket inspection,2026-08-31,done
+SS.floor.deck,next,PM-6740,Planned maintenance - clean,2026-10-11,scheduled
+SS.floor.rails,last,PM-2306,Planned maintenance - catalyst inspection,2026-05-29,done
+SS.floor.rails,next,PM-6985,Planned maintenance - calibration,2026-10-28,scheduled
+SS.floor.vdoor,last,PM-1174,Planned maintenance - packing inspection,2026-06-17,done
+SS.floor.vdoor,next,PM-8644,Planned maintenance - calibration,2026-09-21,due
+SS.floor.vdoor,wo,WO-2034,Inspect DE bearing,2026-09-25,due
+SS.floor.setback,last,PM-8387,Planned maintenance - brake pads inspection,2026-07-30,done
+SS.floor.setback,next,PM-7448,Planned maintenance - inspection,2026-10-01,scheduled
+SS.floor.tongs,last,PM-2086,Planned maintenance - gasket inspection,2026-06-02,done
+SS.floor.tongs,next,PM-6137,Planned maintenance - lube,2026-09-21,scheduled
+SS.cabin,last,PM-1313,Planned maintenance - gasket inspection,2026-06-26,done
+SS.cabin,next,PM-5143,Planned maintenance - calibration,2026-12-07,scheduled
+SS.cabin.shell,last,PM-7336,Planned maintenance - brake pads inspection,2026-07-11,done
+SS.cabin.shell,next,PM-2334,Planned maintenance - clean,2026-12-05,scheduled
+SS.cabin.shell,wo,WO-1247,Inspect DE bearing,2026-09-21,due
+SS.cabin.console,last,PM-5149,Planned maintenance - bearing inspection,2026-08-29,done
+SS.cabin.console,next,PM-6037,Planned maintenance - clean,2026-11-04,scheduled
+SS.cabin.hmi,last,PM-6917,Planned maintenance - gasket inspection,2026-08-19,done
+SS.cabin.hmi,next,PM-6474,Planned maintenance - lube,2026-10-05,scheduled
+SS.pipe,last,PM-4248,Planned maintenance - refractory inspection,2026-07-19,done
+SS.pipe,next,PM-3000,Planned maintenance - lube,2026-10-08,scheduled
+SS.pipe.catwalk,last,PM-2489,Planned maintenance - impeller inspection,2026-08-30,done
+SS.pipe.catwalk,next,PM-5189,Planned maintenance - inspection,2026-09-27,scheduled
+SS.pipe.ramp,last,PM-2951,Planned maintenance - impeller inspection,2026-08-21,done
+SS.pipe.ramp,next,PM-9078,Planned maintenance - calibration,2026-11-14,scheduled
+SS.pipe.racks,last,PM-7214,Planned maintenance - filter element inspection,2026-08-15,done
+SS.pipe.racks,next,PM-1438,Planned maintenance - calibration,2026-09-25,scheduled
+SS.pipe.tubulars,last,PM-4922,Planned maintenance - packing inspection,2026-06-15,done
+SS.pipe.tubulars,next,PM-6966,Planned maintenance - lube,2026-10-04,scheduled
+SS.site,last,PM-3974,Planned maintenance - filter element inspection,2026-07-26,done
+SS.site,next,PM-6550,Planned maintenance - inspection,2026-10-09,scheduled
+SS.site.pad,last,PM-4212,Planned maintenance - filter element inspection,2026-06-29,done
+SS.site.pad,next,PM-4450,Planned maintenance - lube,2026-11-20,scheduled
+SS.site.pad,wo,WO-1691,Thermographic survey,2026-09-23,done
+SS.site.office,last,PM-4890,Planned maintenance - filter element inspection,2026-05-20,done
+SS.site.office,next,PM-2262,Planned maintenance - lube,2026-11-30,scheduled
+SS.site.workshop,last,PM-2550,Planned maintenance - seal inspection,2026-06-23,done
+SS.site.workshop,next,PM-1491,Planned maintenance - inspection,2026-11-26,scheduled
+SS.site.store,last,PM-6025,Planned maintenance - catalyst inspection,2026-09-01,done
+SS.site.store,next,PM-9082,Planned maintenance - calibration,2026-09-26,scheduled
+SS.site.store,wo,WO-7452,Inspect DE bearing,2026-09-26,due
+SS.site.flag,last,PM-4134,Planned maintenance - seal inspection,2026-06-01,done
+SS.site.flag,next,PM-2007,Planned maintenance - lube,2026-10-10,scheduled
+SS.site.loader,last,PM-2691,Planned maintenance - coupling inspection,2026-07-16,done
+SS.site.loader,next,PM-2885,Planned maintenance - inspection,2026-12-14,scheduled

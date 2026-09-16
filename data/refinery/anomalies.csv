@@ -1,0 +1,28 @@
+ts,node,severity,title,detail,status
+2026-09-14T19:30,CR.desalter,lo,Sensor dropout,Tag lost 4 samples; instrument comms flagged,cleared
+2026-09-16T14:12,CR.meter,md,Temperature excursion,Outlet exceeded the warning band for 11 min; cooling duty short,open
+2026-09-16T05:30,CD.furnace,lo,Sensor dropout,Tag lost 4 samples; instrument comms flagged,cleared
+2026-09-16T14:13,CD.strippers,hi,Vibration 2.1x baseline,Drive-end bearing envelope energy rising; pattern matches 3 prior failures in fleet history,open
+2026-09-14T16:30,CD.ejectors,lo,Sensor dropout,Tag lost 4 samples; instrument comms flagged,cleared
+2026-09-14T09:30,CV.fcc.regen,lo,Sensor dropout,Tag lost 4 samples; instrument comms flagged,cleared
+2026-09-16T12:33,CV.hcu,hi,Vibration 2.1x baseline,Drive-end bearing envelope energy rising; pattern matches 3 prior failures in fleet history,investigating
+2026-09-16T00:30,CV.hcu,lo,Sensor dropout,Tag lost 4 samples; instrument comms flagged,cleared
+2026-09-16T12:34,CV.coker,hi,Vibration 2.1x baseline,Drive-end bearing envelope energy rising; pattern matches 3 prior failures in fleet history,open
+2026-09-16T14:00,CV.cokepit,md,Temperature excursion,Outlet exceeded the warning band for 11 min; cooling duty short,open
+2026-09-16T00:30,CV.cokepit,lo,Sensor dropout,Tag lost 4 samples; instrument comms flagged,cleared
+2026-09-16T13:41,HT.nht,md,Temperature excursion,Outlet exceeded the warning band for 11 min; cooling duty short,investigating
+2026-09-16T13:32,HT.dht,hi,Vibration 2.1x baseline,Drive-end bearing envelope energy rising; pattern matches 3 prior failures in fleet history,investigating
+2026-09-16T10:30,HT.dht,lo,Sensor dropout,Tag lost 4 samples; instrument comms flagged,cleared
+2026-09-16T13:55,RF.reactors,hi,Vibration 2.1x baseline,Drive-end bearing envelope energy rising; pattern matches 3 prior failures in fleet history,open
+2026-09-16T13:45,RF.regen,hi,Vibration 2.1x baseline,Drive-end bearing envelope energy rising; pattern matches 3 prior failures in fleet history,open
+2026-09-16T05:30,RF.regen,lo,Sensor dropout,Tag lost 4 samples; instrument comms flagged,cleared
+2026-09-13T21:30,RF.furnaces,lo,Level oscillation,Interface level cycling +/-6%; controller tuning,cleared
+2026-09-16T12:51,RF.alky,hi,Vibration 2.1x baseline,Drive-end bearing envelope energy rising; pattern matches 3 prior failures in fleet history,open
+2026-09-14T17:30,BL.gasoline.t1,lo,Level oscillation,Interface level cycling +/-6%; controller tuning,cleared
+2026-09-16T13:34,BL.gasoline.t2,hi,Vibration 2.1x baseline,Drive-end bearing envelope energy rising; pattern matches 3 prior failures in fleet history,open
+2026-09-14T17:30,BL.gasoline.t2,lo,Level oscillation,Interface level cycling +/-6%; controller tuning,cleared
+2026-09-16T04:30,BL.diesel.t1,lo,Sensor dropout,Tag lost 4 samples; instrument comms flagged,cleared
+2026-09-14T11:30,BL.diesel.t2,lo,Sensor dropout,Tag lost 4 samples; instrument comms flagged,cleared
+2026-09-16T12:33,BL.jet,md,Pressure drift,Differential pressure trending up 8% per day; fouling suspected,investigating
+2026-09-14T14:30,BL.jet,lo,Level oscillation,Interface level cycling +/-6%; controller tuning,cleared
+2026-09-15T03:30,UT.boilers,lo,Sensor dropout,Tag lost 4 samples; instrument comms flagged,cleared

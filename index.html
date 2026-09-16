@@ -78,7 +78,7 @@ kbd{font-family:var(--mono);font-size:10.5px;line-height:1;padding:3px 6px 2px;b
 .sys.selected>.sys-row .sys-icon{border-color:var(--accent-ring);box-shadow:0 0 0 3px var(--accent-soft),0 1px 0 rgba(255,255,255,.04) inset;color:var(--accent-2)}
 .sys-txt{flex:1;min-width:0}
 .sys-name{font-weight:600;font-size:13px;letter-spacing:-.1px;color:var(--text)}
-.sys-meta{color:var(--text-3);font-size:10.5px;margin-top:1px;font-family:var(--mono);letter-spacing:.01em}
+.sys-meta{color:var(--text-3);font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;font-family:var(--mono);letter-spacing:.01em}
 .sys-chev{color:var(--text-4);transition:transform .22s var(--ease),color .18s;width:16px;height:16px;flex:none}
 .sys-row:hover .sys-chev{color:var(--text-2)}
 .sys.open>.sys-row .sys-chev{transform:rotate(90deg)}
@@ -238,6 +238,127 @@ canvas{display:block;width:100%;height:100%;outline:none;position:relative;z-ind
 .pill.roadmap{color:var(--text-2);border-color:var(--line-3);background:var(--bg-3)}
 .rig-card .sys-icon svg{fill:currentColor;stroke:none}
 
+/* ---------- Telemetry dock ---------- */
+.dock{position:absolute;left:12px;right:12px;bottom:12px;height:246px;border-radius:14px;background:rgba(10,14,19,.9);border:1px solid var(--glass-line);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 1px 0 rgba(255,255,255,.05) inset,0 24px 48px -20px rgba(0,0,0,.9);display:grid;grid-template-columns:186px 1fr 214px;z-index:3;transition:transform .3s var(--ease),opacity .3s;overflow:hidden}
+.dock.off{transform:translateY(calc(100% + 24px));opacity:0;pointer-events:none}
+.app.dock-on .toolbar{bottom:272px}
+.app.dock-on .caption{opacity:0;pointer-events:none}
+.dock-kpis{padding:10px 10px 8px;border-right:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:min-content;gap:6px;min-width:0;align-content:start}
+.dock-kpis .dock-head,.dock-kpis .muted{grid-column:1/-1}
+.dock-head{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-2);white-space:nowrap;overflow:hidden}
+.dock-head i{width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px rgba(52,211,153,.7);animation:pulse 1.6s ease-in-out infinite;flex:none}
+.dock-head span:last-child{margin-left:auto;color:var(--text-3);letter-spacing:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.kpi{background:var(--bg-1);border:1px solid var(--line-2);border-radius:9px;padding:7px 8px;cursor:pointer;transition:border-color .15s;min-width:0}
+.kpi:hover{border-color:var(--line-3)}
+.kpi.active{border-color:var(--accent-ring);box-shadow:0 0 0 2px var(--accent-soft)}
+.kpi.warn{border-color:rgba(245,179,35,.45);background:linear-gradient(90deg,var(--warn-soft),var(--bg-1) 60%)}
+.kpi .v{font-family:var(--mono);font-size:15px;letter-spacing:-.5px;line-height:1;color:var(--text)}
+.kpi.warn .v{color:var(--warn)}
+.kpi .u{font-family:var(--mono);font-size:10px;color:var(--text-3);margin-left:3px}
+.kpi .l{font-size:10px;color:var(--text-2);margin-top:4px;display:flex;flex-direction:column;gap:1px;white-space:nowrap;overflow:hidden}
+.kpi .l b{font-family:var(--mono);font-weight:500;color:var(--text-3)}
+.dock-mid{padding:10px 14px 8px;display:flex;flex-direction:column;min-width:0}
+.dock-tabs{display:flex;align-items:center;gap:10px;min-width:0}
+.dock-tabs b{font-size:12px;font-weight:600;white-space:nowrap}
+.dock-tabs small{font-family:var(--mono);font-size:10px;color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.seg{margin-left:auto;display:flex;gap:2px;padding:2px;border-radius:7px;background:var(--bg-2);border:1px solid var(--line);font-size:11px;flex:none}
+.seg button{padding:3px 8px;border-radius:5px;color:var(--text-3)}
+.seg button.active{background:var(--bg-4);color:var(--text)}
+.chart{flex:1;min-height:0;margin-top:4px}
+.chart svg{width:100%;height:100%;display:block}
+.chart .area{fill:url(#dockFill)}
+.chart .ser{fill:none;stroke:var(--accent);stroke-width:2;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.chart .ser.sweep{stroke-dasharray:2400;stroke-dashoffset:2400;animation:sweep 1.5s var(--ease) forwards}
+@keyframes sweep{to{stroke-dashoffset:0}}
+.chart .fc{fill:none;stroke:var(--accent-2);stroke-width:1.5;stroke-dasharray:4 4;vector-effect:non-scaling-stroke}
+.chart .band{fill:rgba(103,232,249,.10)}
+.chart .grid{stroke:rgba(148,163,184,.10);vector-effect:non-scaling-stroke}
+.chart .warnl{stroke:var(--warn);stroke-opacity:.55;stroke-dasharray:6 4;vector-effect:non-scaling-stroke}
+.chart .now{stroke:rgba(148,163,184,.35);stroke-dasharray:2 3;vector-effect:non-scaling-stroke}
+.chart .dot{fill:var(--accent);animation:pulse 1.6s ease-in-out infinite}
+.chart-wrap{position:relative;flex:1;min-height:0;display:flex;flex-direction:column}
+.chart-y{position:absolute;left:0;top:0;bottom:0;display:flex;flex-direction:column;justify-content:space-between;font-family:var(--mono);font-size:9.5px;color:var(--text-3);pointer-events:none;padding:2px 0}
+.dock-axis{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--text-3);margin-top:3px}
+.dock-side{padding:10px 10px 8px;border-left:1px solid var(--line);display:flex;flex-direction:column;gap:6px;min-width:0;overflow:hidden}
+.health{display:flex;align-items:center;gap:10px}
+.health svg{flex:none;width:44px;height:44px}
+.health circle.arc{transition:stroke-dashoffset 1s var(--ease)}
+.health b{font-size:12px;font-weight:600;display:block}
+.health small{font-family:var(--mono);font-size:10px;display:block;margin-top:3px}
+.rul{background:var(--bg-1);border:1px solid var(--line-2);border-radius:9px;padding:6px 9px;font-size:11px}
+.rul>div{display:flex;justify-content:space-between}
+.rul .bar{height:4px;border-radius:2px;background:var(--bg-4);margin-top:6px;position:relative;overflow:hidden}
+.rul .bar i{position:absolute;left:0;top:0;height:100%;border-radius:2px;background:linear-gradient(90deg,var(--ok),var(--warn));transform-origin:left;animation:grow .9s var(--ease) both}
+@keyframes grow{from{transform:scaleX(0)}}
+.rul .bar em{position:absolute;top:0;height:100%;background:rgba(245,179,35,.25)}
+.rul small{font-family:var(--mono);font-size:9.5px;color:var(--text-3);display:block;margin-top:3px}
+.anom{border-radius:9px;padding:6px 9px;font-size:11px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;border:1px solid var(--line-2);background:var(--bg-1);color:var(--text-2)}
+.anom.hi{border-color:rgba(248,113,113,.4);background:rgba(248,113,113,.08)}
+.anom.md{border-color:rgba(245,179,35,.4);background:var(--warn-soft)}
+.anom b{display:flex;justify-content:space-between;font-weight:600;color:var(--text);margin-bottom:2px;gap:6px}
+.anom.hi b{color:var(--danger)}.anom.md b{color:var(--warn)}
+.anom b small{font-family:var(--mono);font-size:9.5px;color:var(--text-3);font-weight:500;flex:none}
+.copilot-card{display:flex;gap:8px;align-items:flex-start;font-size:11px;line-height:1.35;margin-top:auto;color:var(--text-2);background:rgba(34,211,238,.06);border:1px solid rgba(34,211,238,.25);border-radius:9px;padding:7px 9px;cursor:pointer;transition:border-color .15s}
+.copilot-card:hover{border-color:var(--accent-ring)}
+.copilot-card svg{flex:none;margin-top:1px;color:var(--accent-2)}
+.copilot-card span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.copilot-card b{color:var(--accent-2);font-weight:600}
+.copilot{display:none;flex:1;min-height:0;flex-direction:column;gap:7px;margin-top:6px}
+.dock-mid.ask .chart-wrap,.dock-mid.ask .dock-axis{display:none}
+.dock-mid.ask .copilot{display:flex}
+.copilot-out{flex:1;min-height:0;overflow:auto;font-size:12px;line-height:1.55;color:var(--text);background:var(--bg-1);border:1px solid var(--line-2);border-radius:9px;padding:9px 12px;white-space:pre-wrap}
+.copilot-out .q{color:var(--text-3);font-family:var(--mono);font-size:10.5px;margin-bottom:4px}
+.copilot-out .cursor{display:inline-block;width:6px;height:12px;background:var(--accent);vertical-align:-2px;animation:pulse .8s infinite;margin-left:2px}
+.copilot-chips{display:flex;gap:6px;flex-wrap:wrap}
+.copilot-chips button{font-size:11px;padding:4px 9px;border-radius:999px;border:1px solid var(--line-2);color:var(--text-2);background:var(--bg-2)}
+.copilot-chips button:hover{border-color:var(--accent-ring);color:var(--text)}
+.copilot-in{display:flex;gap:6px}
+.copilot-in input{flex:1;background:var(--bg-2);border:1px solid var(--line-2);border-radius:8px;padding:7px 10px;color:var(--text);font-size:12px;outline:none;min-width:0}
+.copilot-in input:focus{border-color:var(--accent)}
+.copilot-in button{padding:7px 12px;border-radius:8px;background:linear-gradient(180deg,var(--accent-2),var(--accent));color:#041016;font-weight:600;font-size:12px}
+.mt{display:flex;gap:10px;align-items:flex-start;padding:8px 11px;border:1px solid var(--line);border-radius:9px;margin-bottom:5px;font-size:12.5px;background:var(--bg-1)}
+.mt .ref{font-family:var(--mono);font-size:10.5px;color:var(--accent-2);background:var(--accent-soft);padding:2px 6px;border-radius:5px;flex:none}
+.mt .st{margin-left:auto;font-family:var(--mono);font-size:10.5px;flex:none}
+.mt .st.open,.mt .st.investigating{color:var(--warn)}.mt .st.due{color:var(--danger)}.mt .st.done,.mt .st.cleared{color:var(--ok)}.mt .st.scheduled{color:var(--text-3)}
+.mt small{display:block;color:var(--text-3);font-size:11px;margin-top:2px}
+.row .hd{width:6px;height:6px;border-radius:50%;margin-left:auto;flex:none}
+.row .hd.w{background:var(--warn);box-shadow:0 0 6px rgba(245,179,35,.6)}.row .hd.d{background:var(--danger);box-shadow:0 0 6px rgba(248,113,113,.6)}
+.brand{cursor:pointer}
+
+/* ---------- Landing ---------- */
+.landing{position:fixed;inset:0;z-index:40;background:var(--bg);display:grid;grid-template-columns:460px 1fr;overflow:hidden;transition:opacity .35s var(--ease),visibility .35s}
+.landing.off{opacity:0;visibility:hidden;pointer-events:none}
+.landing-l{padding:32px 40px;border-right:1px solid var(--line);display:flex;flex-direction:column;position:relative;background:linear-gradient(180deg,var(--bg-1),var(--bg) 50%)}
+.landing-l::before{content:"";position:absolute;inset:0 0 auto 0;height:320px;background:radial-gradient(60% 100% at 30% 0%,rgba(34,211,238,.12),transparent 70%);pointer-events:none}
+.landing-hero{margin-top:96px;position:relative}
+.landing-hero .eyebrow{color:var(--accent-2);margin-bottom:16px}
+.landing-hero h1{font-size:48px;font-weight:800;letter-spacing:-2px;line-height:.98;margin:0}
+.landing-hero h1 span{color:var(--text-3)}
+.landing-hero p{font-size:14px;color:var(--text-2);line-height:1.6;max-width:350px;margin:20px 0 0}
+.landing-stats{margin-top:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;position:relative}
+.landing-stats div{border-top:1px solid var(--line-3);padding-top:10px}
+.landing-stats b{font-family:var(--mono);font-size:22px;font-weight:500;display:block}
+.landing-stats small{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);display:block;margin-top:4px}
+.landing-r{display:flex;flex-direction:column;justify-content:center;padding:0 44px;min-width:0}
+.stage{display:grid;grid-template-columns:76px 1fr 270px 28px;gap:20px;align-items:center;padding:24px 16px;border-top:1px solid var(--line-2);border-radius:12px;cursor:pointer;transition:background .2s}
+.stage.last{border-bottom:1px solid var(--line-2)}
+.stage:hover{background:var(--bg-2)}
+.stage .num{font-family:var(--mono);font-size:38px;color:var(--accent);letter-spacing:-1px}
+.stage h2{font-size:21px;font-weight:700;letter-spacing:-.4px;margin:0}
+.stage p{font-size:12.5px;color:var(--text-2);margin:6px 0 0;line-height:1.5;max-width:360px}
+.stage .sites{display:flex;flex-direction:column;gap:3px}
+.stage .site{display:flex;align-items:center;gap:8px;font-size:12.5px;padding:3px 6px;margin:0 -6px;border-radius:6px}
+.stage .site:hover{background:var(--bg-3)}
+.stage .site.rm{color:var(--text-3)}
+.stage .site i{width:6px;height:6px;border-radius:50%;flex:none;background:var(--ok);box-shadow:0 0 8px rgba(52,211,153,.6)}
+.stage .site i.w{background:var(--warn);box-shadow:0 0 8px rgba(245,179,35,.6)}.stage .site i.d{background:var(--danger);box-shadow:0 0 8px rgba(248,113,113,.6)}.stage .site i.n{background:none;border:1px solid var(--text-4);box-shadow:none}
+.stage .site b{font-family:var(--mono);font-weight:500;font-size:10.5px;color:var(--text-3);margin-left:auto}
+.stage>svg{color:var(--text-3)}
+.landing-foot{display:flex;justify-content:space-between;align-items:center;margin-top:22px;padding:0 16px}
+.landing-foot .btn.primary{padding:8px 13px}
+@media (max-width:1100px){.landing{grid-template-columns:1fr}.landing-l{display:none}.stage{grid-template-columns:60px 1fr 200px 24px}}
+
 /* ---------- Modals ---------- */
 .modal-bg{position:fixed;inset:0;background:rgba(4,7,11,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:none;place-items:center;z-index:50}
 .modal-bg.open{display:grid}
@@ -262,12 +383,20 @@ canvas{display:block;width:100%;height:100%;outline:none;position:relative;z-ind
 </style>
 </head>
 <body>
+<div class="landing" id="landing">
+  <div class="landing-l">
+    <div class="brand" id="landingBrand"><div class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 21h10M9 21L11 6h2l2 15M8 12h8M8 16h8M12 3v3"/></svg></div><div><span class="brand-name">Rig<b>sight</b></span><span class="brand-tag">Plant Intelligence</span></div></div>
+    <div class="landing-hero"><div class="eyebrow">Plant intelligence · oil &amp; gas</div><h1>Reservoir<br>to retail,<br><span>in 3D.</span></h1><p>Five facilities modelled to component level. Click anything to read its engineering, watch live telemetry, see predicted failures and ask the copilot why.</p></div>
+    <div class="landing-stats"><div><b id="lsComp">–</b><small>Components</small></div><div><b id="lsTags">–</b><small>Live tags</small></div><div><b id="lsAnom" style="color:var(--warn)">–</b><small>Open anomalies</small></div></div>
+  </div>
+  <div class="landing-r"><div id="landingStages"></div><div class="landing-foot"><span class="eyebrow">Or open the full chain map</span><button class="btn primary" id="landingChain">Chain map <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div></div>
+</div>
 <div class="app" id="app">
 
   <!-- ================= Navigator ================= -->
   <aside class="nav" id="nav">
     <div class="nav-head">
-      <div class="brand"><div class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 21h10M9 21L11 6h2l2 15M8 12h8M8 16h8M12 3v3"/></svg></div><div><span class="brand-name">Rig<b>sight</b></span><span class="brand-tag">Oil &amp; Gas Value Chain</span></div></div>
+      <div class="brand"><div class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 21h10M9 21L11 6h2l2 15M8 12h8M8 16h8M12 3v3"/></svg></div><div><span class="brand-name">Rig<b>sight</b></span><span class="brand-tag">Plant Intelligence</span></div></div>
       <button class="collapse-btn" id="navCollapse" title="Collapse navigator ([)">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 17l-5-5 5-5M18 17l-5-5 5-5"/></svg>
       </button>
@@ -311,8 +440,18 @@ canvas{display:block;width:100%;height:100%;outline:none;position:relative;z-ind
       <button data-act="internals">Internals <kbd>X</kbd></button>
       <span class="sep"></span>
       <button data-act="labels" class="active">Labels <kbd>L</kbd></button>
+      <button data-act="dock" class="active">Telemetry <kbd>T</kbd></button>
       <button data-act="subsurface">Subsurface <kbd>G</kbd></button>
       <button data-act="reset">Reset <kbd>R</kbd></button>
+    </div>
+    <div class="dock off" id="dock">
+      <div class="dock-kpis" id="dockKpis"></div>
+      <div class="dock-mid" id="dockMid">
+        <div class="dock-tabs"><b id="dockTitle"></b><small id="dockSub"></small><div class="seg"><button data-view="trend" class="active">Trend</button><button data-view="ask">Copilot</button></div></div>
+        <div class="chart-wrap"><div class="chart" id="dockChart"></div><div class="chart-y" id="dockY"></div></div><div class="dock-axis" id="dockAxis"></div>
+        <div class="copilot"><div class="copilot-out" id="copilotOut"><div class="q">Ask about this component</div></div><div class="copilot-chips" id="copilotChips"></div><div class="copilot-in"><input id="copilotIn" placeholder="Ask Rigsight… e.g. why is vibration rising?" autocomplete="off"><button id="copilotGo">Ask</button></div></div>
+      </div>
+      <div class="dock-side" id="dockSide"></div>
     </div>
     <div class="caption"><div id="caption"></div><span id="captionRight"></span></div>
     <div class="tip" id="tip"></div>
@@ -333,6 +472,7 @@ canvas{display:block;width:100%;height:100%;outline:none;position:relative;z-ind
 
 <script src="vendor/three.min.js"></script>
 <script src="vendor/lottie.min.js"></script>
+<script src="data/bundle.js"></script>
 <script src="sites/chain.js"></script>
 <script src="sites/rig.js"></script>
 <script src="sites/production.js"></script>
@@ -534,7 +674,7 @@ function pick(e){const m=rayHit(e);if(m)select(m.userData.nodeId);else if(state.
 /* ================================================================
    STATE & VISUAL RULES
    ================================================================ */
-const state={selected:null,mode:'none',hidden:new Set(),internals:false,subsurface:false,tab:'Overview',labels:true};
+const state={selected:null,mode:'none',hidden:new Set(),internals:false,subsurface:false,tab:'Overview',labels:true,dock:true};
 const accent=new THREE.Color(0x22d3ee);
 function applyVisual(){const sel=state.selected?new Set(descendants(state.selected)):null;const hid=new Set();state.hidden.forEach(h=>descendants(h).forEach(i=>hid.add(i)));
   MESHES.forEach(m=>{const id=m.userData.nodeId;const inSel=sel&&sel.has(id);const isSub=m.position.y<0;
@@ -547,9 +687,9 @@ function applyVisual(){const sel=state.selected?new Set(descendants(state.select
   const on=(id,v)=>document.getElementById(id).classList.toggle('on',!!v);
   on('bIso',state.mode==='isolate');on('bFade',state.mode==='fade');on('bInt',state.internals);on('bSub',state.subsurface);
   const bh=document.getElementById('bHid');bh.textContent=state.hidden.size?`${state.hidden.size} hidden · U to unhide`:'';on('bHid',state.hidden.size);
-  document.querySelectorAll('#toolbar button').forEach(b=>{const a=b.dataset.act;if(['focus','isolate','fade','hide'].includes(a))b.disabled=!state.selected;b.classList.toggle('active',(a==='isolate'&&state.mode==='isolate')||(a==='fade'&&state.mode==='fade')||(a==='internals'&&state.internals)||(a==='subsurface'&&state.subsurface)||(a==='labels'&&state.labels));});
+  document.querySelectorAll('#toolbar button').forEach(b=>{const a=b.dataset.act;if(['focus','isolate','fade','hide'].includes(a))b.disabled=!state.selected;b.classList.toggle('active',(a==='isolate'&&state.mode==='isolate')||(a==='fade'&&state.mode==='fade')||(a==='internals'&&state.internals)||(a==='subsurface'&&state.subsurface)||(a==='labels'&&state.labels)||(a==='dock'&&state.dock));});
 }
-function select(id){state.selected=id;renderTreeSelection();renderChips();renderInspector();applyVisual();document.getElementById('caption').textContent=id?NODES[id].name:SITE.name;writeHash(false);}
+function select(id){state.selected=id;renderTreeSelection();renderChips();renderInspector();applyVisual();document.getElementById('caption').textContent=id?NODES[id].name:SITE.name;writeHash(false);renderDock();}
 function act(a){switch(a){
   case 'focus':if(state.selected)focusOn(state.selected);break;
   case 'isolate':if(state.selected)state.mode=state.mode==='isolate'?'none':'isolate';break;
@@ -558,6 +698,7 @@ function act(a){switch(a){
   case 'unhide':state.hidden.clear();break;
   case 'internals':state.internals=!state.internals;break;
   case 'labels':state.labels=!state.labels;break;
+  case 'dock':state.dock=!state.dock;renderDock();break;
   case 'subsurface':if(!SITE.hasSubsurface)break;state.subsurface=!state.subsurface;if(state.subsurface)flyTo(new THREE.Vector3(HOME.target[0],-22,HOME.target[2]),cam.theta,1.35,150);else resetView();break;
   case 'reset':state.mode='none';state.hidden.clear();state.internals=false;state.subsurface=false;select(null);resetView();break;
   case 'esc':if(state.mode!=='none')state.mode='none';else if(state.subsurface||state.internals){state.subsurface=false;state.internals=false;resetView();}else select(null);break;
@@ -571,7 +712,7 @@ const treeEl=document.getElementById('tree');const open=new Set();
 function renderTree(){treeEl.innerHTML='';SYSTEMS.forEach(s=>{const n3=descendants(s.id).filter(i=>NODE_MESH[i]).length;const el=document.createElement('div');el.className='sys';el.dataset.id=s.id;
   el.innerHTML=`<div class="sys-row" data-id="${s.id}"><div class="sys-icon">${ICONS[s.icon]}</div><div class="sys-txt"><div class="sys-name">${s.name}</div><div class="sys-meta">${s.code} · ${countOf(s.id)} components · ${n3} in 3D</div></div><svg class="sys-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="kids"></div>`;
   const kids=el.querySelector('.kids');(s.children||[]).forEach(c=>kids.appendChild(nodeEl(c)));treeEl.appendChild(el);});renderTreeSelection();}
-function nodeEl(n){const d=document.createElement('div');d.className='node';d.dataset.id=n.id;const has=!!n.children;d.innerHTML=`<div class="row" data-id="${n.id}"><span class="chev">${has?'❯':''}</span><span>${n.name}</span>${NODE_MESH[n.id]||has?'':'<span class="no3d">no 3D</span>'}</div>`;if(has){const k=document.createElement('div');k.className='kids2';n.children.forEach(c=>k.appendChild(nodeEl(c)));d.appendChild(k);}return d;}
+function nodeEl(n){const d=document.createElement('div');d.className='node';d.dataset.id=n.id;const has=!!n.children;const hd=SD?nodeData(n.id):null;const dot=hd&&hd.H&&(hd.H.score<80||hd.A.some(a=>a.status!=='cleared'))?`<span class="hd ${hd.H.score<65||hd.A.some(a=>a.severity==='hi'&&a.status!=='cleared')?'d':'w'}"></span>`:'';d.innerHTML=`<div class="row" data-id="${n.id}"><span class="chev">${has?'❯':''}</span><span>${n.name}</span>${NODE_MESH[n.id]||has?'':'<span class="no3d">no 3D</span>'}${dot}</div>`;if(has){const k=document.createElement('div');k.className='kids2';n.children.forEach(c=>k.appendChild(nodeEl(c)));d.appendChild(k);}return d;}
 function renderTreeSelection(){treeEl.querySelectorAll('.sys,.node').forEach(e=>{const id=e.dataset.id;e.classList.toggle('open',open.has(id));const r=e.querySelector(':scope>.sys-row,:scope>.row');if(r)r.classList.toggle('selected',id===state.selected);});
   if(state.selected){const el=treeEl.querySelector(`[data-id="${CSS.escape(state.selected)}"].sys,[data-id="${CSS.escape(state.selected)}"].node`);if(el)el.scrollIntoView({block:'nearest'});}}
 treeEl.addEventListener('click',e=>{const chev=e.target.closest('.chev,.sys-chev');const row=e.target.closest('.sys-row,.row');if(!row)return;const id=row.dataset.id;const has=NODES[id].children;
@@ -596,7 +737,7 @@ document.getElementById('chips').addEventListener('click',e=>{const b=e.target.c
    ================================================================ */
 const inspBody=document.getElementById('inspBody');
 function renderInspector(){const id=state.selected;if(!id){inspBody.innerHTML=`<div class="insp-empty"><div class="cube"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg></div><h2>Select a component</h2><p>Click equipment in the 3D view or choose it in the navigator. Hovering shows its name; clicking opens its engineering details here.</p></div>`;return;}
-  const n=NODES[id],sys=NODES[n.system];const tabs=['Overview','Engineering','Connections','Safety','Specs','Evidence'];
+  const n=NODES[id],sys=NODES[n.system];const tabs=['Overview','Engineering','Connections','Safety','Specs','Maintenance','Evidence'];
   const parentName=n.parent?NODES[n.parent].name:null;
   const summary=n.summary||`${n.name} is part of the ${parentName} assembly in the ${sys.name} system.`;
   const body=n.body||(n.level===0?'':`Modelled as a ${typeOf(n)} of ${parentName}. ${n.summary?'':'Engineering description pending source review.'}`);
@@ -612,6 +753,7 @@ function renderInspector(){const id=state.selected;if(!id){inspBody.innerHTML=`<
     case 'Connections':content=`<p class="para">Systems and assemblies this ${typeOf(n)} exchanges load, fluid, power or control with.</p><ul class="list">${conns.map(c=>`<li class="clickable" data-go="${c}"><span class="tag">${c}</span>${NODES[c].name}</li>`).join('')}${n.parent?`<li class="clickable" data-go="${n.parent}"><span class="tag">parent</span>${parentName}</li>`:''}</ul>`;break;
     case 'Safety':content=`<p class="para">Barriers, checks and hazards recorded against ${n.level===0?'this system':n.name}.</p><ul class="list">${safety.map((s,i)=>`<li><span class="sev ${['hi','md','lo','md'][i%4]}"></span>${s}</li>`).join('')}</ul>`;break;
     case 'Specs':content=`<div class="kv">${specs.map(([k,v])=>`<div><span>${k}</span><span>${v}</span></div>`).join('')}</div><p class="muted">Values are representative and carry the Proposed status until verified against an OEM data sheet.</p>`;break;
+    case 'Maintenance':{const d=nodeData(id);const A=d?d.A:[],M=d?d.M:[];content=`<div class="h4">Anomalies</div>${A.length?A.map(a=>`<div class="mt"><span class="sev ${a.severity}" style="margin-top:6px"></span><div><div>${a.title}</div><small>${a.detail} · ${NODES[a.node].name} · ${a.ts.replace('T',' ')}</small></div><span class="st ${a.status}">${a.status}</span></div>`).join(''):'<p class="muted">No anomalies recorded.</p>'}<div class="h4">Work orders &amp; planned maintenance</div>${M.length?M.slice().sort((x,y)=>x.due.localeCompare(y.due)).map(m=>`<div class="mt"><span class="ref">${m.ref}</span><div><div>${m.title}</div><small>${NODES[m.node].name} · ${m.kind==='last'?'completed':'due'} ${m.due}</small></div><span class="st ${m.status}">${m.status}</span></div>`).join(''):'<p class="muted">No maintenance records.</p>'}<p class="muted">Demo records generated from data/${SITE.id}/*.csv.</p>`;break;}
     case 'Evidence':content=`<p class="para">Source references cited for this node. Bracketed tags in descriptions map to these.</p><ul class="list">${EVIDENCE.slice(0,3+(id.length%3)).map(e=>`<li><span class="tag">${e.slice(0,2)}</span>${e.slice(3)}</li>`).join('')}</ul>`;break;}
   inspBody.innerHTML=`<div class="crumb"><span class="dot"></span><span>${sys.name}</span><span>·</span><span>Level ${n.level}</span><span>·</span><span>${typeOf(n)}</span><div class="actions">${n.site&&SITE_BY_ID[n.site]?`<button class="btn primary" data-site="${n.site}">Enter site <span aria-hidden="true">→</span></button>`:''}<button class="btn ${n.site?'':'primary'}" data-act="focus">Focus <kbd>F</kbd></button><button class="btn" data-act="isolate">Isolate <kbd>I</kbd></button></div></div>
   <h1>${n.name}</h1>
@@ -628,7 +770,7 @@ function closeModal(){modal.classList.remove('open');}
 modal.addEventListener('click',e=>{if(e.target===modal)closeModal();});
 document.getElementById('btnShortcuts').onclick=()=>openModal(`<h2>Shortcuts</h2><div class="sub">Keys work when the 3D view has focus.</div>
 <h4>Navigate</h4><p><kbd>Left-drag</kbd> orbit</p><p><kbd>Right-drag</kbd> or <kbd>Space</kbd> + drag pan</p><p><kbd>Wheel</kbd> zoom toward the cursor</p><p><kbd>Double-click</kbd> frame a component</p>
-<h4>Select and view</h4><p><kbd>Click</kbd> select · <kbd>Esc</kbd> step out of a view mode, then clear</p><p><kbd>F</kbd> frame selected · <kbd>R</kbd> reset view</p><p><kbd>I</kbd> isolate · <kbd>D</kbd> fade others · <kbd>H</kbd> hide · <kbd>U</kbd> unhide all</p><p><kbd>L</kbd> labels on/off</p><p><kbd>X</kbd> internals · <kbd>G</kbd> subsurface</p>
+<h4>Select and view</h4><p><kbd>Click</kbd> select · <kbd>Esc</kbd> step out of a view mode, then clear</p><p><kbd>F</kbd> frame selected · <kbd>R</kbd> reset view</p><p><kbd>I</kbd> isolate · <kbd>D</kbd> fade others · <kbd>H</kbd> hide · <kbd>U</kbd> unhide all</p><p><kbd>L</kbd> labels on/off · <kbd>T</kbd> telemetry dock</p><p><kbd>X</kbd> internals · <kbd>G</kbd> subsurface</p>
 <h4>Layout</h4><p><kbd>[</kbd> navigator · <kbd>]</kbd> inspector</p><p><kbd>Tab</kbd> full-screen inspection</p><p class="muted" style="margin-top:14px">The navigator follows the approved engineering hierarchy, not the 3D scene graph.</p>`);
 document.getElementById('btnIntegrity').onclick=()=>{const total=ORDER.length-SYSTEMS.length,in3d=ORDER.filter(i=>NODE_MESH[i]).length,leaves=ORDER.filter(i=>!NODES[i].children),no3d=leaves.filter(i=>!NODE_MESH[i]);const withSpecs=ORDER.filter(i=>NODES[i].specs).length;
   openModal(`<h2>Model integrity</h2><div class="sub">${SITE.name} — checks between the engineering hierarchy and the 3D scene.</div><div class="stat-grid"><div class="stat"><b>${total}</b><span>components in hierarchy</span></div><div class="stat"><b>${in3d}</b><span>nodes with 3D geometry</span></div><div class="stat"><b>${MESHES.length}</b><span>meshes bound to nodes</span></div></div>
@@ -642,7 +784,7 @@ const toggleNav=()=>{app.classList.toggle('nav-off');setTimeout(resize,260);};co
 document.getElementById('navCollapse').onclick=toggleNav;document.getElementById('navReveal').onclick=toggleNav;
 document.getElementById('inspCollapse').onclick=toggleInsp;document.getElementById('inspReveal').onclick=toggleInsp;
 window.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;if(e.key===' '){spaceDown=true;if(document.activeElement===canvas)e.preventDefault();return;}
-  const k=e.key.toLowerCase();const map={f:'focus',i:'isolate',d:'fade',h:'hide',u:'unhide',x:'internals',g:'subsurface',l:'labels',r:'reset',escape:'esc'};
+  const k=e.key.toLowerCase();const map={f:'focus',i:'isolate',d:'fade',h:'hide',u:'unhide',x:'internals',g:'subsurface',l:'labels',t:'dock',r:'reset',escape:'esc'};
   if(map[k]){if(k==='escape'&&modal.classList.contains('open')){closeModal();return;}act(map[k]);e.preventDefault();return;}
   if(e.key==='['){toggleNav();}else if(e.key===']'){toggleInsp();}else if(e.key==='Tab'){e.preventDefault();app.classList.toggle('full');setTimeout(resize,260);}else if(k==='/'){e.preventDefault();searchEl.focus();}});
 window.addEventListener('keyup',e=>{if(e.key===' ')spaceDown=false;});
@@ -663,11 +805,89 @@ function updateLabels(){if(!LABELS.length)return;const w=canvas.clientWidth,h=ca
     if(show){_v.copy(L.pos).project(camera);const d=camera.position.distanceTo(L.pos);const ang=L.size/d;show=_v.z<1&&Math.abs(_v.x)<1.05&&Math.abs(_v.y)<1.05&&(ang>(n.level<=1?.07:.045)||n.id===sel);
       if(show){L.el.style.transform=`translate(${((_v.x+1)/2*w).toFixed(1)}px,${((1-_v.y)/2*h).toFixed(1)}px) translate(-50%,-100%)`;L.el.style.zIndex=Math.round(1000-d)|0;}}
     L.el.classList.toggle('on',!!show);if(show){L.el.classList.toggle('sel',n.id===sel);L.el.classList.toggle('dim',state.mode==='fade'&&sel&&!inSel.has(n.id));}});}
+/* ================================================================
+   DATA LAYER (CSV) · TELEMETRY DOCK · COPILOT · LANDING
+   ================================================================ */
+const DATA={cache:{},parse(t){const L=(t||'').trim().split(/\r?\n/);if(!L.length||!L[0])return[];const h=L[0].split(',');return L.slice(1).map(r=>{const c=r.split(',');const o={};h.forEach((k,i)=>o[k]=c[i]===undefined?'':c[i]);return o;});},
+ async load(site,file){const k=site+'/'+file;if(DATA.cache[k])return DATA.cache[k];let txt=null;try{const r=await fetch('data/'+k);if(r.ok)txt=await r.text();}catch(e){}if(txt==null&&window.RIGSIGHT_DATA)txt=window.RIGSIGHT_DATA[k]||'';return DATA.cache[k]=DATA.parse(txt);},
+ async site(site){if(DATA.cache['#'+site])return DATA.cache['#'+site];const [tel,hea,ano,mai]=await Promise.all(['telemetry.csv','health.csv','anomalies.csv','maintenance.csv'].map(f=>DATA.load(site,f)));const T={},H={},A={},M={};
+  tel.forEach(r=>{const vals=[];for(let i=0;i<60;i++)vals.push(+r['v'+i]);(T[r.node]=T[r.node]||[]).push({tag:r.tag,label:r.label,unit:r.unit,lo:+r.lo,hi:+r.hi,warn:r.warn===''?null:+r.warn,vals});});
+  hea.forEach(r=>H[r.node]={score:+r.score,trend:r.trend,comp:r.rul_component,rul:+r.rul_days,p10:+r.rul_p10,p90:+r.rul_p90});ano.forEach(r=>(A[r.node]=A[r.node]||[]).push(r));mai.forEach(r=>(M[r.node]=M[r.node]||[]).push(r));
+  return DATA.cache['#'+site]={T,H,A,M};}};
+let SD=null;
+function nodeData(id){if(!SD||!NODES[id])return null;const ids=descendants(id);const tid=ids.find(i=>SD.T[i]);const hs=ids.map(i=>SD.H[i]).filter(Boolean);let H=null;
+  if(hs.length){const worst=hs.slice().sort((a,b)=>a.rul-b.rul)[0];H={score:Math.round(hs.reduce((a,h)=>a+h.score,0)/hs.length),trend:hs.some(h=>h.trend==='declining')?'declining':hs[0].trend,comp:worst.comp,rul:worst.rul,p10:worst.p10,p90:worst.p90};}
+  const A=[].concat(...ids.map(i=>SD.A[i]||[])).sort((a,b)=>b.ts.localeCompare(a.ts));const M=[].concat(...ids.map(i=>SD.M[i]||[]));return {tel:tid?SD.T[tid]:null,telFrom:tid,H,A,M};}
+const fmtV=v=>Math.abs(v)>=1000?Math.round(v).toLocaleString():Math.abs(v)>=100?v.toFixed(0):v.toFixed(1);
+const hhmm=d=>d.toTimeString().slice(0,5);
+
+/* ---- telemetry dock ---- */
+const dock=document.getElementById('dock');let dockNode=null,dockTag=0,dockTimer=null,dockView='trend';
+function chartSVG(t,sweep){const v=t.vals,n=v.length;const last=v[n-1];const k=15;const xs=v.slice(n-15);let sx=0,sy=0,sxx=0,sxy=0;xs.forEach((y,i)=>{sx+=i;sy+=y;sxx+=i*i;sxy+=i*y;});const m=(15*sxy-sx*sy)/(15*sxx-sx*sx)||0;
+  const diffs=v.slice(1).map((y,i)=>y-v[i]);const sd=Math.sqrt(diffs.reduce((a,d)=>a+d*d,0)/diffs.length)||1;const fc=[],lo=[],hi=[];for(let i=1;i<=k;i++){const y=last+m*i;fc.push(y);lo.push(y-sd*Math.pow(i,.7)*1.2);hi.push(y+sd*Math.pow(i,.7)*1.2);}
+  let mn=Math.min(...v,...lo),mx=Math.max(...v,...hi);if(t.warn!=null&&t.warn<=mx+(mx-mn)*.6&&t.warn>=mn-(mx-mn)*.6){mn=Math.min(mn,t.warn);mx=Math.max(mx,t.warn);}const pad=(mx-mn)*.12||1;mn-=pad;mx+=pad;
+  const W=560,Hh=160,X=i=>i/(n-1+k)*W,Y=y=>Hh-(y-mn)/(mx-mn)*Hh;const pts=v.map((y,i)=>`${X(i).toFixed(1)},${Y(y).toFixed(1)}`);const nowX=X(n-1);
+  const fpts=fc.map((y,i)=>`${X(n+i).toFixed(1)},${Y(y).toFixed(1)}`);const band=hi.map((y,i)=>`${X(n+i).toFixed(1)},${Y(y).toFixed(1)}`).concat(lo.map((y,i)=>`${X(n+k-1-i).toFixed(1)},${Y(y).toFixed(1)}`)).join(' ');
+  return {svg:`<svg viewBox="0 0 ${W} ${Hh}" preserveAspectRatio="none"><defs><linearGradient id="dockFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#22d3ee" stop-opacity=".28"/><stop offset="1" stop-color="#22d3ee" stop-opacity="0"/></linearGradient></defs>
+    <path class="grid" d="M0 40H${W}M0 80H${W}M0 120H${W}"/>${t.warn!=null&&t.warn>mn&&t.warn<mx?`<path class="warnl" d="M0 ${Y(t.warn).toFixed(1)}H${W}"/>`:''}
+    <polygon class="area" points="${pts.join(' ')} ${nowX.toFixed(1)},${Hh} 0,${Hh}"/><polygon class="band" points="${nowX.toFixed(1)},${Y(last).toFixed(1)} ${band}"/>
+    <polyline class="ser${sweep?' sweep':''}" points="${pts.join(' ')}"/><polyline class="fc" points="${nowX.toFixed(1)},${Y(last).toFixed(1)} ${fpts.join(' ')}"/>
+    <path class="now" d="M${nowX.toFixed(1)} 0V${Hh}"/><circle class="dot" cx="${nowX.toFixed(1)}" cy="${Y(last).toFixed(1)}" r="3.5"/></svg>`,mn,mx,fc:fc[k-1]};}
+function renderDock(){const id=state.selected;const on=state.dock&&id&&SD;app.classList.toggle('dock-on',!!on);dock.classList.toggle('off',!on);if(!on){if(dockTimer){clearInterval(dockTimer);dockTimer=null;}dockNode=null;return;}
+  const n=NODES[id],d=nodeData(id);const fresh=dockNode!==id;dockNode=id;if(fresh){dockTag=0;dockView='trend';document.getElementById('dockMid').classList.remove('ask');document.querySelectorAll('.seg button').forEach(b=>b.classList.toggle('active',b.dataset.view==='trend'));}
+  const tel=d.tel||[];document.getElementById('dockKpis').innerHTML=`<div class="dock-head"><i></i>Live · ${n.level===0?n.id:id}<span>1 s</span></div>`+(tel.length?tel.slice(0,4).map((t,i)=>{const v=t.vals[59];const warn=t.warn!=null&&v>=t.warn;return `<div class="kpi ${i===dockTag?'active':''} ${warn?'warn':''}" data-i="${i}"><div><span class="v">${fmtV(v)}</span><span class="u">${t.unit}</span></div><div class="l"><span>${t.label}</span><b>${t.warn!=null?'warn '+fmtV(t.warn):'max '+fmtV(t.hi)}</b></div></div>`;}).join(''):'<p class="muted">No live tags on this node.</p>');
+  const t=tel[dockTag];document.getElementById('dockTitle').textContent=t?t.label:n.name;document.getElementById('dockSub').textContent=t?`last 60 min · forecast +15${d.telFrom!==id?' · from '+NODES[d.telFrom].name:''}`:'no telemetry';
+  if(t){const c=chartSVG(t,fresh);document.getElementById('dockChart').innerHTML=c.svg;document.getElementById('dockY').innerHTML=`<span>${fmtV(c.mx)}</span><span>${fmtV((c.mx+c.mn)/2)}</span><span>${fmtV(c.mn)}</span>`;const now=new Date();document.getElementById('dockAxis').innerHTML=`<span>${hhmm(new Date(now-60*60000))}</span><span>${hhmm(new Date(now-30*60000))}</span><span style="color:var(--text-2)">now ${hhmm(now)}</span><span style="color:var(--accent-2)">${hhmm(new Date(+now+15*60000))} forecast · ${fmtV(c.fc)} ${t.unit}</span>`;}else{document.getElementById('dockChart').innerHTML='';document.getElementById('dockY').innerHTML='';document.getElementById('dockAxis').innerHTML='';}
+  const H=d.H,open=d.A.filter(a=>a.status!=='cleared'),top=open[0];const col=H?(H.score>=80?'var(--ok)':H.score>=65?'var(--warn)':'var(--danger)'):'var(--text-3)';const dash=144.5,off=H?dash*(1-H.score/100):dash;
+  const nxt=d.M.filter(m=>m.kind!=='last').sort((a,b)=>a.due.localeCompare(b.due))[0];
+  const insight=top?`vibration|temp|press|level|sensor`.split('|').some(k=>new RegExp(k,'i').test(top.title))?`${top.title.split(' ')[0]} trend on ${NODES[top.node].name} matches prior fleet failures; ${H&&H.rul<60?`inspect within ${Math.max(2,Math.round(H.rul*.2))} d`:'trend for 24 h'}.`:top.detail:H&&H.trend==='declining'?`Health declining on ${n.name}; ${H.comp} RUL ${H.rul} d - schedule inspection.`:`${n.name} is within limits; next planned maintenance ${nxt?nxt.due:'not scheduled'}.`;
+  document.getElementById('dockSide').innerHTML=`<div class="health"><svg width="52" height="52" viewBox="0 0 56 56"><circle cx="28" cy="28" r="23" stroke="#22303d" stroke-width="5" fill="none"/><circle class="arc" cx="28" cy="28" r="23" stroke="${col}" stroke-width="5" fill="none" stroke-dasharray="${dash}" stroke-dashoffset="${fresh?dash:off}" stroke-linecap="round" transform="rotate(-90 28 28)"/><text x="28" y="32" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" fill="#e9eef4">${H?H.score:'–'}</text></svg><div><b>Health score</b><small style="color:${col}">${H?(H.score>=80?'Good':H.score>=65?'Watch':'Degraded')+' · '+H.trend:'not instrumented'}</small></div></div>
+    ${H?`<div class="rul"><div><span>${H.comp[0].toUpperCase()+H.comp.slice(1)} · RUL</span><span class="mono" style="color:${H.rul<60?'var(--warn)':'var(--text)'}">${H.rul} d</span></div><div class="bar"><i style="width:${Math.min(100,H.rul/4)}%"></i><em style="left:${Math.min(100,H.p10/4)}%;width:${Math.min(100,(H.p90-H.p10)/4)}%"></em></div><small>P10 ${H.p10} d · P90 ${H.p90} d</small></div>`:''}
+    ${top?`<div class="anom ${top.severity}"><b>Anomaly · ${top.ts.slice(11)}<small>${top.status}</small></b>${top.title}${top.node!==id?' · '+NODES[top.node].name:''}</div>`:`<div class="anom"><b>No open anomalies<small>${d.A.length?d.A.length+' cleared':'clean'}</small></b>${nxt?`Next: ${nxt.title.replace('Planned maintenance - ','')} · ${nxt.due}`:'No maintenance due'}</div>`}
+    <div class="copilot-card" id="copilotHint"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg><span><b>Copilot</b> · ${insight} <span style="color:var(--accent-2)">Ask why →</span></span></div>`;
+  if(fresh)requestAnimationFrame(()=>{const a=dock.querySelector('.health .arc');if(a)a.style.strokeDashoffset=off;});
+  if(fresh){document.getElementById('copilotOut').innerHTML='<div class="q">Ask about '+n.name+'</div>';document.getElementById('copilotChips').innerHTML=[open.length?'Why the anomaly?':'How is it doing?','What should we do next?','Compare with peers','Summarise health'].map(q=>`<button>${q}</button>`).join('');}
+  if(!dockTimer)dockTimer=setInterval(tickDock,1000);}
+function tickDock(){if(!dockNode||!SD)return;const d=nodeData(dockNode);if(!d||!d.tel)return;d.tel.forEach(t=>{const v=t.vals,last=v[v.length-1];const diffs=v.slice(-20).map((y,i,a)=>i?y-a[i-1]:0);const sd=Math.sqrt(diffs.reduce((a,x)=>a+x*x,0)/diffs.length)||(t.hi-t.lo)*.002;let nv=last+(Math.random()-.5)*sd*1.4+(v[v.length-1]-v[v.length-6])*.04;nv=Math.max(t.lo,Math.min(t.hi,nv));v.push(nv);v.shift();});
+  const kp=document.querySelectorAll('#dockKpis .kpi');d.tel.slice(0,4).forEach((t,i)=>{const el=kp[i];if(!el)return;const v=t.vals[59];el.querySelector('.v').textContent=fmtV(v);el.classList.toggle('warn',t.warn!=null&&v>=t.warn);});
+  const t=d.tel[dockTag];if(t&&dockView==='trend'){const c=chartSVG(t,false);document.getElementById('dockChart').innerHTML=c.svg;document.getElementById('dockY').innerHTML=`<span>${fmtV(c.mx)}</span><span>${fmtV((c.mx+c.mn)/2)}</span><span>${fmtV(c.mn)}</span>`;}}
+document.getElementById('dockKpis').addEventListener('click',e=>{const k=e.target.closest('.kpi');if(!k)return;dockTag=+k.dataset.i;document.querySelectorAll('#dockKpis .kpi').forEach(x=>x.classList.toggle('active',x===k));const d=nodeData(dockNode);const t=d.tel[dockTag];document.getElementById('dockTitle').textContent=t.label;const c=chartSVG(t,true);document.getElementById('dockChart').innerHTML=c.svg;document.getElementById('dockY').innerHTML=`<span>${fmtV(c.mx)}</span><span>${fmtV((c.mx+c.mn)/2)}</span><span>${fmtV(c.mn)}</span>`;});
+document.querySelector('#dockMid .seg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;setDockView(b.dataset.view);});
+function setDockView(v){dockView=v;document.querySelectorAll('#dockMid .seg button').forEach(x=>x.classList.toggle('active',x.dataset.view===v));document.getElementById('dockMid').classList.toggle('ask',v==='ask');if(v==='ask')setTimeout(()=>document.getElementById('copilotIn').focus(),50);}
+document.getElementById('dockSide').addEventListener('click',e=>{if(e.target.closest('#copilotHint')){setDockView('ask');ask(nodeData(dockNode).A.some(a=>a.status!=='cleared')?'Why the anomaly?':'How is it doing?');}});
+document.getElementById('copilotChips').addEventListener('click',e=>{const b=e.target.closest('button');if(b)ask(b.textContent);});
+document.getElementById('copilotGo').onclick=()=>{const q=document.getElementById('copilotIn').value.trim();if(q)ask(q);};
+document.getElementById('copilotIn').addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter'){const q=e.target.value.trim();if(q)ask(q);}});
+let streamTimer=null;
+function ask(q){const out=document.getElementById('copilotOut');document.getElementById('copilotIn').value='';const text=copilotAnswer(q,dockNode);out.innerHTML=`<div class="q">${q}</div><span id="copilotTxt"></span><span class="cursor"></span>`;const el=document.getElementById('copilotTxt');const words=text.split(/(\s+)/);let i=0;if(streamTimer)clearInterval(streamTimer);
+  streamTimer=setInterval(()=>{if(i>=words.length){clearInterval(streamTimer);streamTimer=null;const c=out.querySelector('.cursor');if(c)c.remove();return;}el.textContent+=words[i++];out.scrollTop=out.scrollHeight;},22);}
+function copilotAnswer(q,id){const n=NODES[id],d=nodeData(id)||{tel:null,H:null,A:[],M:[]};const ql=q.toLowerCase();const main=d.tel&&d.tel[0];const cur=main?main.vals[59]:null,first=main?main.vals[0]:null;const dir=main?(cur>first*1.03?'rising':cur<first*.97?'falling':'flat'):'';const open=d.A.filter(a=>a.status!=='cleared');const H=d.H;const sysName=NODES[n.system].name;
+  if(/why|cause|anomal|root/.test(ql)&&open.length){const a=open[0];const cause={vib:'a developing defect on the drive-end bearing: envelope energy is rising while speed is steady, which points to rolling-element wear or lubrication starvation rather than misalignment',temp:'cooling duty that is no longer keeping up with the load: the outlet has climbed while inlet conditions stayed flat, which usually means fouling on the cold side or an air-flow problem on the coolers',press:'a slow restriction building in the flow path: differential pressure is climbing without a matching change in flow, which is the signature of fouling or partial blockage',sensor:'an instrument issue rather than a process one: the gap in samples lines up with a comms drop on that loop',level:'controller tuning: the interface level is hunting at a fixed period, typical of a loop that is too aggressive for the vessel volume'};const key=/vib/i.test(a.title)?'vib':/temp/i.test(a.title)?'temp':/press/i.test(a.title)?'press':/sensor/i.test(a.title)?'sensor':'level';
+    return `${a.title} on ${NODES[a.node].name} (${a.ts.replace('T',' ')}) is most consistent with ${cause[key]}.\n\nEvidence: ${a.detail}.${main?` ${main.label} is ${fmtV(cur)} ${main.unit}${main.warn!=null?` against a warning limit of ${fmtV(main.warn)}`:''}, ${dir} over the last hour.`:''}\n\nRecommendation: ${H&&H.rul<60?`plan an inspection within ${Math.max(2,Math.round(H.rul*.2))} days. Predicted remaining life of the ${H.comp} is ${H.rul} d (P10 ${H.p10}, P90 ${H.p90}); order spares now.`:'trend for 24 h and raise a work order if the rate persists.'}`;}
+  if(/\bdo\b|action|recommend|next|fix|plan|should/.test(ql)){const wos=d.M.filter(m=>m.kind==='wo');const nxt=d.M.find(m=>m.kind==='next');return `Recommended actions for ${n.name}:\n\n1. ${open.length?`Close out the ${open[0].severity==='hi'?'high':'medium'}-severity anomaly "${open[0].title}" (${open[0].status}).`:'No open anomalies: keep it on routine monitoring.'}\n2. ${nxt?`${nxt.title.replace('Planned maintenance - ','Planned maintenance: ')} is ${nxt.status} for ${nxt.due}.`:'No planned maintenance due.'}\n3. ${wos.length?`Work order ${wos[0].ref} (${wos[0].title}) is ${wos[0].status}, due ${wos[0].due}.`:'No open work orders.'}${H?`\n4. Predicted remaining life of the ${H.comp}: ${H.rul} d. ${H.rul<60?'Order spares and book the crew.':'Spares are not urgent.'}`:''}`;}
+  if(/compare|peer|sibling|other|similar/.test(ql)){const sibs=(n.parent?NODES[n.parent].children:SYSTEMS).filter(s=>s.id!==id).slice(0,6);return `Compared with its peers in ${n.parent?NODES[n.parent].name:SITE.name}:\n\n${sibs.map(s=>{const h=(nodeData(s.id)||{}).H;return `- ${s.name}: health ${h?h.score+' ('+h.trend+')':'n/a'}`;}).join('\n')}\n\n${n.name}: health ${H?H.score+' ('+H.trend+')':'n/a'}. ${H&&sibs.length?(H.score<Math.min(...sibs.map(s=>((nodeData(s.id)||{}).H||{score:100}).score))?'It is the weakest of the group.':'It is not the weakest of the group.'):''}`;}
+  return `${n.name} (${sysName}, ${SITE.name}) is ${H?(H.score>=80?'healthy':H.score>=65?'showing early wear':'degraded'):'not instrumented'}${H?` with a health score of ${H.score} and a ${H.trend} trend`:''}.\n\n${main?`Primary tag ${main.label}: ${fmtV(cur)} ${main.unit}, ${dir} over the last hour${main.warn!=null?` (warning at ${fmtV(main.warn)} ${main.unit})`:''}. `:''}${open.length?`${open.length} open anomal${open.length>1?'ies':'y'}: ${open.map(a=>a.title).join('; ')}.`:'No open anomalies.'}${H?`\n\nPredicted remaining life of the ${H.comp}: ${H.rul} days (P10 ${H.p10}, P90 ${H.p90}).`:''}\n\nAsk "why" for the anomaly root cause, or "what should we do" for actions.`;}
+
+/* ---- landing ---- */
+const landing=document.getElementById('landing');
+function showLanding(){landing.classList.remove('off');renderLanding();}
+function hideLanding(){landing.classList.add('off');}
+const STAGE_SYS={upstream:'UP',midstream:'MID',downstream:'DOWN'};
+async function renderLanding(){const el=document.getElementById('landingStages');const chain=SITE_BY_ID.chain;const live=SITE_LIST.filter(s=>!s.roadmap&&s.id!=='chain');
+  const infos={};let comps=0,tags=0,anoms=0;await Promise.all(live.map(async s=>{const d=await DATA.site(s.id);const hs=Object.values(d.H);const avg=hs.length?hs.reduce((a,h)=>a+h.score,0)/hs.length:null;const open=[].concat(...Object.values(d.A)).filter(a=>a.status!=='cleared');let c=0;(function w(l){l.forEach(n=>{c++;if(n.children)w(n.children);});})(s.systems);c-=s.systems.length;const tg=Object.values(d.T).reduce((a,t)=>a+t.length,0);infos[s.id]={avg,open:open.length,hi:open.some(a=>a.severity==='hi'),comps:c,tags:tg};comps+=c;tags+=tg;anoms+=open.length;}));
+  document.getElementById('lsComp').textContent=comps.toLocaleString();document.getElementById('lsTags').textContent=tags.toLocaleString();document.getElementById('lsAnom').textContent=anoms;
+  el.innerHTML=STAGES.map(([k,label],si)=>{const sys=chain?chain.systems.find(x=>x.id===STAGE_SYS[k]):null;const sites=live.filter(s=>s.stage===k);const rm=sys?sys.children.filter(c=>c.roadmap).map(c=>c.name):[];
+    return `<div class="stage ${si===STAGES.length-1?'last':''}" data-sys="${STAGE_SYS[k]}"><div class="num">0${si+1}</div><div><h2>${label}</h2><p>${sys?sys.summary:''}</p></div><div class="sites">${sites.map(s=>{const i=infos[s.id];const cls=!i||i.avg==null?'n':i.hi||i.avg<65?'d':i.open||i.avg<80?'w':'';return `<div class="site" data-site="${s.id}"><i class="${cls}"></i>${s.name}<b>${i?i.comps:''}</b></div>`;}).join('')}${rm.length?`<div class="site rm"><i class="n"></i>${rm.join(' · ')}<b>roadmap</b></div>`:''}</div><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>`;}).join('');}
+document.getElementById('landingStages').addEventListener('click',e=>{const st=e.target.closest('.site[data-site]');if(st){loadSite(st.dataset.site);return;}const sg=e.target.closest('.stage');if(sg)loadSite('chain',{node:sg.dataset.sys});});
+document.getElementById('landingChain').onclick=()=>loadSite('chain');
+document.getElementById('landingBrand').onclick=()=>{};
+document.querySelector('.nav .brand').onclick=()=>{history.pushState(null,'','#/');showLanding();};
 /* ---- site loading & routing ---- */
 const helpers={box,cyl,strut,pipe,sph,tower,mat,reg,C,sub,world,rig,THREE,KIT};
 function parseHash(){const m=location.hash.match(/^#\/([\w-]+)(?:\/([\w.-]+))?/);return m?{site:m[1],node:m[2]||null}:{site:null,node:null};}
 function writeHash(push){const h='#/'+SITE.id+(state.selected?'/'+state.selected:'');if(location.hash===h)return;history[push?'pushState':'replaceState'](null,'',h);}
 function loadSite(id,opts={}){const site=SITE_BY_ID[id]||SITE_BY_ID.chain||SITE_LIST[0];if(!site)return;const ld=document.getElementById('loading');const swap=!!SITE;if(swap)ld.classList.remove('done');
+  if(!opts.keepLanding)hideLanding();SD=null;if(dockTimer){clearInterval(dockTimer);dockTimer=null;}dockNode=null;
   SITE=site;SYSTEMS=site.systems;EVIDENCE=site.evidence||[];HOME=JSON.parse(JSON.stringify(site.home));indexSite(SYSTEMS);
   clearGroup(rig);clearGroup(sub);MESHES=[];NODE_MESH={};hovered=null;tip.style.display='none';
   buildWorld(site.world||'desert');site.build(helpers);sub.visible=false;buildLabels();
@@ -681,8 +901,9 @@ function loadSite(id,opts={}){const site=SITE_BY_ID[id]||SITE_BY_ID.chain||SITE_
   document.getElementById('captionRight').textContent=`${MESHES.length} meshes · ${ORDER.filter(i=>NODE_MESH[i]).length} nodes in 3D`;
   if(!opts.silent)writeHash(true);
   if(opts.node&&NODES[opts.node]){let p=PARENT[opts.node];while(p){open.add(p);p=PARENT[p];}select(opts.node);focusOn(opts.node);}
-  if(swap)setTimeout(()=>ld.classList.add('done'),380);}
-window.addEventListener('hashchange',()=>{const h=parseHash();if(h.site&&SITE_BY_ID[h.site]&&h.site!==SITE.id)loadSite(h.site,{silent:true,node:h.node});else if(h.node!==state.selected&&(!h.node||NODES[h.node])){select(h.node);if(h.node)focusOn(h.node);}});
+  if(swap)setTimeout(()=>ld.classList.add('done'),380);
+  DATA.site(site.id).then(d=>{if(SITE!==site)return;SD=d;renderTree();renderTreeSelection();if(state.selected)renderInspector();renderDock();});}
+window.addEventListener('hashchange',()=>{const h=parseHash();if(!h.site){showLanding();return;}if(SITE_BY_ID[h.site]&&h.site!==SITE.id)loadSite(h.site,{silent:true,node:h.node});else{hideLanding();if(h.node!==state.selected&&(!h.node||NODES[h.node])){select(h.node);if(h.node)focusOn(h.node);}}});
 function renderSiteUI(){const stage=STAGES.find(s=>s[0]===SITE.stage);document.getElementById('siteName').textContent=SITE.name;document.getElementById('siteStage').textContent=stage?stage[1]:'';
   document.getElementById('siteCardName').textContent=SITE.name;document.getElementById('siteCardIcon').innerHTML=ICONS[SITE.icon||'grid'];
   document.getElementById('rigStats').textContent=`${SYSTEMS.length} systems  ·  ${ORDER.length-SYSTEMS.length} components`;
@@ -696,7 +917,7 @@ document.addEventListener('click',e=>{if(!e.target.closest('.site-bar'))siteMenu
 /* ---- boot ---- */
 function resize(){const v=document.getElementById('view');const w=v.clientWidth,h=v.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
 window.addEventListener('resize',resize);
-resize();{const h=parseHash();loadSite(h.site||'chain',{silent:true,node:h.node});writeHash(false);}
+resize();{const h=parseHash();if(!h.site){loadSite('chain',{silent:true,keepLanding:true});showLanding();history.replaceState(null,'','#/');}else{loadSite(h.site,{silent:true,node:h.node});writeHash(false);}}
 let frames=0;(function loop(now){requestAnimationFrame(loop);stepTween(now);renderer.render(scene,camera);updateLabels();if(++frames===3)document.getElementById('loading').classList.add('done');})(performance.now());
 </script>
 </body>

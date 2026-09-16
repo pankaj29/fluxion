@@ -1,0 +1,22 @@
+ts,node,severity,title,detail,status
+2026-09-14T05:30,WH.a,lo,Sensor dropout,Tag lost 4 samples; instrument comms flagged,cleared
+2026-09-14T15:30,WH.a.tubinghead,lo,Level oscillation,Interface level cycling +/-6%; controller tuning,cleared
+2026-09-15T18:30,WH.b.head,lo,Level oscillation,Interface level cycling +/-6%; controller tuning,cleared
+2026-09-14T07:30,WH.casing.prod,lo,Sensor dropout,Tag lost 4 samples; instrument comms flagged,cleared
+2026-09-14T20:30,WH.casing.tubing,lo,Sensor dropout,Tag lost 4 samples; instrument comms flagged,cleared
+2026-09-16T02:30,AL.pj,lo,Sensor dropout,Tag lost 4 samples; instrument comms flagged,cleared
+2026-09-16T02:30,AL.pj.motor,lo,Sensor dropout,Tag lost 4 samples; instrument comms flagged,cleared
+2026-09-15T23:30,AL.esp.pump,lo,Level oscillation,Interface level cycling +/-6%; controller tuning,cleared
+2026-09-15T09:30,FL.manifold,lo,Level oscillation,Interface level cycling +/-6%; controller tuning,cleared
+2026-09-14T07:30,SP.lp,lo,Level oscillation,Interface level cycling +/-6%; controller tuning,cleared
+2026-09-16T03:30,SP.ht.shell,lo,Level oscillation,Interface level cycling +/-6%; controller tuning,cleared
+2026-09-16T10:30,SP.scrub,lo,Level oscillation,Interface level cycling +/-6%; controller tuning,cleared
+2026-09-16T12:36,ST.oil,hi,Vibration 2.1x baseline,Drive-end bearing envelope energy rising; pattern matches 3 prior failures in fleet history,open
+2026-09-15T01:30,ST.oil.t1,lo,Level oscillation,Interface level cycling +/-6%; controller tuning,cleared
+2026-09-16T14:01,ST.vru,md,Pressure drift,Differential pressure trending up 8% per day; fouling suspected,open
+2026-09-14T03:30,ST.vru,lo,Sensor dropout,Tag lost 4 samples; instrument comms flagged,cleared
+2026-09-16T13:48,FR.ko,md,Temperature excursion,Outlet exceeded the warning band for 11 min; cooling duty short,open
+2026-09-13T21:30,FR.header,lo,Sensor dropout,Tag lost 4 samples; instrument comms flagged,cleared
+2026-09-14T14:30,UT.site,lo,Level oscillation,Interface level cycling +/-6%; controller tuning,cleared
+2026-09-14T13:30,UT.site.pad,lo,Level oscillation,Interface level cycling +/-6%; controller tuning,cleared
+2026-09-15T06:30,UT.site.lights,lo,Level oscillation,Interface level cycling +/-6%; controller tuning,cleared

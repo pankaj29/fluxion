@@ -1,0 +1,66 @@
+node,score,trend,rul_component,rul_days,rul_p10,rul_p90
+WH.a,80,improving,packing,351,228,526
+WH.a.casinghead,88,stable,brake pads,253,164,379
+WH.a.tubinghead,88,improving,seal,379,246,568
+WH.a.tree,89,stable,catalyst,112,72,168
+WH.a.stuffing,87,improving,packing,323,209,484
+WH.a.cellar,92,stable,seal,241,156,361
+WH.b,93,improving,brake pads,116,75,174
+WH.b.head,86,stable,refractory,355,230,532
+WH.b.tree,82,stable,catalyst,323,209,484
+WH.b.cellar,96,stable,brake pads,238,154,357
+WH.casing,94,stable,coupling,376,244,564
+WH.casing.surface,83,improving,bearing,126,81,189
+WH.casing.prod,81,improving,coupling,330,214,495
+WH.casing.tubing,70,improving,bearing,270,175,405
+AL.pj,91,improving,brake pads,167,108,250
+AL.pj.base,92,stable,brake pads,334,217,501
+AL.pj.beam,87,stable,packing,274,178,411
+AL.pj.horsehead,78,improving,seal,176,114,264
+AL.pj.crank,93,improving,seal,307,199,460
+AL.pj.reducer,88,improving,brake pads,213,138,319
+AL.pj.motor,82,improving,refractory,342,222,513
+AL.rods,97,stable,coupling,172,111,258
+AL.esp,90,stable,filter element,381,247,571
+AL.esp.vsd,94,stable,packing,204,132,306
+AL.esp.jbox,99,stable,brake pads,282,183,423
+AL.esp.cable,91,stable,filter element,216,140,324
+AL.esp.pump,99,stable,refractory,203,131,304
+FL.line_a,89,improving,gasket,334,217,501
+FL.line_b,86,stable,coupling,135,87,202
+FL.manifold,92,improving,gasket,156,101,234
+FL.esd,96,improving,refractory,311,202,466
+FL.pig,87,stable,filter element,263,170,394
+FL.chem,90,improving,impeller,158,102,237
+FL.rack,85,stable,filter element,168,109,252
+SP.hp,79,improving,seal,298,193,447
+SP.lp,82,improving,packing,179,116,268
+SP.test,82,stable,catalyst,320,208,480
+SP.ht,99,improving,seal,144,93,216
+SP.ht.shell,87,stable,catalyst,363,235,544
+SP.ht.burner,94,improving,packing,385,250,577
+SP.ht.stack,93,stable,seal,334,217,501
+SP.scrub,83,improving,brake pads,280,182,420
+SP.pumps,71,stable,brake pads,234,152,351
+ST.oil,52,declining,seal,30,19,45
+ST.oil.t1,96,stable,catalyst,257,167,385
+ST.oil.t2,95,improving,brake pads,160,104,240
+ST.oil.t3,82,improving,refractory,344,223,516
+ST.oil.t4,98,stable,catalyst,248,161,372
+ST.water,81,stable,filter element,265,172,397
+ST.lact,84,improving,refractory,328,213,492
+ST.vru,70,declining,bearing,30,19,45
+ST.loading,70,improving,packing,162,105,243
+ST.bund,85,improving,coupling,115,74,172
+FR.stack,86,stable,packing,256,166,384
+FR.ko,61,declining,catalyst,25,16,37
+FR.header,83,stable,packing,161,104,241
+FR.ffg,75,stable,seal,207,134,310
+UT.gen,84,stable,coupling,298,193,447
+UT.mcc,91,stable,filter element,399,259,598
+UT.air,84,stable,catalyst,264,171,396
+UT.chem,94,improving,gasket,369,239,553
+UT.site,86,improving,refractory,351,228,526
+UT.site.pad,82,stable,packing,396,257,594
+UT.site.fence,86,stable,impeller,152,98,228
+UT.site.lights,92,stable,coupling,99,64,148

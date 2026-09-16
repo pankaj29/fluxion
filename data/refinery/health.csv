@@ -1,0 +1,59 @@
+node,score,trend,rul_component,rul_days,rul_p10,rul_p90
+CR.tanks,87,improving,impeller,214,139,321
+CR.tanks.t1,90,improving,packing,93,60,139
+CR.tanks.t2,88,stable,refractory,228,148,342
+CR.tanks.t3,81,stable,packing,100,65,150
+CR.pumps,88,stable,impeller,254,165,381
+CR.preheat,88,stable,seal,107,69,160
+CR.desalter,74,improving,brake pads,301,195,451
+CR.meter,69,declining,refractory,51,33,76
+CD.furnace,86,stable,filter element,210,136,315
+CD.cdu,77,stable,refractory,316,205,474
+CD.strippers,64,declining,seal,23,14,34
+CD.overhead,83,improving,packing,144,93,216
+CD.vfurnace,87,stable,gasket,199,129,298
+CD.vdu,85,stable,coupling,289,187,433
+CD.ejectors,90,improving,seal,115,74,172
+CV.fcc,89,stable,catalyst,275,178,412
+CV.fcc.riser,85,stable,gasket,328,213,492
+CV.fcc.regen,86,stable,seal,121,78,181
+CV.fcc.stripper,83,improving,refractory,219,142,328
+CV.fcc_frac,89,improving,impeller,350,227,525
+CV.hcu,67,declining,refractory,30,19,45
+CV.hcu_comp,79,improving,packing,385,250,577
+CV.coker,63,declining,bearing,51,33,76
+CV.coker_frac,88,stable,filter element,176,114,264
+CV.coker_furnace,82,improving,impeller,115,74,172
+CV.cokepit,76,declining,packing,29,18,43
+HT.nht,49,declining,brake pads,54,35,81
+HT.dht,62,declining,impeller,55,35,82
+HT.amine,79,stable,refractory,111,72,166
+HT.sru,92,stable,gasket,197,128,295
+HT.h2,91,stable,impeller,118,76,177
+HT.sws,93,improving,seal,339,220,508
+RF.reactors,65,declining,packing,32,20,48
+RF.regen,60,declining,impeller,46,29,69
+RF.furnaces,78,stable,seal,101,65,151
+RF.stab,78,stable,brake pads,327,212,490
+RF.isom,78,improving,coupling,194,126,291
+RF.alky,68,declining,bearing,33,21,49
+BL.gasoline,87,improving,catalyst,326,211,489
+BL.gasoline.t1,92,improving,catalyst,281,182,421
+BL.gasoline.t2,68,declining,refractory,54,35,81
+BL.gasoline.t3,82,stable,refractory,264,171,396
+BL.diesel,95,improving,packing,307,199,460
+BL.diesel.t1,89,improving,refractory,210,136,315
+BL.diesel.t2,90,stable,packing,221,143,331
+BL.diesel.t3,95,stable,filter element,277,180,415
+BL.jet,71,declining,gasket,20,13,30
+BL.blender,99,improving,catalyst,187,121,280
+BL.loading,84,improving,catalyst,270,175,405
+BL.pipeline,99,stable,packing,388,252,582
+UT.boilers,88,stable,bearing,296,192,444
+UT.cogen,89,improving,gasket,382,248,573
+UT.cooling,87,improving,seal,171,111,256
+UT.flare,79,improving,seal,373,242,559
+UT.substation,89,stable,filter element,117,76,175
+UT.wwt,78,improving,catalyst,197,128,295
+UT.control,99,stable,gasket,113,73,169
+UT.rack,88,stable,gasket,302,196,453

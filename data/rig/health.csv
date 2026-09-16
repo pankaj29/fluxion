@@ -1,0 +1,176 @@
+node,score,trend,rul_component,rul_days,rul_p10,rul_p90
+HS.crown,88,improving,impeller,390,253,585
+HS.crown.sheaves,84,improving,seal,361,234,541
+HS.crown.frame,96,improving,filter element,277,180,415
+HS.crown.fastline,84,stable,catalyst,135,87,202
+HS.crown.bumper,91,improving,coupling,347,225,520
+HS.crown.platform,85,stable,filter element,397,258,595
+HS.anchor,61,declining,refractory,40,26,60
+HS.anchor.drum,90,stable,seal,354,230,531
+HS.anchor.sensor,73,declining,brake pads,44,28,66
+HS.anchor.reel,85,stable,refractory,277,180,415
+HS.dw,92,stable,brake pads,109,70,163
+HS.dw.drum,87,improving,brake pads,120,78,180
+HS.dw.motors,55,declining,gasket,22,14,33
+HS.dw.gearbox,85,improving,impeller,135,87,202
+HS.dw.brake,94,improving,refractory,354,230,531
+HS.dw.skid,77,declining,packing,32,20,48
+HS.dw.encoder,88,improving,gasket,115,74,172
+HS.line,87,improving,brake pads,145,94,217
+HS.line.fast,95,improving,coupling,228,148,342
+HS.line.reeved,90,improving,bearing,143,92,214
+HS.line.dead,76,improving,packing,183,118,274
+HS.elev,78,improving,impeller,364,236,546
+HS.elev.links,95,stable,refractory,327,212,490
+HS.elev.elevator,86,improving,seal,101,65,151
+HS.hook,86,improving,bearing,399,259,598
+HS.hook.body,81,stable,brake pads,348,226,522
+HS.hook.latch,91,improving,gasket,120,78,180
+HS.mast,79,stable,filter element,172,111,258
+HS.mast.legs,90,stable,filter element,399,259,598
+HS.mast.girts,82,improving,seal,283,183,424
+HS.mast.braces,86,stable,catalyst,190,123,285
+HS.mast.racking,83,improving,seal,218,141,327
+HS.mast.ladder,82,stable,refractory,261,169,391
+HS.mast.raising,78,stable,gasket,245,159,367
+HS.tb,92,stable,bearing,394,256,591
+HS.tb.sheaves,87,stable,brake pads,175,113,262
+HS.tb.shell,88,improving,impeller,373,242,559
+HS.tb.becket,93,improving,gasket,208,135,312
+RS.rt,80,stable,seal,97,63,145
+RS.rt.table,89,improving,coupling,291,189,436
+RS.rt.slips,97,stable,seal,283,183,424
+RS.rt.drive,61,declining,catalyst,24,15,36
+RS.rt.lock,84,stable,coupling,217,141,325
+RS.td,89,stable,seal,122,79,183
+RS.td.motor,90,improving,filter element,320,208,480
+RS.td.gearbox,81,improving,bearing,290,188,435
+RS.td.quill,91,improving,coupling,152,98,228
+RS.td.swivel,85,stable,seal,144,93,216
+RS.td.handler,86,stable,seal,314,204,471
+RS.td.dolly,86,stable,brake pads,196,127,294
+RS.td.ibop,97,improving,catalyst,111,72,166
+CS.pumps,81,improving,packing,306,198,459
+CS.pumps.p1,99,stable,bearing,229,148,343
+CS.pumps.p2,97,improving,bearing,353,229,529
+CS.pumps.charge,98,improving,bearing,389,252,583
+CS.pumps.dampener,89,stable,packing,243,157,364
+CS.pumps.relief,86,stable,catalyst,320,208,480
+CS.tanks,44,declining,gasket,48,31,72
+CS.tanks.t1,93,improving,catalyst,129,83,193
+CS.tanks.t2,88,improving,coupling,169,109,253
+CS.tanks.t3,87,stable,packing,241,156,361
+CS.tanks.trip,97,improving,refractory,298,193,447
+CS.tanks.agit,93,stable,impeller,149,96,223
+CS.solids,80,improving,brake pads,267,173,400
+CS.solids.shakers,89,stable,catalyst,264,171,396
+CS.solids.degasser,63,declining,gasket,50,32,75
+CS.solids.desander,94,improving,packing,135,87,202
+CS.solids.desilter,79,improving,coupling,276,179,414
+CS.solids.centrifuge,88,improving,impeller,305,198,457
+CS.standpipe,89,improving,gasket,183,118,274
+CS.standpipe.pipe,95,improving,bearing,137,89,205
+CS.standpipe.manifold,92,stable,filter element,245,159,367
+CS.standpipe.hose,87,stable,refractory,103,66,154
+CS.standpipe.gooseneck,86,stable,seal,227,147,340
+CS.return,88,improving,coupling,132,85,198
+CS.return.bell,64,declining,impeller,35,22,52
+CS.return.flowline,95,improving,bearing,141,91,211
+CS.return.possum,86,improving,bearing,262,170,393
+CS.mgs,68,declining,brake pads,50,32,75
+CS.mgs.vessel,88,improving,refractory,233,151,349
+CS.mgs.vent,91,stable,packing,321,208,481
+CS.mgs.seal,94,stable,packing,366,237,549
+WC.bop,77,improving,packing,141,91,211
+WC.bop.annular,85,improving,bearing,97,63,145
+WC.bop.pipe1,61,declining,catalyst,38,24,57
+WC.bop.shear,85,stable,brake pads,217,141,325
+WC.bop.pipe2,91,improving,packing,214,139,321
+WC.bop.spool,63,declining,bearing,47,30,70
+WC.bop.hcr,99,improving,catalyst,382,248,573
+WC.acc,64,declining,seal,40,26,60
+WC.acc.bottles,94,stable,bearing,270,175,405
+WC.acc.pumps,89,improving,seal,286,185,429
+WC.acc.manifold,99,stable,gasket,376,244,564
+WC.acc.remote,86,improving,packing,366,237,549
+WC.choke,85,stable,brake pads,119,77,178
+WC.choke.hydraulic,86,stable,filter element,113,73,169
+WC.choke.manual,83,stable,filter element,244,158,366
+WC.choke.valves,68,declining,brake pads,40,26,60
+WC.choke.panel,92,stable,bearing,392,254,588
+WC.lines,85,stable,impeller,134,87,201
+WC.lines.choke,85,improving,bearing,132,85,198
+WC.lines.kill,92,improving,bearing,154,100,231
+WC.wellhead,84,stable,gasket,378,245,567
+WC.wellhead.head,91,stable,bearing,275,178,412
+WC.wellhead.conductor,81,stable,brake pads,123,79,184
+WC.wellhead.surface,85,improving,bearing,386,250,579
+WC.wellhead.intermediate,83,improving,seal,94,61,141
+WC.wellhead.cement,86,stable,catalyst,146,94,219
+WC.wellhead.openhole,87,improving,seal,315,204,472
+PS.gen,94,improving,gasket,260,169,390
+PS.gen.g1,95,improving,bearing,127,82,190
+PS.gen.g2,86,stable,bearing,287,186,430
+PS.gen.g3,86,stable,refractory,319,207,478
+PS.gen.exhaust,96,improving,impeller,217,141,325
+PS.gen.radiators,92,improving,coupling,267,173,400
+PS.vfd,93,improving,gasket,387,251,580
+PS.vfd.drives,83,improving,brake pads,370,240,555
+PS.vfd.switchgear,79,stable,packing,311,202,466
+PS.vfd.resistors,52,declining,impeller,21,13,31
+PS.vfd.plc,90,improving,seal,275,178,412
+PS.fuel,90,improving,coupling,132,85,198
+PS.fuel.bulk,83,improving,brake pads,395,256,592
+PS.fuel.day,85,stable,impeller,108,70,162
+PS.fuel.transfer,81,improving,catalyst,199,129,298
+PS.cables,82,stable,impeller,105,68,157
+PS.cables.tray,74,declining,filter element,45,29,67
+PS.cables.mcc,74,declining,catalyst,21,13,31
+PS.cables.lighting,88,improving,filter element,365,237,547
+PS.air,82,improving,packing,383,248,574
+PS.air.compressor,79,stable,catalyst,346,224,519
+PS.air.receiver,86,stable,catalyst,349,226,523
+PS.air.dryer,73,declining,refractory,36,23,54
+DS.pipe,86,improving,filter element,272,176,408
+DS.pipe.string,96,stable,catalyst,101,65,151
+DS.pipe.setback,56,declining,filter element,54,35,81
+DS.pipe.saver,99,improving,gasket,330,214,495
+DS.hwdp,86,stable,refractory,203,131,304
+DS.hwdp.joints,88,stable,gasket,357,232,535
+DS.bha,81,improving,impeller,184,119,276
+DS.bha.collars,90,stable,bearing,389,252,583
+DS.bha.stab,89,improving,impeller,361,234,541
+DS.bha.motor,93,improving,packing,357,232,535
+DS.bha.mwd,90,stable,bearing,211,137,316
+DS.bha.jar,69,declining,packing,50,32,75
+DS.bit,96,improving,filter element,148,96,222
+DS.bit.body,82,stable,packing,243,157,364
+DS.bit.cutters,83,improving,filter element,279,181,418
+DS.bit.nozzles,87,improving,coupling,387,251,580
+SS.sub,81,stable,coupling,355,230,532
+SS.sub.columns,87,stable,filter element,168,109,252
+SS.sub.beams,86,stable,impeller,367,238,550
+SS.sub.cellar,86,stable,coupling,240,156,360
+SS.sub.stairs,96,improving,filter element,376,244,564
+SS.floor,62,declining,catalyst,31,20,46
+SS.floor.deck,84,improving,gasket,227,147,340
+SS.floor.rails,82,improving,catalyst,233,151,349
+SS.floor.vdoor,65,declining,packing,35,22,52
+SS.floor.setback,99,stable,brake pads,153,99,229
+SS.floor.tongs,89,improving,gasket,242,157,363
+SS.cabin,76,stable,gasket,175,113,262
+SS.cabin.shell,80,improving,brake pads,222,144,333
+SS.cabin.console,94,stable,bearing,275,178,412
+SS.cabin.hmi,85,stable,gasket,261,169,391
+SS.pipe,89,stable,refractory,203,131,304
+SS.pipe.catwalk,87,improving,impeller,108,70,162
+SS.pipe.ramp,81,improving,impeller,350,227,525
+SS.pipe.racks,89,stable,filter element,337,219,505
+SS.pipe.tubulars,99,improving,packing,192,124,288
+SS.site,86,stable,filter element,226,146,339
+SS.site.pad,92,stable,filter element,134,87,201
+SS.site.office,92,stable,filter element,168,109,252
+SS.site.workshop,80,improving,seal,262,170,393
+SS.site.store,97,stable,catalyst,307,199,460
+SS.site.flag,84,stable,seal,156,101,234
+SS.site.loader,82,stable,coupling,306,198,459

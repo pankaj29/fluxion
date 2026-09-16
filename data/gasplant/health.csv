@@ -1,0 +1,51 @@
+node,score,trend,rul_component,rul_days,rul_p10,rul_p90
+IN.slug,68,declining,bearing,56,36,84
+IN.sep,93,stable,impeller,216,140,324
+IN.filter,66,declining,catalyst,50,32,75
+IN.meter,80,improving,packing,127,82,190
+IN.esd,99,improving,refractory,94,61,141
+IN.pig,91,improving,filter element,116,75,174
+CP.k1,94,stable,refractory,288,187,432
+CP.k2,96,stable,brake pads,144,93,216
+CP.cooler,87,stable,coupling,215,139,322
+CP.scrub,83,improving,brake pads,101,65,151
+SW.absorber,74,stable,coupling,287,186,430
+SW.regen,94,stable,refractory,257,167,385
+SW.reboiler,84,improving,bearing,230,149,345
+SW.flash,87,stable,brake pads,312,202,468
+SW.exch,90,stable,bearing,150,97,225
+SW.cooler,78,improving,filter element,220,143,330
+SW.pumps,83,stable,filter element,90,58,135
+SW.acidgas,78,stable,coupling,276,179,414
+DH.contactor,93,improving,bearing,275,178,412
+DH.regen,79,improving,filter element,269,174,403
+DH.flash,99,stable,filter element,126,81,189
+DH.filters,93,improving,catalyst,268,174,402
+DH.pumps,87,improving,seal,145,94,217
+DH.sieve,89,improving,coupling,155,100,232
+NG.coldbox,86,stable,refractory,160,104,240
+NG.expander,74,declining,catalyst,52,33,78
+NG.demeth,90,stable,packing,211,137,316
+NG.reboilers,86,improving,coupling,392,254,588
+NG.jt,98,improving,brake pads,105,68,157
+NG.chiller,85,stable,bearing,334,217,501
+FX.deeth,86,improving,seal,380,247,570
+FX.deprop,89,stable,coupling,297,193,445
+FX.debut,76,improving,filter element,324,210,486
+FX.reboilers,92,stable,packing,392,254,588
+FX.condensers,88,improving,packing,353,229,529
+FX.bullets,98,improving,seal,333,216,499
+FX.spheres,83,stable,gasket,183,118,274
+FX.loading,92,improving,seal,256,166,384
+RC.k,86,improving,refractory,286,185,429
+RC.cooler,88,stable,catalyst,395,256,592
+RC.meter,95,stable,filter element,385,250,577
+RC.esd,87,improving,coupling,179,116,268
+UT.flare,91,improving,impeller,255,165,382
+UT.ko,90,improving,bearing,204,132,306
+UT.hotoil,97,stable,filter element,128,83,192
+UT.air,80,improving,gasket,331,215,496
+UT.power,94,improving,gasket,310,201,465
+UT.fire,88,improving,filter element,370,240,555
+UT.control,83,stable,impeller,177,115,265
+UT.rack,93,stable,bearing,332,215,498

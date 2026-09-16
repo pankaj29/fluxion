@@ -1,0 +1,43 @@
+node,score,trend,rul_component,rul_days,rul_p10,rul_p90
+PT.inlet,93,stable,filter element,231,150,346
+PT.amine,94,stable,filter element,259,168,388
+PT.dehy,92,stable,impeller,348,226,522
+PT.hg,86,stable,gasket,365,237,547
+PT.scrub,73,declining,brake pads,20,13,30
+LQ.t1,67,declining,bearing,44,28,66
+LQ.t1.c3,81,improving,filter element,101,65,151
+LQ.t1.mr,90,stable,bearing,310,201,465
+LQ.t1.chillers,86,stable,packing,167,108,250
+LQ.t1.mche,66,declining,bearing,39,25,58
+LQ.t1.coolers,86,improving,refractory,224,145,336
+LQ.t1.flash,82,improving,bearing,118,76,177
+LQ.t2,78,stable,seal,307,199,460
+LQ.t2.comp,96,stable,brake pads,241,156,361
+LQ.t2.chillers,78,stable,packing,370,240,555
+LQ.t2.mche,83,stable,coupling,277,180,415
+LQ.t2.coolers,92,stable,impeller,278,180,417
+LQ.t2.flash,61,declining,seal,24,15,36
+SG.t1,89,stable,brake pads,244,158,366
+SG.t2,84,stable,filter element,383,248,574
+SG.pumps,93,stable,coupling,289,187,433
+SG.bog,87,stable,bearing,298,193,447
+JT.trestle,96,improving,refractory,161,104,241
+JT.platform,87,improving,filter element,304,197,456
+JT.arms,93,improving,bearing,214,139,321
+JT.dolphins,82,improving,impeller,235,152,352
+JT.carrier,92,stable,impeller,265,172,397
+JT.control,89,improving,coupling,337,219,505
+BG.comp,62,declining,brake pads,47,30,70
+BG.recond,95,stable,bearing,215,139,322
+BG.fuel,83,stable,coupling,137,89,205
+RF.propane,87,improving,gasket,91,59,136
+RF.ethylene,79,stable,filter element,148,96,222
+RF.n2,85,stable,coupling,154,100,231
+RF.makeup,90,stable,catalyst,155,100,232
+UT.dryflare,94,improving,filter element,277,180,415
+UT.wetflare,90,improving,impeller,359,233,538
+UT.power,85,stable,seal,108,70,162
+UT.fire,84,improving,refractory,151,98,226
+UT.intake,85,stable,seal,262,170,393
+UT.control,91,improving,catalyst,254,165,381
+UT.rack,86,improving,gasket,360,234,540

@@ -1,0 +1,14 @@
+ts,node,severity,title,detail,status
+2026-09-16T13:46,IN.slug,md,Pressure drift,Differential pressure trending up 8% per day; fouling suspected,investigating
+2026-09-16T13:42,IN.filter,hi,Vibration 2.1x baseline,Drive-end bearing envelope energy rising; pattern matches 3 prior failures in fleet history,investigating
+2026-09-14T03:30,IN.esd,lo,Sensor dropout,Tag lost 4 samples; instrument comms flagged,cleared
+2026-09-15T23:30,IN.pig,lo,Sensor dropout,Tag lost 4 samples; instrument comms flagged,cleared
+2026-09-14T17:30,CP.cooler,lo,Sensor dropout,Tag lost 4 samples; instrument comms flagged,cleared
+2026-09-14T00:30,DH.contactor,lo,Sensor dropout,Tag lost 4 samples; instrument comms flagged,cleared
+2026-09-13T19:30,DH.filters,lo,Level oscillation,Interface level cycling +/-6%; controller tuning,cleared
+2026-09-16T12:43,NG.expander,md,Temperature excursion,Outlet exceeded the warning band for 11 min; cooling duty short,investigating
+2026-09-13T23:30,NG.reboilers,lo,Sensor dropout,Tag lost 4 samples; instrument comms flagged,cleared
+2026-09-15T19:30,FX.reboilers,lo,Sensor dropout,Tag lost 4 samples; instrument comms flagged,cleared
+2026-09-14T12:30,FX.loading,lo,Level oscillation,Interface level cycling +/-6%; controller tuning,cleared
+2026-09-14T03:30,UT.air,lo,Sensor dropout,Tag lost 4 samples; instrument comms flagged,cleared
+2026-09-14T03:30,UT.control,lo,Sensor dropout,Tag lost 4 samples; instrument comms flagged,cleared
