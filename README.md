@@ -1,4 +1,4 @@
-# Drilling Rig Explorer
+# Rigsight — Drilling Rig Explorer
 
 Self-contained 3D rig explorer (three.js r128). No build step, no server needed.
 
@@ -13,6 +13,9 @@ If you prefer a local server (avoids any file:// quirks):
 ## Files
 - index.html      the whole app: styles, hierarchy data, 3D scene, UI
 - vendor/three.min.js  three.js r128 (bundled so it runs offline)
+- vendor/lottie.min.js lottie-web 5.12.2 (loading-screen animation, offline)
+- assets/icons/   system icons (IconScout, licensed under subscription)
+- assets/lottie/  loading animation (IconScout, recolored to house palette)
 
 Fonts (Inter, JetBrains Mono) load from Google Fonts when online and fall back
 to system fonts when offline.
