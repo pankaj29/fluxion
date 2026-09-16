@@ -647,14 +647,15 @@ canvas{display:block;width:100%;height:100%;outline:none;position:relative;z-ind
  .labels .lbl:not(.sel):not(.map){display:none}
  .lbl.map{min-width:120px;font-size:11px;padding:6px 8px}
  .landing .fold{height:auto;min-height:100dvh;display:flex;flex-direction:column;gap:18px;padding:74px 20px calc(14px + env(safe-area-inset-bottom,0px));box-sizing:border-box}
- .hero{position:static;max-width:none}
+ .hero{position:relative;z-index:1;max-width:none}
+ .landing .ask,.rail{position:relative;z-index:1}
  .hero h1{font-size:clamp(28px,8.5vw,40px);letter-spacing:-1.4px}
  .hero p{font-size:13.5px;margin-top:12px}
  .hero .cta{margin-top:16px;flex-wrap:wrap}
  .landing .stats{display:none}
- .landing .ask{position:static;width:auto;margin-top:auto;font-size:12.5px;padding:9px 12px}
+ .landing .ask{width:auto;margin-top:auto;font-size:12.5px;padding:9px 12px}
  .landing .ask span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
- .rail{position:static;margin:0 -10px;display:flex;overflow-x:auto;gap:6px;padding:8px;scrollbar-width:none}
+ .rail{margin:0 -10px;display:flex;overflow-x:auto;gap:6px;padding:8px;scrollbar-width:none}
  .rail div{flex:0 0 150px}
  .landing .fold::after{display:none}
  .testi{padding:60px 20px 30px}
