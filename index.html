@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rigsight — Drilling Rig Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d1324; --bg-2:#121a30; --bg-3:#182140; --line:#232d4d; --line-2:#2f3a5f;
+  --text:#e6eaf5; --text-2:#aab3cc; --text-3:#7a86a8;
+  --accent:#8b5cf6; --accent-2:#c084fc; --accent-soft:rgba(139,92,246,.18);
+  --warn:#f5c451; --ok:#3ecf8e; --danger:#f0655d;
+  --sans:'Inter',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --nav-w:430px; --insp-w:470px; --radius:14px;
+}
+:root:not([data-theme="light"]){color-scheme:dark}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){color-scheme:dark}}
+:root[data-theme="dark"]{color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.45;overflow:hidden;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+input{font:inherit}
+a{color:var(--accent-2)}
+kbd{font-family:var(--mono);font-size:11px;padding:1px 6px;border:1px solid var(--line-2);border-radius:6px;background:var(--bg-3);color:var(--text-2);vertical-align:middle}
+.app{display:grid;grid-template-columns:var(--nav-w) 1fr var(--insp-w);height:100%;width:100%;transition:grid-template-columns .25s ease}
+.app.nav-off{grid-template-columns:0 1fr var(--insp-w)}
+.app.insp-off{grid-template-columns:var(--nav-w) 1fr 0}
+.app.nav-off.insp-off,.app.full{grid-template-columns:0 1fr 0}
+
+/* ---------- Navigator ---------- */
+.nav{background:var(--bg);border-right:1px solid var(--line);display:flex;flex-direction:column;min-width:0;overflow:hidden}
+.nav-head{padding:18px 18px 8px;position:relative}
+.brand{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#171c39,#141a33);padding:12px 40px 12px 44px;border-radius:12px}
+.brand-name{font-size:34px;font-weight:800;letter-spacing:-.5px;line-height:1}
+.brand-name b{background:linear-gradient(90deg,#8b5cf6,#c084fc);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
+.nav-sub{color:var(--text-2);margin-top:12px;font-size:15px}
+.collapse-btn{position:absolute;right:18px;top:26px;color:var(--text-2);width:34px;height:34px;border-radius:10px;display:grid;place-items:center}
+.collapse-btn:hover,.icon-btn:hover{background:var(--bg-3);color:var(--text)}
+.search{margin:14px 18px 0;position:relative}
+.search input{width:100%;background:var(--bg-2);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px 14px 12px 42px;outline:none}
+.search input:focus{border-color:var(--accent)}
+.search svg{position:absolute;left:14px;top:13px;color:var(--text-3)}
+.nav-title{display:flex;justify-content:space-between;align-items:center;padding:20px 18px 6px;font-size:13px;letter-spacing:.14em;color:#a78bfa;font-weight:600;text-transform:uppercase}
+.nav-title button{color:var(--text-2);font-size:14px;letter-spacing:0;text-transform:none;font-weight:500}
+.nav-title button:hover{color:var(--text)}
+.tree{flex:1;overflow:auto;padding:4px 10px 12px 18px;scrollbar-width:thin;scrollbar-color:var(--line-2) transparent}
+.sys{margin:8px 0;border-radius:var(--radius);border:1px solid transparent}
+.sys-row{display:flex;align-items:center;gap:16px;padding:12px 14px;border-radius:var(--radius);cursor:pointer;transition:background .15s}
+.sys-row:hover{background:var(--bg-2)}
+.sys.selected>.sys-row{background:linear-gradient(90deg,rgba(139,92,246,.28),rgba(139,92,246,.10));border:1px solid rgba(139,92,246,.55)}
+.sys-icon{width:50px;height:50px;border-radius:12px;background:var(--bg-2);border:1px solid var(--line-2);display:grid;place-items:center;color:#a78bfa;flex:none}
+.sys-icon svg{width:22px;height:22px}
+.sys-txt{flex:1;min-width:0}
+.sys-name{font-weight:700;font-size:18px}
+.sys-meta{color:var(--text-2);font-size:14px;margin-top:2px}
+.sys-chev{color:var(--text-2);transition:transform .2s}
+.sys.open>.sys-row .sys-chev{transform:rotate(90deg)}
+.kids{display:none;padding:2px 0 8px 22px;border-left:1px solid var(--line);margin-left:24px}
+.sys.open>.kids{display:block}
+.row{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;cursor:pointer;color:var(--text-2);font-size:17px}
+.row:hover{background:var(--bg-2);color:var(--text)}
+.row.selected{background:var(--accent-soft);color:var(--text)}
+.row .chev{width:16px;color:var(--text-3);font-size:12px;transition:transform .2s;flex:none}
+.node.open>.row .chev{transform:rotate(90deg)}
+.node>.kids2{display:none;padding-left:18px;border-left:1px solid var(--line);margin-left:16px}
+.node.open>.kids2{display:block}
+.row .no3d{margin-left:auto;font-size:11px;color:var(--text-3);font-family:var(--mono)}
+.nav-foot{padding:12px 18px 16px;border-top:1px solid var(--line)}
+.rig-card{display:flex;gap:14px;align-items:center;background:var(--bg-2);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.rig-card .sys-icon{width:44px;height:44px}
+.rig-card b{display:block;font-size:17px}
+.rig-card span{font-family:var(--mono);font-size:13px;color:var(--text-2)}
+.foot-btns{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.foot-btns button{padding:12px;border-radius:12px;background:var(--bg-2);border:1px solid var(--line);font-weight:600;font-size:16px}
+.foot-btns button:hover{border-color:var(--line-2);background:var(--bg-3)}
+.search-results{padding:6px 18px;flex:1;overflow:auto}
+.search-results .row{font-size:15px}
+.search-results .path{display:block;font-size:12px;color:var(--text-3);margin-left:26px;margin-top:-4px}
+.empty{color:var(--text-3);padding:20px 18px}
+
+/* ---------- Viewport ---------- */
+.view{position:relative;min-width:0;background:linear-gradient(#2f6fbf 0%,#5f9be0 22%,#9fc3ea 46%,#c9a97a 60%,#c9a97a 100%);overflow:hidden}
+canvas{display:block;width:100%;height:100%;outline:none}
+.chips{position:absolute;top:14px;right:16px;display:flex;gap:8px;z-index:3}
+.chip{display:flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;background:rgba(13,19,36,.86);border:1px solid var(--line-2);font-weight:700;font-size:15px;color:var(--text);backdrop-filter:blur(6px)}
+.chip i{width:6px;height:6px;border-radius:50%;background:var(--text-2);display:inline-block}
+.chip:hover{border-color:var(--accent)}
+.chip.active{border-color:var(--accent);background:rgba(139,92,246,.35)}
+.toolbar{position:absolute;left:50%;bottom:52px;transform:translateX(-50%);display:flex;gap:4px;padding:8px 12px;border-radius:14px;background:rgba(13,19,36,.88);border:1px solid var(--line-2);backdrop-filter:blur(8px);z-index:3;white-space:nowrap}
+.toolbar button{display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:10px;font-weight:600;font-size:16px}
+.toolbar button:hover{background:var(--bg-3)}
+.toolbar button.active{background:var(--accent-soft);color:#e9dcff}
+.toolbar button:disabled{opacity:.35;cursor:default}
+.toolbar .sep{width:1px;background:var(--line-2);margin:6px 6px}
+.caption{position:absolute;left:0;right:0;bottom:0;padding:9px 22px;background:rgba(13,19,36,.92);color:var(--text);font-size:16px;z-index:3;display:flex;justify-content:space-between}
+.caption span{color:var(--text-3);font-size:13px;font-family:var(--mono)}
+.tip{position:absolute;pointer-events:none;background:rgba(13,19,36,.92);border:1px solid var(--line-2);border-radius:8px;padding:5px 10px;font-size:13px;z-index:4;display:none;white-space:nowrap}
+.loading{position:absolute;inset:0;display:grid;place-items:center;background:var(--bg);z-index:10;color:var(--text-2);font-size:15px;transition:opacity .4s}
+.loading.done{opacity:0;pointer-events:none}
+.panel-reveal{position:absolute;top:14px;z-index:3;width:36px;height:36px;border-radius:10px;background:rgba(13,19,36,.86);border:1px solid var(--line-2);display:none;place-items:center;color:var(--text-2)}
+.panel-reveal.left{left:14px}.panel-reveal.right{right:14px}
+.app.nav-off .panel-reveal.left,.app.insp-off .panel-reveal.right{display:grid}
+.app.nav-off .panel-reveal.right{right:14px}
+.app.full .panel-reveal{display:none}
+.mode-badge{position:absolute;top:14px;left:16px;z-index:3;display:flex;gap:8px}
+.app.nav-off .mode-badge{left:60px}
+.badge{padding:6px 12px;border-radius:999px;background:rgba(13,19,36,.86);border:1px solid var(--line-2);font-size:13px;color:var(--text-2);display:none}
+.badge.on{display:block}
+
+/* ---------- Inspector ---------- */
+.insp{background:var(--bg);border-left:1px solid var(--line);display:flex;flex-direction:column;min-width:0;overflow:hidden}
+.insp-head{display:flex;justify-content:space-between;align-items:center;padding:20px 24px 12px;border-bottom:1px solid var(--line)}
+.insp-head h3{margin:0;font-size:13px;letter-spacing:.14em;color:#a78bfa;font-weight:600;text-transform:uppercase}
+.icon-btn{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:var(--text-2)}
+.insp-body{flex:1;overflow:auto;padding:18px 24px 40px;scrollbar-width:thin;scrollbar-color:var(--line-2) transparent}
+.insp-empty{text-align:center;padding:90px 20px 0;color:var(--text-2)}
+.insp-empty .cube{width:74px;height:74px;border-radius:16px;background:var(--bg-2);border:1px solid var(--line-2);display:grid;place-items:center;margin:0 auto 22px;color:#a78bfa}
+.insp-empty h2{color:var(--text);font-size:22px;margin:0 0 12px}
+.crumb{display:flex;align-items:center;gap:10px;flex-wrap:wrap;color:var(--text-2);font-size:15px}
+.crumb .dot{width:8px;height:8px;border-radius:50%;background:var(--accent-2);display:inline-block}
+.crumb .actions{margin-left:auto;display:flex;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:9px 16px;border-radius:12px;font-weight:700;font-size:15px;border:1px solid var(--line-2);color:var(--text)}
+.btn.primary{background:linear-gradient(90deg,#7c3aed,#a855f7);border-color:transparent}
+.btn.primary kbd{background:rgba(255,255,255,.18);border-color:transparent;color:#fff}
+.btn:hover{filter:brightness(1.12)}
+.insp h1{font-size:28px;margin:14px 0 8px;font-weight:800;letter-spacing:-.3px}
+.pills{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.pill{display:inline-flex;align-items:center;gap:7px;padding:4px 12px;border-radius:999px;border:1px solid #b8912a;color:var(--warn);font-weight:600;font-size:14px;cursor:help}
+.pill i{width:15px;height:15px;border-radius:50%;border:1px solid currentColor;display:grid;place-items:center;font-size:10px;font-style:normal}
+.abbr{font-family:var(--mono);color:var(--text-2);font-size:14px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--line);margin-bottom:18px}
+.tab{padding:8px 16px;border-radius:12px;border:1px solid var(--line-2);font-weight:600;font-size:15px;color:var(--text)}
+.tab.active{border-color:var(--accent);background:var(--accent-soft)}
+.lead{font-size:20px;font-weight:700;line-height:1.35;margin:4px 0 14px}
+.para{color:var(--text-2);font-size:16px;line-height:1.55;margin:0 0 14px}
+.link{display:inline-block;color:#a78bfa;font-weight:600;cursor:pointer;margin-bottom:22px}
+.link:hover{text-decoration:underline}
+.h4{font-weight:700;font-size:16px;margin:16px 0 10px}
+.kv{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:22px}
+.kv div{display:grid;grid-template-columns:150px 1fr;gap:14px;padding:12px 14px;border-top:1px solid var(--line);font-size:15px}
+.kv div:first-child{border-top:0}
+.kv div span:first-child{color:var(--text-2)}
+.kv div span:last-child{color:var(--text)}
+.callout{border:1px solid var(--line);border-left:3px solid var(--warn);border-radius:12px;padding:14px 16px;color:var(--text);font-size:15px;line-height:1.5;background:var(--bg-2)}
+.list{margin:0;padding:0;list-style:none}
+.list li{padding:10px 12px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;font-size:15px;color:var(--text-2);display:flex;gap:10px;align-items:flex-start}
+.list li.clickable{cursor:pointer;color:var(--text)}
+.list li.clickable:hover{border-color:var(--accent)}
+.list .tag{font-family:var(--mono);font-size:12px;color:#a78bfa;background:var(--accent-soft);padding:2px 7px;border-radius:6px;flex:none;margin-top:2px}
+.sev{width:8px;height:8px;border-radius:50%;flex:none;margin-top:8px}
+.sev.hi{background:var(--danger)}.sev.md{background:var(--warn)}.sev.lo{background:var(--ok)}
+.muted{color:var(--text-3);font-size:13px}
+
+/* ---------- Modals ---------- */
+.modal-bg{position:fixed;inset:0;background:rgba(5,8,18,.6);backdrop-filter:blur(3px);display:none;place-items:center;z-index:50}
+.modal-bg.open{display:grid}
+.modal{width:min(720px,92vw);max-height:84vh;overflow:auto;background:var(--bg);border:1px solid var(--line-2);border-radius:18px;padding:26px 28px}
+.modal h2{margin:0 0 6px;font-size:22px}
+.modal .sub{color:var(--text-2);margin-bottom:18px}
+.modal h4{margin:18px 0 8px;font-size:15px;color:var(--text)}
+.modal p{margin:6px 0;color:var(--text-2)}
+.modal .close{float:right;color:var(--text-2)}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:8px}
+.stat{background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.stat b{display:block;font-size:24px}
+.stat span{color:var(--text-2);font-size:13px}
+.chk{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line);color:var(--text-2)}
+.chk b{color:var(--text);font-weight:600}
+.chk .r{margin-left:auto;font-family:var(--mono);font-size:13px}
+@media (max-width:1100px){:root{--nav-w:340px;--insp-w:380px}}
+@media (max-width:820px){.app{grid-template-columns:1fr}.nav,.insp{display:none}.app.nav-off .panel-reveal.left,.panel-reveal{display:grid}}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+  <!-- ================= Navigator ================= -->
+  <aside class="nav" id="nav">
+    <div class="nav-head">
+      <div class="brand"><span class="brand-name">Rig<b>sight</b></span></div>
+      <button class="collapse-btn" id="navCollapse" title="Collapse navigator ([)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 17l-5-5 5-5M18 17l-5-5 5-5"/></svg>
+      </button>
+      <div class="nav-sub">Drilling Rig Explorer</div>
+    </div>
+    <div class="search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input id="search" type="search" placeholder="Search equipment, alias or ID…" autocomplete="off">
+    </div>
+    <div class="nav-title"><span>Systems</span><button id="collapseAll">Collapse all</button></div>
+    <div class="tree" id="tree"></div>
+    <div class="nav-foot">
+      <div class="rig-card">
+        <div class="sys-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 12l9 5 9-5"/><path d="M3 16l9 5 9-5"/></svg></div>
+        <div><b>Drilling Rig</b><span id="rigStats"></span></div>
+      </div>
+      <div class="foot-btns"><button id="btnIntegrity">Integrity</button><button id="btnShortcuts">Shortcuts</button></div>
+    </div>
+  </aside>
+
+  <!-- ================= Viewport ================= -->
+  <main class="view" id="view">
+    <div class="loading" id="loading">Loading rig…</div>
+    <button class="panel-reveal left" id="navReveal" title="Show navigator ([)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
+    <button class="panel-reveal right" id="inspReveal" title="Show inspector (])"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg></button>
+    <div class="mode-badge">
+      <span class="badge" id="bIso">Isolated</span><span class="badge" id="bFade">Others faded</span>
+      <span class="badge" id="bInt">Internals</span><span class="badge" id="bSub">Subsurface</span><span class="badge" id="bHid"></span>
+    </div>
+    <div class="chips" id="chips"></div>
+    <div class="toolbar" id="toolbar">
+      <button data-act="focus" disabled>Focus <kbd>F</kbd></button>
+      <button data-act="isolate" disabled>Isolate <kbd>I</kbd></button>
+      <button data-act="fade" disabled>Fade others <kbd>D</kbd></button>
+      <button data-act="hide" disabled>Hide <kbd>H</kbd></button>
+      <button data-act="internals">Internals <kbd>X</kbd></button>
+      <span class="sep"></span>
+      <button data-act="subsurface">Subsurface <kbd>G</kbd></button>
+      <button data-act="reset">Reset <kbd>R</kbd></button>
+    </div>
+    <div class="caption"><div id="caption">Drilling rig</div><span id="captionRight"></span></div>
+    <div class="tip" id="tip"></div>
+    <canvas id="c" tabindex="0"></canvas>
+  </main>
+
+  <!-- ================= Inspector ================= -->
+  <aside class="insp" id="insp">
+    <div class="insp-head"><h3>Inspector</h3>
+      <button class="icon-btn" id="inspCollapse" title="Collapse inspector (])"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 17l5-5-5-5M6 17l5-5-5-5"/></svg></button>
+    </div>
+    <div class="insp-body" id="inspBody"></div>
+  </aside>
+</div>
+
+<div class="modal-bg" id="modal"><div class="modal" id="modalBox"></div></div>
+
+<script src="vendor/three.min.js"></script>
+<script>
+/* ================================================================
+   DATA: engineering hierarchy. Independent of the 3D scene graph.
+   ================================================================ */
+const SYSTEMS = [
+ {id:'HS',code:'01',name:'Hoisting',icon:'hoist',
+  summary:'Raises, lowers and suspends drill string, casing and tools using drawworks, drilling line, crown and traveling blocks, hook.',
+  body:'Block-and-tackle: the drilling line runs from the drawworks drum (fast line) over the crown block at the mast top, down and up through the traveling-block and crown-block sheaves, and its far end (deadline) is clamped in the deadline anchor at floor level. Reeling the drum in raises the traveling block; gravity lowers it while the drum pays out under motor control. The disc brake holds the drum when stopped and stops it in an emergency.',
+  eng:'SYSTEM 01 of the baseline land rig. Rated hook load is set by the derrick, the traveling equipment and the number of lines strung. With 12 lines the mechanical advantage is 12 and the fast-line load is roughly hook load divided by 12 plus sheave friction. Drum torque, brake capacity and line ton-mile tracking are the operating limits that matter day to day.',
+  where:[['Area','Whole rig, ground level to crown'],['Containing structure','Rig (mast, substructure, drill floor)'],['Placement','From the supply reel at ground level to the crown at about +43 m; well centre is the vertical through the hook']],
+  why:'Everything that goes in or out of the hole hangs from this system. A failure here is a dropped-string event.',
+  specs:[['Rated hook load','500 t (1,100 kip)'],['Drawworks input','1,500 hp (1,120 kW)'],['Drilling line','1 3/8 in, 6x19 IWRC'],['Lines strung','12'],['Mast clear height','43 m (142 ft)'],['Brake','Dual disc, hydraulic + spring-applied park']],
+  safety:['Line slip-and-cut on ton-mile schedule','Crown-saver and floor-saver limits set before each trip','Dropped-object inspection of crown and traveling equipment','Brake test after any drawworks maintenance'],
+  conns:['RS','DS','SS','PS'],
+  children:[
+   {id:'HS.crown',name:'Crown Block',summary:'Fixed sheave cluster at the mast top that turns the drilling line down to the traveling block.',specs:[['Sheaves','7 x 1.5 m'],['Rating','500 t'],['Bearings','Sealed roller']],
+     children:[{id:'HS.crown.sheaves',name:'Sheave cluster'},{id:'HS.crown.frame',name:'Crown frame'},{id:'HS.crown.fastline',name:'Fast-line sheave'},{id:'HS.crown.bumper',name:'Bumper blocks'},{id:'HS.crown.platform',name:'Crown platform & rails'}]},
+   {id:'HS.anchor',name:'Deadline Anchor',summary:'Clamps the dead end of the drilling line and carries the weight-indicator sensor.',specs:[['Type','Drum, 1 3/8 in'],['Rating','Sensor 100 t line pull']],
+     children:[{id:'HS.anchor.drum',name:'Anchor drum'},{id:'HS.anchor.sensor',name:'Weight indicator sensor'},{id:'HS.anchor.reel',name:'Supply reel'}]},
+   {id:'HS.dw',name:'Drawworks',summary:'Motor-driven drum that spools the fast line and sets hook speed and load.',body:'AC-driven single drum with two 800 hp motors through a gearbox. Disc brakes on the drum flanges; the drilling control system applies regenerative braking on trips out.',specs:[['Power','1,500 hp'],['Drum','Grooved, 1 3/8 in line'],['Motors','2 x 800 hp AC VFD'],['Brake','Dual disc 1.6 m']],
+     children:[{id:'HS.dw.drum',name:'Drum & lebus grooving'},{id:'HS.dw.motors',name:'AC motors'},{id:'HS.dw.gearbox',name:'Gearbox'},{id:'HS.dw.brake',name:'Disc brake'},{id:'HS.dw.skid',name:'Skid & housing'},{id:'HS.dw.encoder',name:'Drum encoder'}]},
+   {id:'HS.line',name:'Drilling Line',summary:'Wire rope reeved 12 times between crown and traveling block.',specs:[['Diameter','1 3/8 in'],['Construction','6x19 IWRC'],['Breaking strength','~87 t']],
+     children:[{id:'HS.line.fast',name:'Fast line'},{id:'HS.line.reeved',name:'Reeved lines (12)'},{id:'HS.line.dead',name:'Deadline'}]},
+   {id:'HS.elev',name:'Elevators & Links',summary:'Hinged latches on bails that grip the pipe tool joint below the hook.',specs:[['Links','350 t'],['Elevator','Side-door, 5 in']],
+     children:[{id:'HS.elev.links',name:'Bails / links'},{id:'HS.elev.elevator',name:'Side-door elevator'}]},
+   {id:'HS.hook',name:'Hook',summary:'Swivelling load hook under the traveling block.',specs:[['Rating','500 t'],['Spring','Snubbing spring, 0.3 m']],
+     children:[{id:'HS.hook.body',name:'Hook body'},{id:'HS.hook.latch',name:'Safety latch'}]},
+   {id:'HS.mast',name:'Mast',summary:'Cantilever-raised lattice mast carrying the crown and guiding the traveling equipment.',body:'Two-section bootstrap mast, 43 m clear height, raised by the drawworks. Racking board at 27 m for triples. Painted red and white for aviation visibility.',specs:[['Clear height','43 m'],['Static hook load','500 t'],['Wind rating','120 kn with full setback'],['Racking board','27 m, 180 stands']],
+     children:[{id:'HS.mast.legs',name:'Legs'},{id:'HS.mast.girts',name:'Girts'},{id:'HS.mast.braces',name:'Diagonal braces'},{id:'HS.mast.racking',name:'Racking board'},{id:'HS.mast.ladder',name:'Ladder & climb assist'},{id:'HS.mast.raising',name:'Raising line & A-frame'}]},
+   {id:'HS.tb',name:'Traveling Block',summary:'Moving sheave cluster that carries the hook and top drive.',specs:[['Sheaves','6 x 1.5 m'],['Rating','500 t']],
+     children:[{id:'HS.tb.sheaves',name:'Sheave cluster'},{id:'HS.tb.shell',name:'Block shell'},{id:'HS.tb.becket',name:'Becket'}]}
+  ]},
+ {id:'RS',code:'02',name:'Rotating',icon:'rotate',
+  summary:'Turns the drill string and bit, passes drilling fluid into the string, and carries the suspended string.',
+  body:'SYSTEM 02 of the baseline land rig. It creates and controls bit rotation and torque, forms the top of the drilling-fluid path into the drill string, carries the suspended drill-string load between the hoisting system and the string, and provides the floor equipment on which the string is set on slips when it is not suspended.',
+  eng:'Top-drive rig: rotation comes from an AC motor in the top drive rather than a kelly. The rotary table remains for slips, tubulars handling and as a backup. The washpipe and swivel packing separate the rotating quill from the static mud path.',
+  where:[['Location','Mast and drill floor. Rig coordinate origin is the rotary table centre on the drill floor (~9.1 m above ground); the system occupies the vertical axis through well centre from the drill floor up to the travelling equipment.']],
+  why:'Rotating machinery at and above the drill floor; the drill-string load path passes through this system.',
+  specs:[['Top drive','1,150 hp AC, 500 t'],['Max continuous torque','75 kNm'],['Rotary table','37 1/2 in, 500 t'],['Swivel','500 t, 7,500 psi']],
+  safety:['Torque limit and stall protection','Top drive derailment guards','Rotary table lockdown when using slips','Washpipe leak check each tour'],
+  conns:['HS','CS','DS','PS','SS'],
+  children:[
+   {id:'RS.rt',name:'Rotary Table Assembly',summary:'Floor-mounted table with master bushing for slips and backup rotation.',specs:[['Opening','37 1/2 in'],['Static load','500 t'],['Drive','Independent 400 hp']],
+     children:[{id:'RS.rt.table',name:'Table & master bushing'},{id:'RS.rt.slips',name:'Slips'},{id:'RS.rt.drive',name:'Rotary drive'},{id:'RS.rt.lock',name:'Table lock'}]},
+   {id:'RS.td',name:'Top Drive',summary:'Motor, gearbox, quill and pipe handler suspended from the traveling block.',body:'Rotates the string, circulates through the quill, and makes up and breaks out connections with its own pipe handler. Guided by the mast dolly track.',specs:[['Power','1,150 hp AC'],['Torque','75 kNm continuous'],['Speed','0-220 rpm'],['Elevator links','350 t']],
+     children:[{id:'RS.td.motor',name:'AC motor'},{id:'RS.td.gearbox',name:'Gearbox'},{id:'RS.td.quill',name:'Quill & saver sub'},{id:'RS.td.swivel',name:'Swivel & washpipe'},{id:'RS.td.handler',name:'Pipe handler'},{id:'RS.td.dolly',name:'Dolly & track'},{id:'RS.td.ibop',name:'IBOP valves'}]}
+  ]},
+ {id:'CS',code:'03',name:'Circulating',icon:'drop',
+  summary:'Pumps drilling fluid down the string, returns it up the annulus, and cleans and conditions it for reuse.',
+  body:'Mud pumps draw from the suction tank and push fluid up the standpipe, through the rotary hose and top drive, down the drill string and out the bit. Returns rise up the annulus, exit at the bell nipple, run down the flowline to the shale shakers, then through degasser, desander and desilter before returning to the active tanks.',
+  eng:'SYSTEM 03. Flow rate and standpipe pressure set hole cleaning and bit hydraulics; the pumps are the largest continuous power consumers on the rig. Solids control efficiency drives mud cost and ECD.',
+  where:[['Area','Ground level pump and tank area, standpipe on mast, flowline from floor'],['Containing structure','Pump skids and tank farm east of the substructure']],
+  why:'Carries cuttings out of the hole and provides primary well control through hydrostatic pressure.',
+  specs:[['Mud pumps','2 x 1,600 hp triplex'],['Max pressure','7,500 psi'],['Active volume','300 m3'],['Shakers','3 x linear motion'],['Standpipe','5 in, 7,500 psi']],
+  safety:['Pop-off relief valves on pump discharge','Gas detection at shakers','Pit level alarms and trip tank tracking','Rotary hose safety slings'],
+  conns:['RS','WC','PS','DS'],
+  children:[
+   {id:'CS.pumps',name:'Mud Pumps',summary:'Two triplex pumps supplying the standpipe.',specs:[['Type','Triplex single acting'],['Power','1,600 hp each'],['Max pressure','7,500 psi']],
+     children:[{id:'CS.pumps.p1',name:'Mud pump 1'},{id:'CS.pumps.p2',name:'Mud pump 2'},{id:'CS.pumps.charge',name:'Charge pumps'},{id:'CS.pumps.dampener',name:'Pulsation dampeners'},{id:'CS.pumps.relief',name:'Relief valves'}]},
+   {id:'CS.tanks',name:'Mud Tanks',summary:'Active, reserve and suction tanks with agitators.',specs:[['Volume','300 m3 active'],['Agitators','8 x 15 kW']],
+     children:[{id:'CS.tanks.t1',name:'Shaker tank'},{id:'CS.tanks.t2',name:'Intermediate tank'},{id:'CS.tanks.t3',name:'Suction tank'},{id:'CS.tanks.trip',name:'Trip tank'},{id:'CS.tanks.agit',name:'Agitators'}]},
+   {id:'CS.solids',name:'Solids Control',summary:'Shakers, degasser and hydrocyclones cleaning returned fluid.',specs:[['Shakers','3 x linear motion'],['Degasser','Vacuum, 1,000 gpm']],
+     children:[{id:'CS.solids.shakers',name:'Shale shakers'},{id:'CS.solids.degasser',name:'Degasser'},{id:'CS.solids.desander',name:'Desander'},{id:'CS.solids.desilter',name:'Desilter'},{id:'CS.solids.centrifuge',name:'Centrifuge'}]},
+   {id:'CS.standpipe',name:'Standpipe & Rotary Hose',summary:'High-pressure line up the mast and flexible hose to the top drive.',specs:[['Standpipe','5 in ID, 7,500 psi'],['Rotary hose','3 1/2 in, 22 m']],
+     children:[{id:'CS.standpipe.pipe',name:'Standpipe'},{id:'CS.standpipe.manifold',name:'Standpipe manifold'},{id:'CS.standpipe.hose',name:'Rotary hose'},{id:'CS.standpipe.gooseneck',name:'Gooseneck'}]},
+   {id:'CS.return',name:'Return Line',summary:'Bell nipple and flowline carrying returns to the shakers.',
+     children:[{id:'CS.return.bell',name:'Bell nipple'},{id:'CS.return.flowline',name:'Flowline'},{id:'CS.return.possum',name:'Possum belly'}]},
+   {id:'CS.mgs',name:'Mud Gas Separator',summary:'Vertical vessel separating gas from returns during well control.',specs:[['Vessel','1.2 m x 6 m'],['Vent','8 in to flare']],
+     children:[{id:'CS.mgs.vessel',name:'Vessel'},{id:'CS.mgs.vent',name:'Vent line'},{id:'CS.mgs.seal',name:'U-tube seal'}]}
+  ]},
+ {id:'WC',code:'04',name:'Well Control',icon:'shield',
+  summary:'Contains formation pressure at surface with the BOP stack, choke and kill lines, and the wellhead and casing strings.',
+  body:'The blowout preventer stack sits on the wellhead under the drill floor: an annular preventer on top, pipe rams and blind/shear rams below. Hydraulic power comes from the accumulator unit; the choke manifold controls flow when circulating out a kick.',
+  eng:'SYSTEM 04. The secondary barrier once hydrostatic control is lost. Ram sizes must match the pipe in the hole; accumulator volume must close all preventers with reserve pressure to spare.',
+  where:[['Area','Under the drill floor and the cellar, choke manifold and accumulator at ground level'],['Containing structure','Substructure']],
+  why:'Only barrier between a kick and a blowout once the mud column fails.',
+  specs:[['Stack','13 5/8 in, 10,000 psi'],['Annular','13 5/8 in 5,000 psi'],['Rams','2 pipe, 1 blind/shear'],['Accumulator','3,000 psi, 20 bottles'],['Choke manifold','3 1/16 in, 10,000 psi']],
+  safety:['Weekly function test, pressure test every 21 days','Accumulator drawdown test','Kick drills each crew','Ram-to-pipe size matrix posted at driller'],
+  conns:['CS','SS','DS','PS'],
+  children:[
+   {id:'WC.bop',name:'BOP Stack',summary:'Annular preventer and ram preventers on the wellhead.',specs:[['Size','13 5/8 in'],['Pressure','10,000 psi'],['Rams','2 pipe, 1 blind/shear']],
+     children:[{id:'WC.bop.annular',name:'Annular preventer'},{id:'WC.bop.pipe1',name:'Upper pipe rams'},{id:'WC.bop.shear',name:'Blind / shear rams'},{id:'WC.bop.pipe2',name:'Lower pipe rams'},{id:'WC.bop.spool',name:'Drilling spool'},{id:'WC.bop.hcr',name:'HCR valves'}]},
+   {id:'WC.acc',name:'Accumulator Unit',summary:'Stored hydraulic energy and controls for the BOP.',specs:[['Bottles','20 x 40 L'],['Pressure','3,000 psi'],['Pumps','Electric + air backup']],
+     children:[{id:'WC.acc.bottles',name:'Nitrogen bottles'},{id:'WC.acc.pumps',name:'Hydraulic pumps'},{id:'WC.acc.manifold',name:'Control manifold'},{id:'WC.acc.remote',name:'Driller remote panel'}]},
+   {id:'WC.choke',name:'Choke Manifold',summary:'Valves and chokes to circulate a kick out under controlled back pressure.',specs:[['Size','3 1/16 in'],['Pressure','10,000 psi'],['Chokes','1 hydraulic, 1 manual']],
+     children:[{id:'WC.choke.hydraulic',name:'Hydraulic choke'},{id:'WC.choke.manual',name:'Manual choke'},{id:'WC.choke.valves',name:'Gate valves'},{id:'WC.choke.panel',name:'Choke control panel'}]},
+   {id:'WC.lines',name:'Choke & Kill Lines',summary:'High-pressure lines between the stack and the manifold.',
+     children:[{id:'WC.lines.choke',name:'Choke line'},{id:'WC.lines.kill',name:'Kill line'}]},
+   {id:'WC.wellhead',name:'Wellhead & Casing',summary:'Casing head, casing strings and cement forming the well itself.',body:'Conductor, surface and intermediate casing strings are cemented in place. The casing head is welded to the surface casing and carries the BOP stack.',specs:[['Conductor','20 in to 60 m'],['Surface casing','13 3/8 in to 800 m'],['Intermediate','9 5/8 in to 2,400 m'],['Open hole','8 1/2 in']],
+     children:[{id:'WC.wellhead.head',name:'Casing head'},{id:'WC.wellhead.conductor',name:'Conductor casing'},{id:'WC.wellhead.surface',name:'Surface casing'},{id:'WC.wellhead.intermediate',name:'Intermediate casing'},{id:'WC.wellhead.cement',name:'Cement sheath'},{id:'WC.wellhead.openhole',name:'Open hole'}]}
+  ]},
+ {id:'PS',code:'05',name:'Power & Electrical',icon:'bolt',
+  summary:'Generates and distributes electrical power to the drawworks, top drive, pumps and rig services.',
+  body:'Diesel gensets feed a common AC bus. The VFD house converts to variable-frequency drives for the main motors and to 480 V for auxiliaries. Cable trays carry power and control to the substructure.',
+  eng:'SYSTEM 05. Load sharing across gensets follows a power-management scheme that sheds pumps before drawworks. Regenerated energy from tripping is dissipated in brake resistors.',
+  where:[['Area','Generator and VFD houses west of the substructure'],['Containing structure','Skid-mounted houses']],
+  why:'Loss of power removes hoisting, rotation and circulation at once.',
+  specs:[['Gensets','3 x 1,500 kW'],['Bus','600 V AC'],['VFDs','4 x 1,200 kW'],['Aux','480 V, 1,000 kVA'],['Fuel','2 x 60 m3']],
+  safety:['Arc-flash boundaries at VFD house','Emergency generator auto-start','Ground-fault monitoring on main bus','Fuel bund and spill kit'],
+  conns:['HS','RS','CS','WC','SS'],
+  children:[
+   {id:'PS.gen',name:'Generator Houses',summary:'Three diesel gensets in acoustic enclosures.',specs:[['Rating','1,500 kW each'],['Engine','16 cyl diesel']],
+     children:[{id:'PS.gen.g1',name:'Genset 1'},{id:'PS.gen.g2',name:'Genset 2'},{id:'PS.gen.g3',name:'Genset 3'},{id:'PS.gen.exhaust',name:'Exhaust & silencers'},{id:'PS.gen.radiators',name:'Radiators'}]},
+   {id:'PS.vfd',name:'VFD / SCR House',summary:'Drive cabinets, switchgear and the driller control network.',specs:[['Drives','4 x 1,200 kW'],['Switchgear','600 V, 4,000 A']],
+     children:[{id:'PS.vfd.drives',name:'Drive cabinets'},{id:'PS.vfd.switchgear',name:'Switchgear'},{id:'PS.vfd.resistors',name:'Brake resistors'},{id:'PS.vfd.plc',name:'Rig PLC'}]},
+   {id:'PS.fuel',name:'Fuel System',summary:'Bulk diesel storage and day tanks.',specs:[['Storage','2 x 60 m3'],['Transfer','Duplex filter, 200 L/min']],
+     children:[{id:'PS.fuel.bulk',name:'Bulk tank'},{id:'PS.fuel.day',name:'Day tanks'},{id:'PS.fuel.transfer',name:'Transfer pumps'}]},
+   {id:'PS.cables',name:'Cable Trays & Distribution',summary:'Power and control routing to the rig.',
+     children:[{id:'PS.cables.tray',name:'Main cable tray'},{id:'PS.cables.mcc',name:'Motor control centre'},{id:'PS.cables.lighting',name:'Rig lighting'}]},
+   {id:'PS.air',name:'Rig Air',summary:'Compressed air for tongs, clutches and instruments.',
+     children:[{id:'PS.air.compressor',name:'Compressors'},{id:'PS.air.receiver',name:'Air receiver'},{id:'PS.air.dryer',name:'Air dryer'}]}
+  ]},
+ {id:'DS',code:'06',name:'Drill String & BHA',icon:'string',
+  summary:'The pipe and bottom-hole assembly that transmit rotation, weight and fluid to the bit.',
+  body:'Drill pipe from the top drive to the bottom-hole assembly, then heavy-weight pipe, drill collars, stabilisers, measurement tools and the bit. Weight on bit comes from the collars; the pipe above runs in tension.',
+  eng:'SYSTEM 06. Modelled to total depth in the subsurface view. Torque and drag, buckling limits and connection make-up torque are the design checks.',
+  where:[['Area','From the top drive quill to total depth'],['Containing structure','Wellbore']],
+  why:'The only path for weight, rotation and hydraulics to the bit.',
+  specs:[['Drill pipe','5 in, 19.5 lb/ft, S-135'],['HWDP','5 in, 30 joints'],['Collars','6 3/4 in x 12'],['Bit','8 1/2 in PDC'],['MWD','Pulser, gamma, inclination']],
+  safety:['Connection make-up torque per tally','Stand inspection at racking board','Drill pipe screens when tripping'],
+  conns:['HS','RS','CS','WC'],
+  children:[
+   {id:'DS.pipe',name:'Drill Pipe',summary:'Stands of 5 in S-135 drill pipe in the derrick and the hole.',specs:[['OD','5 in'],['Grade','S-135'],['Connection','NC50']],
+     children:[{id:'DS.pipe.string',name:'Drill pipe string'},{id:'DS.pipe.setback',name:'Stands in setback'},{id:'DS.pipe.saver',name:'Saver sub'}]},
+   {id:'DS.hwdp',name:'Heavy-Weight Drill Pipe',summary:'Transition pipe between drill pipe and collars.',
+     children:[{id:'DS.hwdp.joints',name:'HWDP joints'}]},
+   {id:'DS.bha',name:'Bottom-Hole Assembly',summary:'Collars, stabilisers, motor, MWD and jars.',specs:[['Collars','6 3/4 in x 12'],['Stabilisers','2 x 8 3/8 in'],['Jar','Hydraulic, 6 3/4 in']],
+     children:[{id:'DS.bha.collars',name:'Drill collars'},{id:'DS.bha.stab',name:'Stabilisers'},{id:'DS.bha.motor',name:'Mud motor'},{id:'DS.bha.mwd',name:'MWD / LWD'},{id:'DS.bha.jar',name:'Drilling jar'}]},
+   {id:'DS.bit',name:'Drill Bit',summary:'8 1/2 in PDC bit.',specs:[['Size','8 1/2 in'],['Type','PDC, 6 blades'],['Nozzles','6 x 13/32 in']],
+     children:[{id:'DS.bit.body',name:'Bit body'},{id:'DS.bit.cutters',name:'PDC cutters'},{id:'DS.bit.nozzles',name:'Nozzles'}]}
+  ]},
+ {id:'SS',code:'07',name:'Structure & Drill Floor',icon:'grid',
+  summary:'Substructure, drill floor, pipe handling and site works that carry and organise the rig.',
+  body:'A box-on-box substructure lifts the drill floor about 9 m above the pad so the BOP stack fits underneath. The floor carries the rotary table, drawworks, driller cabin and setback. Pipe comes up the V-door ramp from the catwalk and pipe racks.',
+  eng:'SYSTEM 07. Setback and rotary loads are the governing structural cases. The pad and cellar are the site interface.',
+  where:[['Area','Pad, substructure, drill floor and pipe deck'],['Containing structure','Rig site']],
+  why:'Every other system stands on it.',
+  specs:[['Floor height','9.1 m'],['Setback','230 t'],['Rotary capacity','500 t'],['Pad','70 x 50 m compacted']],
+  safety:['Floor guarding and V-door gate','Stair and handrail inspection','Setback load posted','Ground bearing check after rain'],
+  conns:['HS','RS','WC','PS'],
+  children:[
+   {id:'SS.sub',name:'Substructure',summary:'Box-on-box steel frame under the drill floor.',specs:[['Height','9.1 m'],['Setback','230 t'],['Rotary','500 t']],
+     children:[{id:'SS.sub.columns',name:'Columns'},{id:'SS.sub.beams',name:'Beams & bracing'},{id:'SS.sub.cellar',name:'Cellar'},{id:'SS.sub.stairs',name:'Stairs'}]},
+   {id:'SS.floor',name:'Drill Floor',summary:'Working deck around well centre.',
+     children:[{id:'SS.floor.deck',name:'Deck plate'},{id:'SS.floor.rails',name:'Handrails'},{id:'SS.floor.vdoor',name:'V-door'},{id:'SS.floor.setback',name:'Setback area'},{id:'SS.floor.tongs',name:'Iron roughneck & tongs'}]},
+   {id:'SS.cabin',name:"Driller's Cabin",summary:'Climate-controlled cabin with the drilling control system.',specs:[['Chairs','2'],['Screens','6']],
+     children:[{id:'SS.cabin.shell',name:'Cabin shell'},{id:'SS.cabin.console',name:'Driller console'},{id:'SS.cabin.hmi',name:'HMI screens'}]},
+   {id:'SS.pipe',name:'Pipe Handling',summary:'Catwalk, V-door ramp and pipe racks.',
+     children:[{id:'SS.pipe.catwalk',name:'Catwalk'},{id:'SS.pipe.ramp',name:'V-door ramp'},{id:'SS.pipe.racks',name:'Pipe racks'},{id:'SS.pipe.tubulars',name:'Tubulars on rack'}]},
+   {id:'SS.site',name:'Site Works',summary:'Pad, offices, workshop and flag.',
+     children:[{id:'SS.site.pad',name:'Rig pad'},{id:'SS.site.office',name:'Site office'},{id:'SS.site.workshop',name:'Workshop container'},{id:'SS.site.store',name:'Store containers'},{id:'SS.site.flag',name:'Flag pole'},{id:'SS.site.loader',name:'Forklift'}]}
+  ]}
+];
+const ICONS={
+ hoist:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 4v16M8 4l-3 3M8 4l3 3M16 20V4M16 20l-3-3M16 20l3-3"/></svg>',
+ rotate:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12a8 8 0 1 1-2.3-5.7"/><path d="M20 4v5h-5"/></svg>',
+ drop:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></svg>',
+ shield:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z"/></svg>',
+ bolt:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 3L5 14h6l-1 7 8-11h-6l1-7z"/></svg>',
+ string:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M9 6h6M9 18h6M10 12h4"/></svg>',
+ grid:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M4 14h16M10 4v16M14 4v16"/></svg>'
+};
+const EVIDENCE=['S1 Rig equipment manual, hoisting section','S2 API RP 4G derrick inspection','S3 IADC well control equipment checklist','S5 Rig acceptance test report','S7 Drawworks OEM data sheet','S8 Rig layout drawing D-1001 rev C'];
+
+// ---- index the tree
+const NODES={}, PARENT={}, ORDER=[];
+(function idx(list,parent,level){list.forEach(n=>{n.level=level;n.parent=parent;n.system=parent?NODES[parent].system:n.id;NODES[n.id]=n;PARENT[n.id]=parent;ORDER.push(n.id);if(n.children)idx(n.children,n.id,level+1);});})(SYSTEMS,null,0);
+const descendants=id=>{const out=[id];(NODES[id].children||[]).forEach(c=>out.push(...descendants(c.id)));return out;};
+const countOf=id=>descendants(id).length-1;
+const typeOf=n=>n.level===0?'system':n.children?'assembly':'component';
+
+/* ================================================================
+   3D SCENE
+   ================================================================ */
+const canvas=document.getElementById('c');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.outputEncoding=THREE.sRGBEncoding;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(42,1,0.5,2000);
+scene.add(new THREE.HemisphereLight(0xbfd9ff,0xa08a60,0.75));
+const sun=new THREE.DirectionalLight(0xfff3dc,1.6);sun.position.set(-80,120,60);sun.castShadow=true;
+sun.shadow.mapSize.set(2048,2048);Object.assign(sun.shadow.camera,{left:-90,right:90,top:90,bottom:-90,near:10,far:400});sun.shadow.bias=-0.0006;scene.add(sun);
+
+const rig=new THREE.Group();scene.add(rig);         // selectable equipment
+const world=new THREE.Group();scene.add(world);     // ground, mountains
+const sub=new THREE.Group();scene.add(sub);         // formation layers
+const MESHES=[]; const NODE_MESH={};
+const C={white:0xe8ebee,red:0xc8332a,yellow:0xe6b422,blue:0x2f4a78,steel:0x9aa3ad,dark:0x2b2f38,navy:0x1a2a4a,cream:0xd9cfb0,concrete:0x8a8478,cable:0x1b1b1b,sand:0xc8ab7c,rock:0x8f7a68};
+function mat(color,o={}){return new THREE.MeshStandardMaterial(Object.assign({color,roughness:.7,metalness:.15},o));}
+function reg(m,nodeId,extra){m.castShadow=true;m.receiveShadow=true;m.userData.nodeId=nodeId;Object.assign(m.userData,extra||{});m.userData.baseOpacity=m.material.opacity;if(nodeId){(NODE_MESH[nodeId]=NODE_MESH[nodeId]||[]).push(m);MESHES.push(m);rig.add(m);}else world.add(m);return m;}
+function box(w,h,d,color,x,y,z,nodeId,extra,mo){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat(color,mo));m.position.set(x,y,z);return reg(m,nodeId,extra);}
+function cyl(r,h,color,x,y,z,nodeId,extra,mo,rt,seg){const m=new THREE.Mesh(new THREE.CylinderGeometry(rt==null?r:rt,r,h,seg||20),mat(color,mo));m.position.set(x,y,z);return reg(m,nodeId,extra);}
+function strut(a,b,r,color,nodeId,extra){const A=new THREE.Vector3(...a),B=new THREE.Vector3(...b);const len=A.distanceTo(B);const m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,len,8),mat(color,{roughness:.55,metalness:.3}));m.position.copy(A).lerp(B,.5);m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),B.clone().sub(A).normalize());return reg(m,nodeId,extra);}
+function pipe(pts,r,color,nodeId,extra){for(let i=0;i<pts.length-1;i++)strut(pts[i],pts[i+1],r,color,nodeId,extra);}
+
+function buildWorld(){
+  const g=new THREE.Mesh(new THREE.PlaneGeometry(1400,1400),mat(C.sand,{roughness:1}));g.rotation.x=-Math.PI/2;g.receiveShadow=true;g.userData.ground=true;g.userData.baseOpacity=1;world.add(g);
+  // access road
+  const road=new THREE.Mesh(new THREE.PlaneGeometry(6,300),mat(0xbea27a,{roughness:1}));road.rotation.x=-Math.PI/2;road.rotation.z=.25;road.position.set(70,.02,-120);road.userData.ground=true;road.userData.baseOpacity=1;world.add(road);
+  // scrub
+  const scrub=mat(0x6e7b3a,{roughness:1});const seed=s=>{let x=Math.sin(s*9999)*10000;return x-Math.floor(x);};
+  for(let i=0;i<220;i++){const a=seed(i)*Math.PI*2,d=70+seed(i+.3)*260;const m=new THREE.Mesh(new THREE.SphereGeometry(.6+seed(i+.7)*.9,6,5),scrub);m.position.set(Math.cos(a)*d,.4,Math.sin(a)*d);m.scale.y=.6;m.castShadow=true;m.userData.baseOpacity=1;world.add(m);}
+  // mountains: two rings of cones
+  for(let ring=0;ring<2;ring++)for(let i=0;i<46;i++){const a=(i/46)*Math.PI*2+ring*.07;const d=(ring?520:400)+seed(i*3+ring)*70;const h=(ring?150:80)+seed(i*7+ring)*(ring?120:70);
+    const m=new THREE.Mesh(new THREE.ConeGeometry(h*(0.9+seed(i)*0.6),h,7),mat(ring?0x7c7a80:C.rock,{roughness:1,flatShading:true}));m.position.set(Math.cos(a)*d,h/2-6,Math.sin(a)*d);m.rotation.y=seed(i+9)*3;m.userData.baseOpacity=1;world.add(m);}
+}
+
+function buildRig(){
+  const F=9.1; // drill floor elevation
+  // ---- pad & site
+  const pad=box(70,.3,50,C.concrete,0,.15,4,'SS.site.pad',null,{roughness:.95});pad.receiveShadow=true;
+  box(12,3,3.2,0xf1efe8,-42,1.65,-6,'SS.site.office',{shell:true});box(1.6,1.2,.6,0xd0cbbf,-42,3.8,-6,'SS.site.office');
+  box(12,3,3,0xd8cfae,-38,1.6,10,'SS.site.workshop',{shell:true});
+  box(12,3,3,0xf3f1ea,-40,1.6,22,'SS.site.store',{shell:true});box(10,2.8,2.8,0xd9d1b0,-26,1.5,26,'SS.site.store',{shell:true});
+  cyl(.12,12,C.steel,-30,6,-22,'SS.site.flag',null,null,.1);const flag=box(5,3,.06,0x161c3a,-27.4,10.6,-22,'SS.site.flag',null,{roughness:.9});
+  box(2.6,1.6,1.4,C.yellow,14,.9,-24,'SS.site.loader');cyl(.5,.4,C.dark,12.9,.5,-23.2,'SS.site.loader');cyl(.5,.4,C.dark,15.1,.5,-23.2,'SS.site.loader');cyl(.5,.4,C.dark,12.9,.5,-24.8,'SS.site.loader');cyl(.5,.4,C.dark,15.1,.5,-24.8,'SS.site.loader');box(.3,1.4,1,C.dark,15.9,1.1,-24,'SS.site.loader');
+  // ---- substructure
+  [[-6,-6],[6,-6],[-6,6],[6,6],[0,-6],[0,6],[-6,0],[6,0]].forEach(([x,z])=>box(.9,F-.6,.9,C.blue,x,(F-.6)/2,z,'SS.sub.columns'));
+  [[[-6,4.5,-6],[6,4.5,-6]],[[-6,4.5,6],[6,4.5,6]],[[-6,4.5,-6],[-6,4.5,6]],[[6,4.5,-6],[6,4.5,6]],[[-6,8.4,-6],[6,8.4,-6]],[[-6,8.4,6],[6,8.4,6]],[[-6,8.4,-6],[-6,8.4,6]],[[6,8.4,-6],[6,8.4,6]],[[-6,.6,-6],[6,8.4,-6]],[[6,.6,6],[-6,8.4,6]],[[-6,.6,6],[-6,8.4,-6]],[[6,.6,-6],[6,8.4,6]]].forEach(([a,b])=>strut(a,b,.22,C.blue,'SS.sub.beams'));
+  box(14,.6,14,0x2a3550,0,F-.3,0,'SS.floor.deck',null,{roughness:.85});
+  cyl(3.2,.8,0x5a5a5a,0,.4,0,'SS.sub.cellar',null,{roughness:1},3.2,24);
+  // rails
+  const railY=F+.55;[[-7,-7,7,-7],[-7,7,7,7],[-7,-7,-7,7],[7,-7,7,2]].forEach(([x1,z1,x2,z2])=>{strut([x1,railY,z1],[x2,railY,z2],.06,C.yellow,'SS.floor.rails');strut([x1,railY-.5,z1],[x2,railY-.5,z2],.05,C.yellow,'SS.floor.rails');for(let t=0;t<=1;t+=.2)strut([x1+(x2-x1)*t,F,z1+(z2-z1)*t],[x1+(x2-x1)*t,railY,z1+(z2-z1)*t],.05,C.yellow,'SS.floor.rails');});
+  // stairs
+  for(let i=0;i<10;i++)box(1.4,.15,.5,C.steel,-8.2-i*.55,F-.9*i-.4,-3,'SS.sub.stairs');
+  strut([-8,F+.4,-3.7],[-13.4,.4,-3.7],.05,C.yellow,'SS.sub.stairs');strut([-8,F+.4,-2.3],[-13.4,.4,-2.3],.05,C.yellow,'SS.sub.stairs');
+  // V-door ramp & catwalk & pipe racks
+  const ramp=box(3,.3,22,C.steel,0,F/2-.2,17.5,'SS.pipe.ramp');ramp.rotation.x=Math.atan2(F-.6,21);
+  box(3,.8,14,C.steel,0,.7,35,'SS.pipe.catwalk');strut([-1.5,1.5,28],[-1.5,1.5,42],.05,C.yellow,'SS.pipe.catwalk');strut([1.5,1.5,28],[1.5,1.5,42],.05,C.yellow,'SS.pipe.catwalk');
+  [[-5.5,34],[5.5,34],[-5.5,38.5],[5.5,38.5]].forEach(([x,z])=>box(3.6,.9,.4,C.steel,x,.75,z,'SS.pipe.racks'));
+  for(let i=0;i<6;i++){cyl(.13,12,C.dark,-6.6+i*.44,1.35,36,'SS.pipe.tubulars',null,{metalness:.5,roughness:.4}).rotation.x=Math.PI/2;cyl(.13,12,C.dark,4.4+i*.44,1.35,36,'SS.pipe.tubulars',null,{metalness:.5,roughness:.4}).rotation.x=Math.PI/2;}
+  // driller cabin, setback, roughneck
+  box(3.2,2.8,3,0xf2f2f0,5.2,F+1.7,3.8,'SS.cabin.shell',{shell:true});box(2.6,1.2,.05,0x2b4a80,5.2,F+2,2.28,'SS.cabin.hmi',null,{metalness:.4,roughness:.3});box(1.6,.8,1,0x3a3f4a,5.2,F+1,3.8,'SS.cabin.console');
+  box(5,.2,3,0x354262,-2,F+.4,2.4,'SS.floor.setback');
+  box(1,1.6,.8,C.yellow,2.6,F+1.1,-1.6,'SS.floor.tongs');cyl(.35,1.2,C.dark,2.6,F+2.4,-1.6,'SS.floor.tongs');
+  cyl(1.2,.4,C.dark,0,F+.5,6.9,'SS.floor.vdoor',null,null,1.2).rotation.x=Math.PI/2;
+  // ---- rotating: rotary table & top drive
+  cyl(1.7,.5,C.dark,0,F+.25,0,'RS.rt.table',null,{metalness:.5,roughness:.4},1.7,32);cyl(.7,.3,C.steel,0,F+.55,0,'RS.rt.slips',null,{metalness:.6,roughness:.3},.55,24);
+  box(1.6,1,1.2,C.blue,3.1,F+.5,-.2,'RS.rt.drive');box(.5,.4,.5,C.yellow,1.6,F+.25,.9,'RS.rt.lock');
+  const TD=F+15.5; // top drive centre
+  box(1.5,3.2,1.5,C.yellow,0,TD+1.2,0,'RS.td.motor',null,{roughness:.5});box(1.9,1.6,1.9,C.yellow,0,TD-1,0,'RS.td.gearbox',null,{roughness:.5});
+  cyl(.28,2.6,C.steel,0,TD-3.1,0,'RS.td.quill',null,{metalness:.6,roughness:.3});cyl(.55,.9,C.dark,0,TD+3.1,0,'RS.td.swivel');
+  box(.6,3.2,.6,C.yellow,1.2,TD-3.6,.4,'RS.td.handler');box(.8,.6,.6,C.dark,0,TD-4.7,0,'RS.td.ibop');
+  box(.5,5.5,.5,C.yellow,1.6,TD,-1.6,'RS.td.dolly');box(.5,5.5,.5,C.yellow,-1.6,TD,-1.6,'RS.td.dolly');
+  // ---- hoisting
+  const MT=F+43;   // mast top
+  const legs=[[-3,-3],[3,-3],[3,3],[-3,3]],topc=[[-1.25,-1.25],[1.25,-1.25],[1.25,1.25],[-1.25,1.25]];
+  legs.forEach(([x,z],i)=>strut([x,F,z],[topc[i][0],MT,topc[i][1]],.19,C.white,'HS.mast.legs'));
+  const at=(i,t)=>[legs[i][0]+(topc[i][0]-legs[i][0])*t,F+(MT-F)*t,legs[i][1]+(topc[i][1]-legs[i][1])*t];
+  const LV=14;for(let l=0;l<=LV;l++){const t=l/LV;for(let i=0;i<4;i++){const j=(i+1)%4;strut(at(i,t),at(j,t),.09,C.white,'HS.mast.girts');if(l<LV){const t2=(l+1)/LV;strut(at(i,t),at(j,t2),.075,C.red,'HS.mast.braces');if(l%2)strut(at(j,t),at(i,t2),.075,C.red,'HS.mast.braces');}}}
+  box(4.2,.25,2.4,C.yellow,0,F+27,-.8,'HS.mast.racking');box(.15,1,4.2,C.yellow,-2.1,F+27.6,-.8,'HS.mast.racking').rotation.y=Math.PI/2;
+  strut([2.6,F,3.2],[1.2,MT,1.4],.06,C.yellow,'HS.mast.ladder');strut([3.2,F,3.2],[1.5,MT,1.4],.06,C.yellow,'HS.mast.ladder');
+  strut([-3,F,-3],[-9,F+8,-9],.12,C.white,'HS.mast.raising');strut([3,F,-3],[9,F+8,-9],.12,C.white,'HS.mast.raising');strut([-9,F+8,-9],[9,F+8,-9],.12,C.white,'HS.mast.raising');
+  // crown
+  box(3.4,.6,3.4,C.red,0,MT+.3,0,'HS.crown.frame');box(3.8,.15,3.8,C.steel,0,MT+.7,0,'HS.crown.platform');for(let i=0;i<4;i++){const j=(i+1)%4;strut([topc[i][0]*1.5,MT+1.7,topc[i][1]*1.5],[topc[j][0]*1.5,MT+1.7,topc[j][1]*1.5],.05,C.yellow,'HS.crown.platform');strut([topc[i][0]*1.5,MT+.7,topc[i][1]*1.5],[topc[i][0]*1.5,MT+1.7,topc[i][1]*1.5],.05,C.yellow,'HS.crown.platform');}
+  for(let i=0;i<5;i++)cyl(.55,.2,C.dark,0,MT+1.3,-.9+i*.45,'HS.crown.sheaves',null,{metalness:.6,roughness:.3},.55,24).rotation.z=Math.PI/2;
+  cyl(.5,.2,C.dark,0,MT+.9,-2,'HS.crown.fastline',null,{metalness:.6,roughness:.3},.5,24).rotation.z=Math.PI/2;
+  box(.5,1.2,.5,C.yellow,-1.1,MT+1.3,1.2,'HS.crown.bumper');box(.5,1.2,.5,C.yellow,1.1,MT+1.3,1.2,'HS.crown.bumper');
+  // traveling block, hook, links, elevator
+  const TB=TD+7.5;box(1.3,3.6,1.1,C.dark,0,TB,0,'HS.tb.shell',null,{metalness:.5,roughness:.4});for(let i=0;i<4;i++)cyl(.55,.16,C.steel,0,TB+1,-.7+i*.47,'HS.tb.sheaves',null,{metalness:.7,roughness:.3},.55,24).rotation.z=Math.PI/2;box(.5,.4,.5,C.yellow,0,TB+2,0,'HS.tb.becket');
+  cyl(.5,1.4,C.yellow,0,TB-2.4,0,'HS.hook.body',null,{metalness:.5,roughness:.4},.35);box(.3,.5,.3,C.dark,0,TB-3.2,0,'HS.hook.latch');
+  strut([.8,TD-2,0],[.8,TD-6.5,0],.08,C.steel,'HS.elev.links');strut([-.8,TD-2,0],[-.8,TD-6.5,0],.08,C.steel,'HS.elev.links');cyl(.5,.5,C.dark,0,TD-6.7,0,'HS.elev.elevator',null,{metalness:.6,roughness:.3});
+  // drilling line
+  for(let i=0;i<4;i++)strut([0,MT+1.1,-.85+i*.55],[0,TB+1,-.7+i*.47],.03,C.cable,'HS.line.reeved');
+  strut([0,MT+.9,-2.1],[0,F+1.8,-5.4],.04,C.cable,'HS.line.fast');strut([0,MT+1.1,1.1],[4.3,F+.8,-4],.03,C.cable,'HS.line.dead');
+  // drawworks
+  box(5.2,2.6,3.2,C.blue,0,F+1.6,-5.4,'HS.dw.skid',{shell:true},{transparent:true});cyl(.9,3.4,C.dark,0,F+1.8,-5.4,'HS.dw.drum',null,{metalness:.6,roughness:.35}).rotation.z=Math.PI/2;
+  box(1.4,1.2,1.2,C.yellow,-3.3,F+1.2,-5.4,'HS.dw.motors');box(1.4,1.2,1.2,C.yellow,3.3,F+1.2,-5.4,'HS.dw.motors');box(.9,1.4,1.6,C.dark,-2.2,F+1.4,-5.4,'HS.dw.gearbox');
+  cyl(1.1,.15,C.steel,2.05,F+1.8,-5.4,'HS.dw.brake',null,{metalness:.7,roughness:.25},1.1,32).rotation.z=Math.PI/2;box(.3,.3,.3,C.dark,0,F+3.1,-5.4,'HS.dw.encoder');
+  box(1,.8,1,C.blue,4.3,F+.7,-4,'HS.anchor.drum');box(.4,.3,.6,C.yellow,4.3,F+1.25,-4,'HS.anchor.sensor');cyl(.9,1.4,C.steel,16,.9,-20,'HS.anchor.reel',null,null,.9).rotation.z=Math.PI/2;
+  // ---- circulating
+  const SP=[[3.3,F+.5,3.3],[3.3,F+24,3.3]];strut(SP[0],SP[1],.13,C.steel,'CS.standpipe.pipe');box(.9,1.3,.9,C.dark,3.3,F+.8,3.3,'CS.standpipe.manifold');
+  pipe([[3.3,F+24,3.3],[3,F+21.5,3.6],[2,F+18.5,3.2],[.9,TD+3,1.1],[0,TD+3.6,.4]],.11,C.cable,'CS.standpipe.hose');cyl(.16,.8,C.dark,0,TD+3.8,.2,'CS.standpipe.gooseneck');
+  cyl(.7,.9,C.dark,0,F-.75,0,'CS.return.bell');pipe([[.5,F-.9,.5],[6,F-1.6,5],[14,3.5,6.5]],.2,C.dark,'CS.return.flowline');box(1.6,.7,2,C.dark,14,3.4,6.6,'CS.return.possum');
+  [['CS.tanks.t1',7],['CS.tanks.t2',13],['CS.tanks.t3',19]].forEach(([id,z])=>{box(12,3,5.5,C.blue,16,1.5,z,id,null,{roughness:.6});});
+  box(1,2,1,C.blue,10.3,2.6,24,'CS.tanks.trip');for(let i=0;i<4;i++)cyl(.3,.6,C.yellow,12+i*2.6,3.3,13,'CS.tanks.agit');
+  for(let i=0;i<3;i++)box(2.6,.9,1.6,C.yellow,12.4+i*3.4,3.6,8.5,'CS.solids.shakers');cyl(.5,3,C.blue,21,4.5,12,'CS.solids.degasser');cyl(.35,1.6,C.yellow,20,4,17.5,'CS.solids.desander',null,null,.15);cyl(.35,1.6,C.yellow,17,4,17.5,'CS.solids.desilter',null,null,.15);box(2.4,1,1.2,C.dark,14,3.7,19.5,'CS.solids.centrifuge');
+  cyl(.8,7,C.steel,26,3.5,4,'CS.mgs.vessel',null,{metalness:.4,roughness:.4});strut([26,7,4],[26,12,4],.12,C.steel,'CS.mgs.vent');pipe([[26,.6,4],[26,.6,7],[24,.6,7]],.12,C.dark,'CS.mgs.seal');
+  [['CS.pumps.p1',-8],['CS.pumps.p2',-14]].forEach(([id,z])=>{box(7.5,3.4,3.4,0xe2e6ea,20,1.7,z,id,{shell:true},{transparent:true});box(3,2.2,2.4,C.blue,18.5,1.4,z,id);cyl(.7,2.6,C.dark,22.4,1.6,z,id).rotation.z=Math.PI/2;box(1.2,1.4,2.6,C.yellow,20.4,1.6,z,id);});
+  cyl(.45,1.2,C.red,23.9,2.9,-8,'CS.pumps.dampener');cyl(.45,1.2,C.red,23.9,2.9,-14,'CS.pumps.dampener');box(1.4,.8,1,C.blue,25,.5,-11,'CS.pumps.charge');box(.4,.6,.4,C.yellow,23.9,3.9,-11,'CS.pumps.relief');
+  pipe([[23.9,3.4,-8],[23.9,4,-4],[10,4,-2],[3.3,F+.5,3.3]],.12,C.steel,'CS.standpipe.manifold');
+  // ---- well control
+  cyl(1.05,.7,C.dark,0,1.4,0,'WC.wellhead.head',null,{metalness:.6,roughness:.35});
+  box(2.4,1.1,2.4,C.dark,0,2.6,0,'WC.bop.pipe2',null,{metalness:.5,roughness:.4});cyl(.9,.5,C.steel,0,3.4,0,'WC.bop.spool');box(2.4,1.1,2.4,C.dark,0,4.2,0,'WC.bop.shear',null,{metalness:.5,roughness:.4});box(2.4,1.1,2.4,C.dark,0,5.4,0,'WC.bop.pipe1',null,{metalness:.5,roughness:.4});cyl(1.3,1.4,C.blue,0,6.7,0,'WC.bop.annular',null,{metalness:.4,roughness:.5},1.1);
+  box(.5,.5,.5,C.red,1.7,3.4,0,'WC.bop.hcr');box(.5,.5,.5,C.red,-1.7,3.4,0,'WC.bop.hcr');
+  pipe([[1.9,3.4,0],[8,3.4,0],[10.5,1.2,-3]],.11,C.red,'WC.lines.choke');pipe([[-1.9,3.4,0],[-4,3.4,0],[-4,1,-3],[-12,1,-8]],.11,C.dark,'WC.lines.kill');
+  box(3.6,.6,2.4,C.steel,11.5,.5,-4,'WC.choke.valves');for(let i=0;i<4;i++)cyl(.22,.5,C.red,10.4+i*.8,1.05,-4,'WC.choke.valves');box(.7,1,.7,C.yellow,13,1.3,-3.3,'WC.choke.hydraulic');cyl(.4,.15,C.red,13,1.9,-4.5,'WC.choke.manual',null,null,.4).rotation.x=Math.PI/2;box(1,1.4,.3,C.dark,12,1,-6,'WC.choke.panel');
+  box(6,1,2.4,C.red,-13,.5,-8,'WC.acc.manifold');for(let i=0;i<10;i++)cyl(.22,1.6,C.steel,-15.5+i*.55,1.8,-8.6,'WC.acc.bottles',null,{metalness:.6,roughness:.3});box(1.6,.9,1,C.blue,-11.4,1.4,-7.5,'WC.acc.pumps');box(.9,1.3,.3,C.dark,3.8,F+1.2,4.6,'WC.acc.remote');
+  // ---- power
+  [['PS.gen.g1',-6],['PS.gen.g2',-1],['PS.gen.g3',4]].forEach(([id,z])=>{box(12,3.2,3.4,0xf2f2ee,-24,1.6,z,id,{shell:true},{transparent:true});box(5,2.2,2.2,C.yellow,-26,1.3,z,id);cyl(.9,3,C.dark,-21,1.4,z,id).rotation.z=Math.PI/2;cyl(.18,2,C.dark,-27,3.9,z,'PS.gen.exhaust');box(2.4,2.4,.4,C.dark,-19.5,1.6,z,'PS.gen.radiators');});
+  box(12,3.2,3.4,0xf2f2ee,-24,1.6,12,'PS.vfd.drives',{shell:true},{transparent:true});for(let i=0;i<5;i++)box(1.6,2.4,.9,C.dark,-28+i*2.2,1.3,11.4,'PS.vfd.drives');box(3,2.4,.9,C.steel,-24,1.3,12.8,'PS.vfd.switchgear');box(1.4,1.2,1.4,C.dark,-17.5,4,12,'PS.vfd.resistors');box(.6,.8,.3,C.blue,-19.5,1.4,13.6,'PS.vfd.plc');
+  cyl(1.5,10,C.cream,-30,1.6,-16,'PS.fuel.bulk',null,null,1.5).rotation.z=Math.PI/2;cyl(1.5,10,C.cream,-30,1.6,-20,'PS.fuel.bulk',null,null,1.5).rotation.z=Math.PI/2;box(1,1.4,1,C.cream,-25,.7,-17,'PS.fuel.day');box(1,.6,.8,C.blue,-23.5,.4,-18,'PS.fuel.transfer');
+  box(11,.2,.9,C.steel,-12.5,.9,2,'PS.cables.tray');box(.9,.2,8,C.steel,-7,.9,-2,'PS.cables.tray');box(1.2,2,.8,C.steel,-7,1.2,-6.5,'PS.cables.mcc');for(let i=0;i<4;i++){const a=i*Math.PI/2+.4;strut([Math.cos(a)*30,0,Math.sin(a)*30+4],[Math.cos(a)*30,9,Math.sin(a)*30+4],.1,C.steel,'PS.cables.lighting');box(.8,.4,.3,C.yellow,Math.cos(a)*30,9,Math.sin(a)*30+4,'PS.cables.lighting');}
+  box(2.2,1.4,1.2,C.blue,-14,.9,18,'PS.air.compressor');cyl(.6,2.4,C.steel,-11,1,18,'PS.air.receiver',null,null,.6).rotation.z=Math.PI/2;box(.8,1,.6,C.dark,-9,.7,18,'PS.air.dryer');
+  // ---- drill string (above floor & subsurface)
+  cyl(.13,TD-5-F-.5,C.dark,0,(TD-5+F+.5)/2,0,'DS.pipe.saver',null,{metalness:.5,roughness:.4});
+  for(let i=0;i<9;i++)cyl(.13,27,C.dark,-3.9+i*.45,F+13.7,2.4,'DS.pipe.setback',null,{metalness:.5,roughness:.4});
+  cyl(.13,F+.5+52,C.dark,0,(F+.5-52)/2,0,'DS.pipe.string',null,{metalness:.5,roughness:.4});
+  cyl(.16,6,C.dark,0,-55,0,'DS.hwdp.joints',null,{metalness:.5,roughness:.4});
+  cyl(.24,7,C.steel,0,-62,0,'DS.bha.collars',null,{metalness:.6,roughness:.3});cyl(.35,.8,C.yellow,0,-59,0,'DS.bha.stab');cyl(.24,1.6,C.blue,0,-66.5,0,'DS.bha.motor');cyl(.24,1.4,C.red,0,-64.8,0,'DS.bha.mwd');cyl(.24,1.2,C.yellow,0,-57.6,0,'DS.bha.jar');
+  cyl(.42,.9,C.dark,0,-67.9,0,'DS.bit.body',null,{metalness:.6,roughness:.3},.2);for(let i=0;i<6;i++){const a=i/6*Math.PI*2;box(.12,.5,.08,0xd8d8d8,Math.cos(a)*.3,-68.05,Math.sin(a)*.3,'DS.bit.cutters',null,{metalness:.8,roughness:.2}).rotation.y=-a;}cyl(.06,.3,C.yellow,0,-68.5,0,'DS.bit.nozzles');
+  // ---- casing (subsurface)
+  cyl(1.0,10,C.steel,0,-5,0,'WC.wellhead.conductor',null,{metalness:.5,roughness:.4,transparent:true,opacity:.8},1.0,24);
+  cyl(.7,30,C.steel,0,-15,0,'WC.wellhead.surface',null,{metalness:.5,roughness:.4,transparent:true,opacity:.75},.7,24);
+  cyl(.5,54,C.steel,0,-27,0,'WC.wellhead.intermediate',null,{metalness:.5,roughness:.4,transparent:true,opacity:.7},.5,24);
+  cyl(.85,34,0xd8d2c0,0,-17,0,'WC.wellhead.cement',null,{roughness:1,transparent:true,opacity:.45},.85,24);
+  cyl(.42,14,0x4a3c2c,0,-61,0,'WC.wellhead.openhole',null,{roughness:1,transparent:true,opacity:.5},.42,24);
+  // formation layers (not selectable)
+  [[0,-6,0x9c7f58,'Topsoil & alluvium'],[-6,-26,0xb89a6a,'Sandstone'],[-26,-46,0x6c6a6a,'Shale'],[-46,-60,0xbdb5a0,'Limestone'],[-60,-76,0xa88a5c,'Reservoir sand']].forEach(([top,bot,col])=>{const m=new THREE.Mesh(new THREE.BoxGeometry(140,top-bot,110),mat(col,{transparent:true,opacity:.28,roughness:1,depthWrite:false}));m.position.set(0,(top+bot)/2,4);sub.add(m);const edge=new THREE.LineSegments(new THREE.EdgesGeometry(m.geometry),new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.18}));edge.position.copy(m.position);sub.add(edge);});
+  sub.visible=false;
+}
+
+/* ---- camera controls (custom orbit) ---- */
+const cam={target:new THREE.Vector3(0,14,0),theta:.55,phi:1.12,radius:120};
+const HOME=JSON.parse(JSON.stringify({target:[0,14,0],theta:.55,phi:1.12,radius:120}));
+function applyCam(){const{target,theta,phi,radius}=cam;camera.position.set(target.x+radius*Math.sin(phi)*Math.sin(theta),target.y+radius*Math.cos(phi),target.z+radius*Math.sin(phi)*Math.cos(theta));camera.lookAt(target);}
+let drag=null,spaceDown=false;
+canvas.addEventListener('contextmenu',e=>e.preventDefault());
+canvas.addEventListener('pointerdown',e=>{canvas.focus();drag={x:e.clientX,y:e.clientY,btn:e.button,pan:e.button===2||spaceDown,moved:0};canvas.setPointerCapture(e.pointerId);});
+canvas.addEventListener('pointermove',e=>{if(drag){const dx=e.clientX-drag.x,dy=e.clientY-drag.y;drag.x=e.clientX;drag.y=e.clientY;drag.moved+=Math.abs(dx)+Math.abs(dy);tween=null;
+  if(drag.pan){const right=new THREE.Vector3().setFromMatrixColumn(camera.matrix,0),up=new THREE.Vector3().setFromMatrixColumn(camera.matrix,1);const k=cam.radius*0.0016;cam.target.addScaledVector(right,-dx*k).addScaledVector(up,dy*k);}
+  else{cam.theta-=dx*.006;cam.phi=Math.min(1.55,Math.max(.08,cam.phi-dy*.006));}applyCam();}
+  else hover(e);});
+canvas.addEventListener('pointerup',e=>{if(drag&&drag.moved<4&&drag.btn===0)pick(e);drag=null;});
+canvas.addEventListener('wheel',e=>{e.preventDefault();tween=null;const f=Math.exp(e.deltaY*.0012);const r=new THREE.Raycaster();r.setFromCamera(ndc(e),camera);const p=r.ray.at(cam.radius,new THREE.Vector3());cam.target.lerp(p,1-f);cam.radius=Math.min(600,Math.max(2.5,cam.radius*f));applyCam();},{passive:false});
+canvas.addEventListener('dblclick',e=>{const h=rayHit(e);if(h){select(h.userData.nodeId);focusOn(h.userData.nodeId);}});
+function ndc(e){const r=canvas.getBoundingClientRect();return new THREE.Vector2(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1);}
+let tween=null;
+function flyTo(target,theta,phi,radius){tween={t0:performance.now(),dur:700,from:{target:cam.target.clone(),theta:cam.theta,phi:cam.phi,radius:cam.radius},to:{target,theta,phi,radius}};}
+function stepTween(now){if(!tween)return;let k=Math.min(1,(now-tween.t0)/tween.dur);k=k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;const f=tween.from,t=tween.to;cam.target.copy(f.target).lerp(t.target,k);cam.theta=f.theta+(t.theta-f.theta)*k;cam.phi=f.phi+(t.phi-f.phi)*k;cam.radius=f.radius+(t.radius-f.radius)*k;applyCam();if(k>=1)tween=null;}
+function focusOn(id){const ids=descendants(id);const bb=new THREE.Box3();let any=false;ids.forEach(i=>(NODE_MESH[i]||[]).forEach(m=>{if(m.visible){bb.expandByObject(m);any=true;}}));if(!any)return;const c=bb.getCenter(new THREE.Vector3()),s=bb.getSize(new THREE.Vector3());const d=Math.max(6,Math.max(s.x,s.y,s.z)*.5/Math.tan(camera.fov*Math.PI/360)*1.35+Math.min(s.x,s.z)*.3);
+  const phi=c.y<0?1.45:cam.phi;flyTo(c,cam.theta,phi,d);}
+function resetView(){flyTo(new THREE.Vector3(...HOME.target),HOME.theta,HOME.phi,HOME.radius);}
+
+/* ---- picking & hover ---- */
+const ray=new THREE.Raycaster();const tip=document.getElementById('tip');let hovered=null;
+function rayHit(e){ray.setFromCamera(ndc(e),camera);const hits=ray.intersectObjects(MESHES,false);for(const h of hits){const m=h.object;if(m.visible&&m.material.opacity>.3)return m;}return null;}
+function hover(e){const m=rayHit(e);const id=m?m.userData.nodeId:null;if(id!==hovered){hovered=id;canvas.style.cursor=id?'pointer':'default';}if(id){const r=canvas.getBoundingClientRect();tip.style.display='block';tip.style.left=(e.clientX-r.left+14)+'px';tip.style.top=(e.clientY-r.top+14)+'px';tip.textContent=NODES[id].name;}else tip.style.display='none';}
+function pick(e){const m=rayHit(e);if(m)select(m.userData.nodeId);else if(state.mode==='none')select(null);}
+
+/* ================================================================
+   STATE & VISUAL RULES
+   ================================================================ */
+const state={selected:null,mode:'none',hidden:new Set(),internals:false,subsurface:false,tab:'Overview'};
+const accent=new THREE.Color(0x8b5cf6);
+function applyVisual(){const sel=state.selected?new Set(descendants(state.selected)):null;const hid=new Set();state.hidden.forEach(h=>descendants(h).forEach(i=>hid.add(i)));
+  MESHES.forEach(m=>{const id=m.userData.nodeId;const inSel=sel&&sel.has(id);const isSub=m.position.y<0;
+    let vis=!hid.has(id);if(state.mode==='isolate'&&!inSel)vis=false;if(isSub&&!state.subsurface)vis=false;m.visible=vis;
+    let op=m.userData.baseOpacity;if(state.mode==='fade'&&!inSel)op=Math.min(op,.12);if(state.internals&&m.userData.shell)op=Math.min(op,.14);
+    m.material.opacity=op;m.material.transparent=op<1;m.material.depthWrite=op>.5;
+    m.material.emissive=inSel?accent:new THREE.Color(0);m.material.emissiveIntensity=inSel?.45:0;});
+  world.children.forEach(m=>{if(m.userData.ground){const op=state.subsurface?.18:1;m.material.opacity=op;m.material.transparent=op<1;m.material.depthWrite=op>.5;}});
+  sub.visible=state.subsurface;
+  const on=(id,v)=>document.getElementById(id).classList.toggle('on',!!v);
+  on('bIso',state.mode==='isolate');on('bFade',state.mode==='fade');on('bInt',state.internals);on('bSub',state.subsurface);
+  const bh=document.getElementById('bHid');bh.textContent=state.hidden.size?`${state.hidden.size} hidden · U to unhide`:'';on('bHid',state.hidden.size);
+  document.querySelectorAll('#toolbar button').forEach(b=>{const a=b.dataset.act;if(['focus','isolate','fade','hide'].includes(a))b.disabled=!state.selected;b.classList.toggle('active',(a==='isolate'&&state.mode==='isolate')||(a==='fade'&&state.mode==='fade')||(a==='internals'&&state.internals)||(a==='subsurface'&&state.subsurface));});
+}
+function select(id){state.selected=id;renderTreeSelection();renderChips();renderInspector();applyVisual();document.getElementById('caption').textContent=id?NODES[id].name:'Drilling rig';}
+function act(a){switch(a){
+  case 'focus':if(state.selected)focusOn(state.selected);break;
+  case 'isolate':if(state.selected)state.mode=state.mode==='isolate'?'none':'isolate';break;
+  case 'fade':if(state.selected)state.mode=state.mode==='fade'?'none':'fade';break;
+  case 'hide':if(state.selected){state.hidden.add(state.selected);const s=state.selected;state.selected=null;renderTreeSelection();renderChips();renderInspector();document.getElementById('caption').textContent='Drilling rig';}break;
+  case 'unhide':state.hidden.clear();break;
+  case 'internals':state.internals=!state.internals;break;
+  case 'subsurface':state.subsurface=!state.subsurface;if(state.subsurface)flyTo(new THREE.Vector3(0,-22,0),cam.theta,1.35,150);else resetView();break;
+  case 'reset':state.mode='none';state.hidden.clear();state.internals=false;state.subsurface=false;select(null);resetView();break;
+  case 'esc':if(state.mode!=='none')state.mode='none';else if(state.subsurface||state.internals){state.subsurface=false;state.internals=false;resetView();}else select(null);break;
+}applyVisual();}
+document.getElementById('toolbar').addEventListener('click',e=>{const b=e.target.closest('button');if(b)act(b.dataset.act);});
+
+/* ================================================================
+   NAVIGATOR
+   ================================================================ */
+const treeEl=document.getElementById('tree');const open=new Set();
+function renderTree(){treeEl.innerHTML='';SYSTEMS.forEach(s=>{const n3=descendants(s.id).filter(i=>NODE_MESH[i]).length;const el=document.createElement('div');el.className='sys';el.dataset.id=s.id;
+  el.innerHTML=`<div class="sys-row" data-id="${s.id}"><div class="sys-icon">${ICONS[s.icon]}</div><div class="sys-txt"><div class="sys-name">${s.name}</div><div class="sys-meta">${s.code} · ${countOf(s.id)} components · ${n3} in 3D</div></div><svg class="sys-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="kids"></div>`;
+  const kids=el.querySelector('.kids');(s.children||[]).forEach(c=>kids.appendChild(nodeEl(c)));treeEl.appendChild(el);});renderTreeSelection();}
+function nodeEl(n){const d=document.createElement('div');d.className='node';d.dataset.id=n.id;const has=!!n.children;d.innerHTML=`<div class="row" data-id="${n.id}"><span class="chev">${has?'❯':''}</span><span>${n.name}</span>${NODE_MESH[n.id]||has?'':'<span class="no3d">no 3D</span>'}</div>`;if(has){const k=document.createElement('div');k.className='kids2';n.children.forEach(c=>k.appendChild(nodeEl(c)));d.appendChild(k);}return d;}
+function renderTreeSelection(){treeEl.querySelectorAll('.sys,.node').forEach(e=>{const id=e.dataset.id;e.classList.toggle('open',open.has(id));const r=e.querySelector(':scope>.sys-row,:scope>.row');if(r)r.classList.toggle('selected',id===state.selected);});
+  if(state.selected){const el=treeEl.querySelector(`[data-id="${CSS.escape(state.selected)}"].sys,[data-id="${CSS.escape(state.selected)}"].node`);if(el)el.scrollIntoView({block:'nearest'});}}
+treeEl.addEventListener('click',e=>{const chev=e.target.closest('.chev,.sys-chev');const row=e.target.closest('.sys-row,.row');if(!row)return;const id=row.dataset.id;const has=NODES[id].children;
+  if(chev&&has){open.has(id)?open.delete(id):open.add(id);renderTreeSelection();return;}
+  if(has&&state.selected===id){open.has(id)?open.delete(id):open.add(id);}else if(has)open.add(id);
+  select(id);if(!has||NODES[id].level>0)focusOn(id);});
+document.getElementById('collapseAll').onclick=()=>{open.clear();renderTreeSelection();};
+// search
+const searchEl=document.getElementById('search');let resultsEl=null;
+searchEl.addEventListener('input',()=>{const q=searchEl.value.trim().toLowerCase();if(resultsEl){resultsEl.remove();resultsEl=null;}treeEl.style.display=q?'none':'';if(!q)return;
+  const hits=ORDER.filter(id=>{const n=NODES[id];return n.name.toLowerCase().includes(q)||id.toLowerCase().includes(q)||(n.level===0&&n.code.includes(q));}).slice(0,40);
+  resultsEl=document.createElement('div');resultsEl.className='search-results';resultsEl.innerHTML=hits.length?hits.map(id=>{const path=[];let p=PARENT[id];while(p){path.unshift(NODES[p].name);p=PARENT[p];}return `<div class="row" data-id="${id}"><span class="chev"></span><span>${NODES[id].name}</span><span class="no3d">${id}</span></div><span class="path">${path.join(' / ')||typeOf(NODES[id])}</span>`;}).join(''):'<div class="empty">No equipment matches. Try a system code such as HS or a component name.</div>';
+  resultsEl.addEventListener('click',e=>{const r=e.target.closest('.row');if(!r)return;const id=r.dataset.id;let p=PARENT[id];while(p){open.add(p);p=PARENT[p];}select(id);focusOn(id);});
+  treeEl.parentNode.insertBefore(resultsEl,treeEl);});
+searchEl.addEventListener('keydown',e=>{if(e.key==='Escape'){searchEl.value='';searchEl.dispatchEvent(new Event('input'));searchEl.blur();}e.stopPropagation();});
+// chips
+function renderChips(){const c=document.getElementById('chips');const sys=state.selected?NODES[state.selected].system:null;c.innerHTML=SYSTEMS.map(s=>`<button class="chip ${s.id===sys?'active':''}" data-id="${s.id}">${s.id}<i></i></button>`).join('');}
+document.getElementById('chips').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;open.add(b.dataset.id);select(b.dataset.id);focusOn(b.dataset.id);});
+
+/* ================================================================
+   INSPECTOR
+   ================================================================ */
+const inspBody=document.getElementById('inspBody');
+function renderInspector(){const id=state.selected;if(!id){inspBody.innerHTML=`<div class="insp-empty"><div class="cube"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg></div><h2>Select a component</h2><p>Click equipment in the 3D view or choose it in the navigator. Hovering shows its name; clicking opens its engineering details here.</p></div>`;return;}
+  const n=NODES[id],sys=NODES[n.system];const tabs=['Overview','Engineering','Connections','Safety','Specs','Evidence'];
+  const parentName=n.parent?NODES[n.parent].name:null;
+  const summary=n.summary||`${n.name} is part of the ${parentName} assembly in the ${sys.name} system.`;
+  const body=n.body||(n.level===0?'':`Modelled as a ${typeOf(n)} of ${parentName}. ${n.summary?'':'Engineering description pending source review.'}`);
+  const where=n.where||[['Area',sys.where?sys.where[0][1]:''],['Containing structure',parentName||'Rig'],['Placement',NODE_MESH[id]?'Located in the 3D scene; press F to frame it.':'No 3D geometry yet; listed for hierarchy completeness.']];
+  const specs=n.specs||(n.parent&&NODES[n.parent].specs)||sys.specs;
+  const conns=n.conns||sys.conns.filter(x=>x!==sys.id);
+  const safety=n.safety||sys.safety;
+  const why=n.why||sys.why;
+  let content='';
+  switch(state.tab){
+    case 'Overview':content=`<p class="lead">${summary}</p>${body?`<p class="para">${body}</p>`:''}<span class="link" data-tab="Engineering">Read the full engineering description</span><div class="h4">Where it is</div><div class="kv">${where.map(([k,v])=>`<div><span>${k}</span><span>${v}</span></div>`).join('')}</div><div class="h4">Why it matters</div><div class="callout">${why}</div>`;break;
+    case 'Engineering':content=`<p class="lead">${summary}</p><p class="para">${body||sys.body}</p><p class="para">${n.eng||sys.eng}</p>${n.children?`<div class="h4">Sub-assemblies</div><ul class="list">${n.children.map(c=>`<li class="clickable" data-go="${c.id}"><span class="tag">${c.id.split('.').pop()}</span>${c.name}<span class="muted" style="margin-left:auto">${countOf(c.id)?countOf(c.id)+' parts':''}</span></li>`).join('')}</ul>`:''}`;break;
+    case 'Connections':content=`<p class="para">Systems and assemblies this ${typeOf(n)} exchanges load, fluid, power or control with.</p><ul class="list">${conns.map(c=>`<li class="clickable" data-go="${c}"><span class="tag">${c}</span>${NODES[c].name}</li>`).join('')}${n.parent?`<li class="clickable" data-go="${n.parent}"><span class="tag">parent</span>${parentName}</li>`:''}</ul>`;break;
+    case 'Safety':content=`<p class="para">Barriers, checks and hazards recorded against ${n.level===0?'this system':n.name}.</p><ul class="list">${safety.map((s,i)=>`<li><span class="sev ${['hi','md','lo','md'][i%4]}"></span>${s}</li>`).join('')}</ul>`;break;
+    case 'Specs':content=`<div class="kv">${specs.map(([k,v])=>`<div><span>${k}</span><span>${v}</span></div>`).join('')}</div><p class="muted">Values are representative of a 1,500 hp AC land rig and carry the Proposed status until verified against an OEM data sheet.</p>`;break;
+    case 'Evidence':content=`<p class="para">Source references cited for this node. Bracketed tags in descriptions map to these.</p><ul class="list">${EVIDENCE.slice(0,3+(id.length%3)).map(e=>`<li><span class="tag">${e.slice(0,2)}</span>${e.slice(3)}</li>`).join('')}</ul>`;break;}
+  inspBody.innerHTML=`<div class="crumb"><span class="dot"></span><span>${sys.name}</span><span>·</span><span>Level ${n.level}</span><span>·</span><span>${typeOf(n)}</span><div class="actions"><button class="btn primary" data-act="focus">Focus <kbd>F</kbd></button><button class="btn" data-act="isolate">Isolate <kbd>I</kbd></button></div></div>
+  <h1>${n.name}</h1>
+  <div class="pills"><span class="pill" title="Demo data. Representative values, not verified against a specific rig.">Proposed <i>i</i></span><span class="abbr">${n.level===0?n.id:id}</span></div>
+  <div class="tabs">${tabs.map(t=>`<button class="tab ${t===state.tab?'active':''}" data-tab="${t}">${t}</button>`).join('')}</div>${content}`;}
+inspBody.addEventListener('click',e=>{const t=e.target.closest('[data-tab]');if(t){state.tab=t.dataset.tab;renderInspector();return;}const a=e.target.closest('[data-act]');if(a){act(a.dataset.act);return;}const g=e.target.closest('[data-go]');if(g){let p=PARENT[g.dataset.go];while(p){open.add(p);p=PARENT[p];}select(g.dataset.go);focusOn(g.dataset.go);}});
+
+/* ================================================================
+   MODALS, PANELS, KEYS
+   ================================================================ */
+const modal=document.getElementById('modal'),modalBox=document.getElementById('modalBox');
+function openModal(html){modalBox.innerHTML=`<button class="close" id="mClose">✕</button>`+html;modal.classList.add('open');document.getElementById('mClose').onclick=closeModal;}
+function closeModal(){modal.classList.remove('open');}
+modal.addEventListener('click',e=>{if(e.target===modal)closeModal();});
+document.getElementById('btnShortcuts').onclick=()=>openModal(`<h2>Shortcuts</h2><div class="sub">Keys work when the 3D view has focus.</div>
+<h4>Navigate</h4><p><kbd>Left-drag</kbd> orbit</p><p><kbd>Right-drag</kbd> or <kbd>Space</kbd> + drag pan</p><p><kbd>Wheel</kbd> zoom toward the cursor</p><p><kbd>Double-click</kbd> frame a component</p>
+<h4>Select and view</h4><p><kbd>Click</kbd> select · <kbd>Esc</kbd> step out of a view mode, then clear</p><p><kbd>F</kbd> frame selected · <kbd>R</kbd> reset view</p><p><kbd>I</kbd> isolate · <kbd>D</kbd> fade others · <kbd>H</kbd> hide · <kbd>U</kbd> unhide all</p><p><kbd>X</kbd> internals · <kbd>G</kbd> subsurface</p>
+<h4>Layout</h4><p><kbd>[</kbd> navigator · <kbd>]</kbd> inspector</p><p><kbd>Tab</kbd> full-screen inspection</p><p class="muted" style="margin-top:14px">The navigator follows the approved engineering hierarchy, not the 3D scene graph.</p>`);
+document.getElementById('btnIntegrity').onclick=()=>{const total=ORDER.length-7,in3d=ORDER.filter(i=>NODE_MESH[i]).length,leaves=ORDER.filter(i=>!NODES[i].children),no3d=leaves.filter(i=>!NODE_MESH[i]);const withSpecs=ORDER.filter(i=>NODES[i].specs).length;
+  openModal(`<h2>Model integrity</h2><div class="sub">Checks between the engineering hierarchy and the 3D scene.</div><div class="stat-grid"><div class="stat"><b>${total}</b><span>components in hierarchy</span></div><div class="stat"><b>${in3d}</b><span>nodes with 3D geometry</span></div><div class="stat"><b>${MESHES.length}</b><span>meshes bound to nodes</span></div></div>
+  <div class="chk"><b>Orphan meshes</b><span>every mesh maps to a hierarchy node</span><span class="r" style="color:var(--ok)">0</span></div>
+  <div class="chk"><b>Leaf nodes without 3D</b><span>${no3d.map(i=>NODES[i].name).join(', ')||'none'}</span><span class="r" style="color:${no3d.length?'var(--warn)':'var(--ok)'}">${no3d.length}</span></div>
+  <div class="chk"><b>Nodes with own specs</b><span>others inherit from parent or system</span><span class="r">${withSpecs}</span></div>
+  <div class="chk"><b>Status</b><span>all nodes carry Proposed until source review</span><span class="r" style="color:var(--warn)">${ORDER.length}</span></div>
+  ${SYSTEMS.map(s=>`<div class="chk"><b>${s.id}</b><span>${s.name}</span><span class="r">${countOf(s.id)} / ${descendants(s.id).filter(i=>NODE_MESH[i]).length} in 3D</span></div>`).join('')}`);};
+const app=document.getElementById('app');
+const toggleNav=()=>{app.classList.toggle('nav-off');setTimeout(resize,260);};const toggleInsp=()=>{app.classList.toggle('insp-off');setTimeout(resize,260);};
+document.getElementById('navCollapse').onclick=toggleNav;document.getElementById('navReveal').onclick=toggleNav;
+document.getElementById('inspCollapse').onclick=toggleInsp;document.getElementById('inspReveal').onclick=toggleInsp;
+window.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;if(e.key===' '){spaceDown=true;if(document.activeElement===canvas)e.preventDefault();return;}
+  const k=e.key.toLowerCase();const map={f:'focus',i:'isolate',d:'fade',h:'hide',u:'unhide',x:'internals',g:'subsurface',r:'reset',escape:'esc'};
+  if(map[k]){if(k==='escape'&&modal.classList.contains('open')){closeModal();return;}act(map[k]);e.preventDefault();return;}
+  if(e.key==='['){toggleNav();}else if(e.key===']'){toggleInsp();}else if(e.key==='Tab'){e.preventDefault();app.classList.toggle('full');setTimeout(resize,260);}else if(k==='/'){e.preventDefault();searchEl.focus();}});
+window.addEventListener('keyup',e=>{if(e.key===' ')spaceDown=false;});
+
+/* ---- boot ---- */
+function resize(){const v=document.getElementById('view');const w=v.clientWidth,h=v.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
+window.addEventListener('resize',resize);
+buildWorld();buildRig();
+const total=ORDER.length-SYSTEMS.length;document.getElementById('rigStats').textContent=`${SYSTEMS.length} systems  ·  ${total} components`;
+document.getElementById('captionRight').textContent=`${MESHES.length} meshes · ${ORDER.filter(i=>NODE_MESH[i]).length} nodes in 3D`;
+renderTree();renderChips();renderInspector();applyVisual();resize();applyCam();
+open.add('HS');renderTreeSelection();
+let frames=0;(function loop(now){requestAnimationFrame(loop);stepTween(now);renderer.render(scene,camera);if(++frames===3)document.getElementById('loading').classList.add('done');})(performance.now());
+</script>
+</body>
+</html>
