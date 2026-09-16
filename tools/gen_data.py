@@ -64,7 +64,7 @@ for site, info in nodes.items():
         continue
     d = os.path.join(ROOT, 'data', site)
     os.makedirs(d, exist_ok=True)
-    tel = ['node,tag,label,unit,lo,hi,warn,' + ','.join('v%d' % i for i in range(N))]
+    tel = ['node,tag,pitag,label,unit,lo,hi,warn,' + ','.join('v%d' % i for i in range(N))]
     hea = ['node,score,trend,rul_component,rul_days,rul_p10,rul_p90']
     ano = ['ts,node,severity,title,detail,status']
     mai = ['node,kind,ref,title,due,status']
@@ -78,7 +78,8 @@ for site, info in nodes.items():
         score = max(35, min(99, score))
         for ti, (tag, label, unit, lo, hi, warn, base, noise) in enumerate(tags):
             vals = series(rng, base, noise, lo, hi, 38 if (hot and ti == 0) else None)
-            tel.append(','.join([n['id'], tag, label, unit, fmt(lo), fmt(hi), '' if warn is None else fmt(warn)] + [fmt(v) for v in vals]))
+            pitag = '%s.%s.%s.PV' % (site.upper(), n['id'].replace('.', '-').upper(), tag.upper())
+            tel.append(','.join([n['id'], tag, pitag, label, unit, fmt(lo), fmt(hi), '' if warn is None else fmt(warn)] + [fmt(v) for v in vals]))
         comp = COMPS[rng.randrange(len(COMPS))]
         rul = int(rng.uniform(20, 60)) if hot else int(rng.uniform(90, 400))
         hea.append(','.join([n['id'], str(score), 'declining' if hot else ['stable', 'improving'][rng.randrange(2)], comp, str(rul), str(int(rul * .65)), str(int(rul * 1.5))]))
