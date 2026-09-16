@@ -4,7 +4,7 @@
  id:'lng',name:'LNG Terminal',stage:'midstream',code:'06',icon:'ship',
  short:'Two-train 9 Mtpa liquefaction plant with full-containment storage and an export jetty.',
  world:'coast',hasSubsurface:false,
- home:{target:[4,8,22],theta:.3,phi:1.0,radius:200},
+ home:{target:[4,8,22],theta:.3,phi:1.12,radius:200},
  evidence:['S1 Plant process description, rev 2','S2 NFPA 59A / EN 1473 siting study','S3 Liquefaction licensor process book','S4 API 620 tank design report','S5 OCIMF/SIGTTO jetty guidance','S6 Plot plan L-0001'],
  systems:[
  {id:'PT',code:'01',name:'Pretreatment',icon:'lab',

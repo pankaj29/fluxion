@@ -2,7 +2,7 @@
  id:'rig',name:'Drilling Rig',stage:'upstream',code:'02',
  short:'1,500 hp AC land rig: hoisting, rotating, circulating, well control, power, tubulars and site layout.',
  world:'desert',hasSubsurface:true,
- home:{target:[0,14,0],theta:.55,phi:1.12,radius:120},
+ home:{target:[0,16,0],theta:.55,phi:1.24,radius:118},
  evidence:['S1 Rig equipment manual, hoisting section','S2 API RP 4G derrick inspection','S3 IADC well control equipment checklist','S5 Rig acceptance test report','S7 Drawworks OEM data sheet','S8 Rig layout drawing D-1001 rev C'],
  systems:[
  {id:'HS',code:'01',name:'Hoisting',icon:'hoist',

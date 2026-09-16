@@ -4,7 +4,7 @@
  id:'production',name:'Production Facility',stage:'upstream',code:'03',icon:'tank',
  short:'Wellhead, artificial lift, separation, tank battery, flare and utilities on a two-well pad.',
  world:'desert',hasSubsurface:true,
- home:{target:[6,4,0],theta:.62,phi:1.08,radius:96},
+ home:{target:[6,5,0],theta:.62,phi:1.2,radius:96},
  evidence:['S1 Facility P&ID set, revision B','S2 API 12J separator specification','S3 API 650 / 12F tank data sheets','S4 API RP 11L pumping unit selection','S5 API RP 14C safety analysis','S6 Site layout drawing P-2001'],
  systems:[
  {id:'WH',code:'01',name:'Wellhead & Tree',icon:'hoist',
