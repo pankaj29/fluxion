@@ -768,7 +768,7 @@ canvas{display:block;width:100%;height:100%;outline:none;position:relative;z-ind
       <button data-act="hide" disabled>Hide <kbd>H</kbd></button>
       <button data-act="internals">Internals <kbd>X</kbd></button>
       <span class="sep"></span>
-      <button data-act="labels" class="active">Labels <kbd>L</kbd></button>
+      <button data-act="labels">Labels <kbd>L</kbd></button>
       <button data-act="dock" class="active">Telemetry <kbd>T</kbd></button>
       <button data-act="subsurface">Subsurface <kbd>G</kbd></button>
       <button data-act="reset">Reset <kbd>R</kbd></button>
@@ -1039,7 +1039,7 @@ function pick(e){const m=rayHit(e);if(m)select(m.userData.nodeId);else if(state.
 /* ================================================================
    STATE & VISUAL RULES
    ================================================================ */
-const state={selected:null,mode:'none',hidden:new Set(),internals:false,subsurface:false,tab:'Overview',labels:true,dock:true};
+const state={selected:null,mode:'none',hidden:new Set(),internals:false,subsurface:false,tab:'Overview',labels:false,dock:true};
 const accent=new THREE.Color(0x22d3ee);
 function applyVisual(){const sel=state.selected?new Set(descendants(state.selected)):null;const hid=new Set();state.hidden.forEach(h=>descendants(h).forEach(i=>hid.add(i)));
   MESHES.forEach(m=>{const id=m.userData.nodeId;const inSel=sel&&sel.has(id);const isSub=m.userData.sub!=null?m.userData.sub:m.position.y<0;
@@ -1164,7 +1164,7 @@ const _v=new THREE.Vector3();
 function updateLabels(){if(!LABELS.length)return;const w=canvas.clientWidth,h=canvas.clientHeight;const sel=state.selected;
   const inSel=sel?new Set(descendants(sel)):null;const hid=new Set();state.hidden.forEach(x=>descendants(x).forEach(i=>hid.add(i)));
   // rule: assemblies (level 1) by default; when something is selected, it and its direct children replace its siblings' detail
-  LABELS.forEach(L=>{const n=L.n;let show=state.labels&&!hid.has(n.id);
+  LABELS.forEach(L=>{const n=L.n;let show=(state.labels||n.site||n.roadmap)&&!hid.has(n.id);
     if(show){let rule;if(!sel)rule=n.level===1;else if(inSel.has(n.id))rule=n.id===sel||n.parent===sel;else rule=n.level===1&&!(NODES[sel].level>=1&&n.system===NODES[sel].system&&n.id!==NODES[sel].system&&sel!==n.id&&NODES[sel].level===1);
       if(rule&&n.level===0&&SITE.id!=='chain')rule=false;show=rule&&!(state.mode==='isolate'&&sel&&!inSel.has(n.id));}
     if(show){_v.copy(L.pos).project(camera);const d=camera.position.distanceTo(L.pos);const ang=L.size/d;show=_v.z<1&&Math.abs(_v.x)<1.05&&Math.abs(_v.y)<1.05&&(ang>(n.level<=1?.07:.045)||n.id===sel);
