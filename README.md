@@ -1,9 +1,9 @@
-# Rigsight - Automation & AI for oil and gas
+# Fluxion - Automation & AI for Energy
 
 A solutions showcase built on interactive 3D digital twins of the value chain: nine Automation & AI
 solutions (see `solutions.js`), each demonstrated on live twins with an engineering hierarchy,
 live PI tags, predictive-maintenance signals and a scripted copilot on every component.
-No build step, no server needed. Live at https://pankaj29.github.io/rigsight/
+No build step, no server needed. Live at https://pankaj29.github.io/fluxion/
 
 ## Run
 Double-click `index.html` (Chrome, Edge or Firefox), or serve it:
