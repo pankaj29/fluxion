@@ -1,7 +1,8 @@
-# Rigsight — Plant Intelligence
+# Rigsight — Automation & AI for oil and gas
 
-Interactive 3D digital twins of the oil and gas value chain, with an engineering hierarchy,
-live telemetry, predictive-maintenance signals and a scripted copilot on every component.
+A solutions showcase built on interactive 3D digital twins of the value chain: nine Automation & AI
+solutions (see `solutions.js`), each demonstrated on live twins with an engineering hierarchy,
+live PI tags, predictive-maintenance signals and a scripted copilot on every component.
 No build step, no server needed. Live at https://pankaj29.github.io/rigsight/
 
 ## Run
@@ -26,6 +27,7 @@ All engineering content is textbook-level and carries the **Proposed** status un
 
 ## Files
 - `index.html` — shell, styles, engine (scene, camera, picking, navigator, inspector, labels, telemetry dock, copilot, landing, routing)
+- `solutions.js` — the solution portfolio: stages, matching rule for instrumented assets, integration steps, typical outcomes, demo deep link
 - `sites/*.js` — one file per site: engineering hierarchy + `build()` geometry. Each pushes onto `window.SITES`
 - `data/<site>/telemetry.csv` — one row per node tag: `node,tag,pitag,label,unit,lo,hi,warn,v0..v59` (1-min samples ending now; `pitag` is the PI-style point name, e.g. `RIG.HS-DW.HOOK_LOAD.PV`)
 - `data/<site>/health.csv` — `node,score,trend,rul_component,rul_days,rul_p10,rul_p90`
@@ -51,7 +53,13 @@ The inspector Overview lists the component's live PI tags with sparklines; the l
 The copilot answers scripted questions from the same CSV data (root cause, actions, peers, site rollup, what is due).
 
 ## Routes
-`#/` landing · `#/chain` value-chain map · `#/<site>` · `#/<site>/<node-id>` deep link to a component.
+`#/` landing (hero over the orbiting chain map) · `#/solutions` · `#/solutions/<id>` · `#/sites` · `#/chain` value-chain map · `#/<site>` · `#/<site>/<node-id>` deep link to a component.
+
+## Shell
+Full-screen 3D with a glass HUD: top bar (brand, breadcrumb, ⌘K command palette, nav), right-edge tab strip
+(Assets, Inspector, Telemetry, Copilot, Alarms) that slides panels over the scene, a context card anchored to the
+selected object, and a bottom timeline (site health, 24 h anomaly dots, key hints). Every site, station, solution
+and component carries an Enter action that opens its detail view and updates the URL.
 
 ## Shortcuts
 F focus, I isolate, D fade others, H hide, U unhide all, X internals, G subsurface, L labels,
