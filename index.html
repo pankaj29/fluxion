@@ -335,6 +335,7 @@ canvas{display:block;width:100%;height:100%;outline:none;position:relative;z-ind
 <script src="vendor/lottie.min.js"></script>
 <script src="sites/chain.js"></script>
 <script src="sites/rig.js"></script>
+<script src="sites/production.js"></script>
 <script>
 if(window.lottie&&!matchMedia('(prefers-reduced-motion: reduce)').matches){lottie.loadAnimation({container:document.getElementById('loadingAnim'),renderer:'svg',loop:true,autoplay:true,path:'assets/lottie/rig.json'});}
 
@@ -596,7 +597,7 @@ function renderInspector(){const id=state.selected;if(!id){inspBody.innerHTML=`<
   const parentName=n.parent?NODES[n.parent].name:null;
   const summary=n.summary||`${n.name} is part of the ${parentName} assembly in the ${sys.name} system.`;
   const body=n.body||(n.level===0?'':`Modelled as a ${typeOf(n)} of ${parentName}. ${n.summary?'':'Engineering description pending source review.'}`);
-  const where=n.where||[['Area',sys.where?sys.where[0][1]:''],['Containing structure',parentName||SITE.name],['Placement',NODE_MESH[id]?'Located in the 3D scene; press F to frame it.':'No 3D geometry yet; listed for hierarchy completeness.']];
+  const where=n.where||[['Area',sys.where?sys.where[0][1]:''],['Containing structure',parentName||SITE.name],['Placement',descendants(id).some(i=>NODE_MESH[i])?'Located in the 3D scene; press F to frame it.':'No 3D geometry yet; listed for hierarchy completeness.']];
   const specs=n.specs||(n.parent&&NODES[n.parent].specs)||sys.specs;
   const conns=n.conns||sys.conns.filter(x=>x!==sys.id);
   const safety=n.safety||sys.safety;
