@@ -1,4 +1,4 @@
-# Rigsight — Automation & AI for oil and gas
+# Rigsight - Automation & AI for oil and gas
 
 A solutions showcase built on interactive 3D digital twins of the value chain: nine Automation & AI
 solutions (see `solutions.js`), each demonstrated on live twins with an engineering hierarchy,
@@ -26,17 +26,17 @@ Over http the app fetches `data/<site>/*.csv`; from `file://` it falls back to `
 All engineering content is textbook-level and carries the **Proposed** status until reviewed.
 
 ## Files
-- `index.html` — shell, styles, engine (scene, camera, picking, navigator, inspector, labels, telemetry dock, copilot, landing, routing)
-- `solutions.js` — the solution portfolio: stages, matching rule for instrumented assets, integration steps, typical outcomes, demo deep link
-- `sites/*.js` — one file per site: engineering hierarchy + `build()` geometry. Each pushes onto `window.SITES`
-- `data/<site>/telemetry.csv` — one row per node tag: `node,tag,pitag,label,unit,lo,hi,warn,v0..v59` (1-min samples ending now; `pitag` is the PI-style point name, e.g. `RIG.HS-DW.HOOK_LOAD.PV`)
-- `data/<site>/health.csv` — `node,score,trend,rul_component,rul_days,rul_p10,rul_p90`
-- `data/<site>/anomalies.csv` — `ts,node,severity,title,detail,status`
-- `data/<site>/maintenance.csv` — `node,kind,ref,title,due,status`
-- `data/bundle.js` — the CSVs inlined for `file://` (generated)
-- `tools/dump_nodes.js`, `tools/gen_data.py` — regenerate all demo data: `node tools/dump_nodes.js && python tools/gen_data.py`
+- `index.html` - shell, styles, engine (scene, camera, picking, navigator, inspector, labels, telemetry dock, copilot, landing, routing)
+- `solutions.js` - the solution portfolio: stages, matching rule for instrumented assets, integration steps, typical outcomes, demo deep link
+- `sites/*.js` - one file per site: engineering hierarchy + `build()` geometry. Each pushes onto `window.SITES`
+- `data/<site>/telemetry.csv` - one row per node tag: `node,tag,pitag,label,unit,lo,hi,warn,v0..v59` (1-min samples ending now; `pitag` is the PI-style point name, e.g. `RIG.HS-DW.HOOK_LOAD.PV`)
+- `data/<site>/health.csv` - `node,score,trend,rul_component,rul_days,rul_p10,rul_p90`
+- `data/<site>/anomalies.csv` - `ts,node,severity,title,detail,status`
+- `data/<site>/maintenance.csv` - `node,kind,ref,title,due,status`
+- `data/bundle.js` - the CSVs inlined for `file://` (generated)
+- `tools/dump_nodes.js`, `tools/gen_data.py` - regenerate all demo data: `node tools/dump_nodes.js && python tools/gen_data.py`
 - `vendor/three.min.js` (r128), `vendor/post/*` (SSAO, bloom passes), `vendor/lottie.min.js`
-- `assets/icons/*.svg`, `assets/lottie/rig.json` — IconScout assets under subscription licence
+- `assets/icons/*.svg`, `assets/lottie/rig.json` - IconScout assets under subscription licence
 
 ## Adding a site
 1. Copy `sites/production.js`, change `id`, `name`, `stage`, `world` (`desert | flat | coast`), `home` camera and `systems`.
