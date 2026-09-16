@@ -538,7 +538,25 @@ canvas{display:block;width:100%;height:100%;outline:none;position:relative;z-ind
 .scard button{margin-top:4px;align-self:flex-start;padding:7px 12px;border-radius:9px;background:var(--grad);color:#041016;font-weight:700;font-size:12px}
 .scard.rm{opacity:.55}
 /* landing (immersive hero over the map) */
-.landing{display:block;background:none;pointer-events:none;z-index:5}
+.landing{display:block;background:none;pointer-events:auto;z-index:5;overflow-y:auto;overflow-x:hidden}
+.landing .fold{position:relative;height:100%;min-height:720px}
+.landing .fold::after{content:"scroll";position:absolute;left:50%;bottom:150px;transform:translateX(-50%);font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-3);animation:pulse 2s infinite}
+.testi{position:relative;background:linear-gradient(180deg,rgba(5,7,10,0),#05070a 120px);padding:120px 44px 40px}
+.testi-in{max-width:1240px;margin:0 auto}
+.testi h2{font-family:var(--display);font-size:36px;font-weight:700;letter-spacing:-1.4px;margin:10px 0 24px}
+.tgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.tcard{border-radius:16px;padding:18px;background:var(--glass);border:1px solid var(--glass-line);display:flex;flex-direction:column;gap:14px;box-shadow:0 1px 0 rgba(255,255,255,.05) inset}
+.tcard p{margin:0;font-size:14px;line-height:1.6;color:var(--text)}
+.tcard .who{margin-top:auto;display:flex;flex-direction:column;gap:2px}
+.tcard .who b{font-size:12.5px}
+.tcard .who span{font-family:var(--mono);font-size:10.5px;color:var(--text-3)}
+.tnote{font-family:var(--mono);font-size:10.5px;color:var(--text-3);margin:16px 0 0}
+.tstats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:0 0 20px}
+.tstats div{border-top:1px solid var(--line-3);padding-top:12px}
+.tstats b{font-family:var(--display);font-size:32px;font-weight:700;display:block;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tstats span{font-size:12.5px;color:var(--text-2);line-height:1.5;display:block;margin-top:4px}
+.tfoot{display:flex;justify-content:space-between;gap:16px;margin-top:40px;padding-top:16px;border-top:1px solid var(--line-2);font-size:12px;color:var(--text-3);flex-wrap:wrap}
+@media (max-width:1100px){.tgrid{grid-template-columns:repeat(2,1fr)}}
 .landing>*{pointer-events:auto}
 .landing-l,.landing-r{display:none}
 .hero{position:absolute;left:44px;top:110px;max-width:640px}
@@ -600,11 +618,19 @@ canvas{display:block;width:100%;height:100%;outline:none;position:relative;z-ind
 </style>
 </head>
 <body>
-<div class="landing off" id="landing"><div class="scrim" style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(5,7,10,.9) 0%,rgba(5,7,10,.7) 28%,rgba(5,7,10,.15) 46%,rgba(5,7,10,0) 58%),linear-gradient(180deg,rgba(5,7,10,.5),transparent 30%,transparent 70%,rgba(5,7,10,.7))"></div>
+<div class="landing off" id="landing"><div class="fold"><div class="scrim" style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(5,7,10,.9) 0%,rgba(5,7,10,.7) 28%,rgba(5,7,10,.15) 46%,rgba(5,7,10,0) 58%),linear-gradient(180deg,rgba(5,7,10,.5),transparent 30%,transparent 70%,rgba(5,7,10,.7))"></div>
   <div class="hero"><div class="eyebrow">Automation &amp; AI for oil and gas</div><h1>Walk the value chain.<br><span>See the AI at work.</span></h1><p>Nine solutions, each one running on a live 3D twin. Enter any site on the map; every component shows the model, the prediction and the outcome.</p><div class="cta"><button class="p" data-nav="sites">Enter a site →</button><button data-nav="solutions">See the solutions</button></div></div>
   <div class="ask" id="landingAsk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg><span>Which pumps will fail in the next 30 days?</span><b>Ask</b></div>
   <div class="stats"><div><b id="lsComp">–</b><small>Components</small></div><div><b id="lsTags">–</b><small>Live PI tags</small></div><div><b id="lsAnom" style="color:var(--warn)">–</b><small>Open anomalies</small></div></div>
   <div class="rail" id="rail"></div>
+</div>
+  <section class="testi"><div class="testi-in"><div class="eyebrow" style="color:var(--accent-2)">What clients say</div><h2>Value you can walk through.</h2><div class="tgrid"><div class="tcard"><p>"The twin gave our reliability team a single place to see every pump, its tags and its remaining life. We stopped three trips in the first quarter."</p><div class="who"><b>Head of Reliability</b><span>Northwind Energy · upstream</span></div></div><div class="tcard"><p>"Alarm rationalisation cut our nuisance alarms by two thirds. Operators trust the board again, and the copilot explains the ones that are left."</p><div class="who"><b>Operations Manager</b><span>Meridian Gas Processing · midstream</span></div></div><div class="tcard"><p>"We walked the whole terminal in 3D with the board before a single tag was connected. That is how the programme got funded."</p><div class="who"><b>VP Digital</b><span>Coastline LNG · midstream</span></div></div><div class="tcard"><p>"APC on the crude unit paid for the platform inside a year. The value story is visible on the twin, unit by unit."</p><div class="who"><b>Refinery Manager</b><span>Aral Basin Refining · downstream</span></div></div></div><p class="tnote">Illustrative testimonials from fictional clients; replace with real references as they land.</p><div class="eyebrow" style="color:var(--accent-2);margin-top:56px">About the team</div><h2>Operators first. Engineers second. AI throughout.</h2>
+<div class="tstats"><div><b>40+</b><span>years combined in oil &amp; gas operations, drilling, midstream and refining</span></div><div><b>25+</b><span>years in software engineering, data platforms and OT/IT integration</span></div><div><b>60+</b><span>predictive-maintenance and anomaly models deployed on live plant</span></div><div><b>12</b><span>GenAI copilots shipped on P&amp;IDs, procedures and historian data</span></div></div>
+<div class="tgrid" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+<div class="tcard"><div class="who"><b style="font-family:var(--display);font-size:16px">Pankaj Verma</b><span>Co-founder · AI &amp; software engineering</span></div><p>Twenty years building production software and data platforms, the last eight on machine learning and GenAI for industrial clients: predictive maintenance at fleet scale, anomaly detection on historian data, and retrieval-augmented copilots grounded in engineering documents. Designs the architecture behind every solution on this site and the twin you are looking at.</p><span class="mono" style="font-size:10.5px;color:var(--text-3)">pankajverma2929@gmail.com</span></div>
+<div class="tcard"><div class="who"><b style="font-family:var(--display);font-size:16px">Josh Etkind</b><span>Co-founder · Oil &amp; gas operations</span></div><p>Two decades across drilling, production and gas processing, from rig floors to plant management. Has run reliability, turnaround and digital programmes for upstream and midstream operators, and knows which alarms matter at 3 a.m. Shapes each solution around how plants actually run, and owns the outcomes clients sign up for.</p><span class="mono" style="font-size:10.5px;color:var(--text-3)">jetkind@hotmail.com</span></div>
+</div>
+<p class="tnote">Team figures are illustrative until confirmed.</p><div class="tfoot"><span>Rigsight · Automation &amp; AI for oil and gas</span><span>Pankaj Verma · pankajverma2929@gmail.com &nbsp;·&nbsp; Josh Etkind · jetkind@hotmail.com</span></div></div></section>
 </div>
 <div class="app nav-off insp-off" id="app">
   <div class="topbar">
